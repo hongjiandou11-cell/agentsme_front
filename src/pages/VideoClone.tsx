@@ -8,11 +8,52 @@ export default function VideoClone() {
   const [prompt, setPrompt] = useState('');
   const [image, setImage] = useState<File | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisResult, setAnalysisResult] = useState<any[] | null>(null);
+  const [analysisError, setAnalysisError] = useState<string | null>(null);
   const [resultData, setResultData] = useState<{ resultUrl?: string; logs?: string[] } | null>(null);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setImage(e.target.files[0]);
+    }
+  };
+
+  const handleAnalyze = async () => {
+    if (!videoUrl) {
+      setAnalysisError("请输入参考视频 URL");
+      return;
+    }
+
+    setIsAnalyzing(true);
+    setAnalysisResult(null);
+    setAnalysisError(null);
+
+    try {
+      const response = await fetch('/api/video/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ videoUrl })
+      });
+
+      const result = await response.json();
+      
+      if (result.status === 'success') {
+        setAnalysisResult(result.data);
+        // Automatically set the prompt to the first scene's prompt
+        if (result.data && result.data.length > 0) {
+           setPrompt(result.data.map((scene: any) => `[${scene.timeRange}] ${scene.aiGenerationPrompt}`).join('\n\n'));
+        } else {
+           setAnalysisError("解析成功，但未返回任何分镜数据。");
+        }
+      } else {
+        setAnalysisError(result.error || "分析失败");
+      }
+    } catch (error) {
+      console.error("调用失败", error);
+      setAnalysisError("服务器请求失败，请检查网络或稍后重试。");
+    } finally {
+      setIsAnalyzing(false);
     }
   };
 
@@ -87,13 +128,37 @@ export default function VideoClone() {
                 <span className="material-symbols-outlined text-sm text-primary">link</span>
                 参考视频 URL
               </label>
-              <input
-                type="text"
-                value={videoUrl}
-                onChange={(e) => setVideoUrl(e.target.value)}
-                placeholder="输入视频链接 (例如: https://...)"
-                className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-slate-600 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all"
-              />
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={videoUrl}
+                  onChange={(e) => setVideoUrl(e.target.value)}
+                  placeholder="输入视频链接 (例如: https://...)"
+                  className="flex-1 bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-slate-600 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all"
+                />
+                <button
+                  onClick={handleAnalyze}
+                  disabled={isAnalyzing || !videoUrl}
+                  className={`px-6 py-3 rounded-xl font-medium transition-all flex items-center gap-2 ${
+                    isAnalyzing || !videoUrl
+                      ? 'bg-white/5 text-slate-500 cursor-not-allowed'
+                      : 'bg-white/10 hover:bg-white/20 text-white'
+                  }`}
+                >
+                  {isAnalyzing ? (
+                    <span className="material-symbols-outlined animate-spin">progress_activity</span>
+                  ) : (
+                    <span className="material-symbols-outlined">analytics</span>
+                  )}
+                  AI 解析
+                </button>
+              </div>
+              {analysisError && (
+                <p className="mt-2 text-sm text-red-400 flex items-center gap-1">
+                  <span className="material-symbols-outlined text-sm">error</span>
+                  {analysisError}
+                </p>
+              )}
             </div>
 
             <div className="grid grid-cols-2 gap-6">
@@ -194,6 +259,31 @@ export default function VideoClone() {
                 className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-slate-600 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all resize-none"
               ></textarea>
             </div>
+
+            {/* Analysis Result Display */}
+            {analysisResult && analysisResult.length > 0 && (
+              <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 space-y-3">
+                <h4 className="text-sm font-medium text-primary flex items-center gap-2">
+                  <span className="material-symbols-outlined text-sm">auto_awesome</span>
+                  AI 视频分镜解析结果
+                </h4>
+                <div className="space-y-3 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
+                  {analysisResult.map((scene, index) => (
+                    <div key={index} className="bg-black/20 p-3 rounded-lg border border-white/5 text-sm">
+                      <div className="flex justify-between items-center mb-1">
+                        <span className="font-mono text-xs text-primary bg-primary/10 px-2 py-0.5 rounded">
+                          {scene.timeRange}
+                        </span>
+                      </div>
+                      <p className="text-slate-300 mb-1"><strong className="text-slate-400">画面:</strong> {scene.visualDescription}</p>
+                      <p className="text-slate-300 mb-1"><strong className="text-slate-400">运镜:</strong> {scene.cameraMovement}</p>
+                      <p className="text-slate-300 mb-1"><strong className="text-slate-400">动效:</strong> {scene.animationEffects}</p>
+                      <p className="text-slate-300"><strong className="text-slate-400">Prompt:</strong> {scene.aiGenerationPrompt}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
             
             <button 
               onClick={handleGenerate}

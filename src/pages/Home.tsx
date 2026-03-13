@@ -4,15 +4,79 @@ import { Plus, Palette, ArrowUp, X } from 'lucide-react';
 
 export default function Home() {
   const [activeAgent, setActiveAgent] = useState<'app' | 'marketing'>('app');
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [selectedImageUrls, setSelectedImageUrls] = useState<string[]>([]);
+  const [promptText, setPromptText] = useState('');
   const [isTemplatesModalOpen, setIsTemplatesModalOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setSelectedFile(e.target.files[0]);
+    if (e.target.files) {
+      const newFiles = Array.from(e.target.files);
+      setSelectedFiles(prev => {
+        const combined = [...prev, ...newFiles];
+        return combined.slice(0, 5); // Limit to 5 files
+      });
+      // Clear template images when user uploads their own
+      setSelectedImageUrls([]);
     }
   };
+
+  const removeFile = (index: number, isTemplate: boolean) => {
+    if (isTemplate) {
+      setSelectedImageUrls(prev => prev.filter((_, i) => i !== index));
+    } else {
+      setSelectedFiles(prev => prev.filter((_, i) => i !== index));
+    }
+  };
+
+  const appTemplates = [
+    {
+      title: '社交APP拉新',
+      img: 'https://picsum.photos/seed/social-app/600/400',
+      description: '制作年轻化、有活力的社交APP拉新视频素材，适合短视频平台投放。',
+      prompt: '请帮我制作一个社交APP的拉新视频素材。突出“真实交友”、“同城匹配”的特点，风格要年轻化、有活力，适合在抖音和快手投放。',
+      type: 'app'
+    },
+    {
+      title: '工具类APP促活',
+      img: 'https://picsum.photos/seed/tool-app/600/400',
+      description: '生成效率工具APP的促活推送文案与配图，直击用户痛点。',
+      prompt: '我需要一个效率工具APP的促活推送文案和配图。强调“一键清理”、“提升手机速度”的痛点，引导老用户重新打开APP。',
+      type: 'app'
+    },
+    {
+      title: 'AI助手APP推广',
+      img: 'https://picsum.photos/seed/ai-app/600/400',
+      description: '定制AI助手APP的专属营销素材，主打温暖治愈的情感陪伴风格。',
+      prompt: '请根据我上传的素材，帮我制作一个顶级的AI助手APP营销素材。我的APP名字叫“傻妞”，可以实现顶级的情感陪伴和每日日报生成，主打温暖治愈风。',
+      type: 'app'
+    }
+  ];
+
+  const marketingTemplates = [
+    {
+      title: '小红书种草图文',
+      img: 'https://picsum.photos/seed/xiaohongshu/600/400',
+      description: '一键完成选品分析，生成包含标题、正文和标签的小红书种草图文。',
+      prompt: '请帮我完成美妆产品的选品分析，并生成3篇小红书种草图文。要求包含吸引人的标题、详细的使用体验和热门标签，并自动规划发布时间。',
+      type: 'marketing'
+    },
+    {
+      title: '电商大促海报',
+      img: 'https://picsum.photos/seed/ecommerce/600/400',
+      description: '快速生成极具视觉冲击力的电商大促营销海报及朋友圈文案。',
+      prompt: '需要生成一套“双十一”电商大促的营销海报和朋友圈文案。主打“全年最低价”、“限时秒杀”，视觉冲击力要强，突出价格优势。',
+      type: 'marketing'
+    },
+    {
+      title: '私域社群转化',
+      img: 'https://picsum.photos/seed/community/600/400',
+      description: '制定包含群发话术、互动游戏和逼单文案的私域社群转化SOP。',
+      prompt: '请帮我制定一个私域社群的转化SOP。包含连续3天的群发话术、互动游戏设计和最终的逼单转化文案，产品是高客单价的在线课程。',
+      type: 'marketing'
+    }
+  ];
 
   return (
     <div className="bg-background-dark text-slate-100 antialiased min-h-screen">
@@ -100,10 +164,12 @@ export default function Home() {
                 <textarea 
                   className="w-full bg-transparent border-none focus:outline-none focus:ring-0 text-lg text-slate-200 resize-none placeholder-slate-500/70 leading-relaxed min-h-[120px]"
                   placeholder={activeAgent === 'app' ? "请你根据我上传的素材，帮我只做一个顶级的app营销素材，我的app名字叫傻妞，是一个ai助手，可以实现顶级的情感陪伴，每日日报生成" : "请帮我完成选品，素材生成，和小红书的自动发布"}
+                  value={promptText}
+                  onChange={(e) => setPromptText(e.target.value)}
                 ></textarea>
                 
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 flex-wrap">
                     {/* File Upload Button */}
                     <input 
                       type="file" 
@@ -111,26 +177,70 @@ export default function Home() {
                       onChange={handleFileChange} 
                       className="hidden" 
                       accept="image/*,video/*" 
+                      multiple
                     />
-                    <button 
-                      onClick={() => fileInputRef.current?.click()}
-                      className="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white transition-colors relative group"
-                    >
-                      {selectedFile ? (
-                        <span className="material-symbols-outlined text-xl text-emerald-400">check</span>
-                      ) : (
+                    
+                    {/* Display Template Images */}
+                    {selectedImageUrls.map((url, index) => (
+                      <div key={`template-${index}`} className="relative group w-10 h-10 rounded-lg overflow-hidden border border-white/10">
+                        <img src={url} alt={`Template ${index}`} className="w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button 
+                            onClick={(e) => { e.stopPropagation(); removeFile(index, true); }}
+                            className="text-white hover:text-rose-400"
+                          >
+                            <X size={16} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+
+                    {/* Display Uploaded Files */}
+                    {selectedFiles.map((file, index) => (
+                      <div key={`file-${index}`} className="relative group w-10 h-10 rounded-lg overflow-hidden border border-white/10 bg-white/5 flex items-center justify-center">
+                        {file.type.startsWith('image/') ? (
+                          <img src={URL.createObjectURL(file)} alt={`Upload ${index}`} className="w-full h-full object-cover" />
+                        ) : (
+                          <span className="material-symbols-outlined text-xl text-emerald-400">check</span>
+                        )}
+                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button 
+                            onClick={(e) => { e.stopPropagation(); removeFile(index, false); }}
+                            className="text-white hover:text-rose-400"
+                          >
+                            <X size={16} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+
+                    {/* Add More Button (only show if total < 5) */}
+                    {(selectedFiles.length + selectedImageUrls.length) < 5 && (
+                      <button 
+                        onClick={() => fileInputRef.current?.click()}
+                        className="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white transition-colors relative group overflow-hidden"
+                        title="上传素材 (最多5张)"
+                      >
                         <Plus size={20} />
-                      )}
-                    </button>
+                      </button>
+                    )}
                     
                     {/* Templates Button */}
                     <button 
                       onClick={() => setIsTemplatesModalOpen(true)}
-                      className="h-10 px-4 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
+                      className="h-10 px-4 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 flex items-center gap-2 text-slate-400 hover:text-white transition-colors ml-2"
                     >
                       <Palette size={18} />
                       <span className="text-sm font-medium">Templates</span>
                     </button>
+
+                    {/* Hint Text for Template Image */}
+                    {selectedImageUrls.length > 0 && selectedFiles.length === 0 && (
+                      <span className="text-xs text-primary animate-pulse flex items-center gap-1 ml-2">
+                        <span className="material-symbols-outlined text-[14px]">arrow_back</span>
+                        点击替换或添加您自己的素材
+                      </span>
+                    )}
                   </div>
                   
                   {/* Submit Button */}
@@ -189,21 +299,56 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-16 grid md:grid-cols-2 gap-8">
-            <div className="relative group h-80 rounded-3xl overflow-hidden border border-border-dark shadow-2xl">
-              <div className="absolute inset-0 bg-cover bg-center scale-105 group-hover:scale-100 transition-transform duration-700" data-alt="Digital growth and data analytics pattern" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuB92iI8PuFUlwPXvWcIkDimzPa7bM6faYHfCBi9UfZFfI64Vb2kDt_D4hPmdyCrD6Htp5Z40sPOzd5DHAHwScPme7yBo_dx1SV0mMZ99Z24-gDObKHYn9Ie3TdnahnT8-nonMi6qvl2IWJRgyUE5DxZxgZ08IvWlUZ8yyXaGmyMuuwaOOM5Tu6E9asHX8WTwbgG5mVIP7JlO2U324XWx8dYEoJooqx0VgUNtKtsRs55heBpzhBug1hPrL4sWogYva87fgyw1NaKu0wU')" }}></div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent p-10 flex flex-col justify-end">
-                <span className="text-xs font-bold text-primary uppercase tracking-widest mb-3">Core Focus</span>
-                <h4 className="text-3xl font-bold text-white mb-3">APP 增长/打爆</h4>
-                <p className="text-slate-300 text-base max-w-sm">基于多 Agent 协同的精准获客与留存自动化方案。</p>
+          <div className="mt-16 space-y-16">
+            {/* APP Growth Section */}
+            <div>
+              <Link to="/case/app-growth" className="relative group h-80 rounded-3xl overflow-hidden border border-border-dark shadow-2xl block mb-6">
+                <div className="absolute inset-0 bg-cover bg-center scale-105 group-hover:scale-100 transition-transform duration-700" data-alt="Digital growth and data analytics pattern" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuB92iI8PuFUlwPXvWcIkDimzPa7bM6faYHfCBi9UfZFfI64Vb2kDt_D4hPmdyCrD6Htp5Z40sPOzd5DHAHwScPme7yBo_dx1SV0mMZ99Z24-gDObKHYn9Ie3TdnahnT8-nonMi6qvl2IWJRgyUE5DxZxgZ08IvWlUZ8yyXaGmyMuuwaOOM5Tu6E9asHX8WTwbgG5mVIP7JlO2U324XWx8dYEoJooqx0VgUNtKtsRs55heBpzhBug1hPrL4sWogYva87fgyw1NaKu0wU')" }}></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent p-10 flex flex-col justify-end">
+                  <span className="text-xs font-bold text-primary uppercase tracking-widest mb-3">Core Focus</span>
+                  <h4 className="text-3xl font-bold text-white mb-3">APP 增长/打爆</h4>
+                  <p className="text-slate-300 text-base max-w-sm">基于多 Agent 协同的精准获客与留存自动化方案。点击查看完整案例 &rarr;</p>
+                </div>
+              </Link>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="relative aspect-[9/16] rounded-xl overflow-hidden bg-surface-card border border-white/5 group">
+                    <video 
+                      className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                      autoPlay loop muted playsInline
+                      src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" 
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-4">
+                      <span className="text-xs text-white font-medium">社交APP拉新案例 {i}</span>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-            <div className="relative group h-80 rounded-3xl overflow-hidden border border-border-dark shadow-2xl">
-              <div className="absolute inset-0 bg-cover bg-center scale-105 group-hover:scale-100 transition-transform duration-700" data-alt="E-commerce marketing abstract concept" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuAKQA1lU2k3smppSncd7aBRJLLYkm2n3ZLG6Uk82v16m7i2QUhd6fswCGU9Ip_oiTLaNVt6n4B34ndpv79kWJlsO5R2G2CBMZwL5rye_xs6pMBttqNUK9TSqH9OQhTmNQ_ZbsazNXUZk9QaT1ek6Yuu4ujcax8M3NatuNzCH5GXnwiFG2OqxEDLdn3YnacC1k9wErlmjGKz02cEqv3muvB2K8fWFsdi8a8GzCLE87bKU5moRPxxxkBHud532RKIJhxxiWKQhkRGA4_X')" }}></div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent p-10 flex flex-col justify-end">
-                <span className="text-xs font-bold text-accent-pink uppercase tracking-widest mb-3">Vertical Solution</span>
-                <h4 className="text-3xl font-bold text-white mb-3">电商营销</h4>
-                <p className="text-slate-300 text-base max-w-sm">覆盖商品详情、客服引导及促销策略的智能驱动。</p>
+
+            {/* Ecommerce Section */}
+            <div>
+              <Link to="/case/ecommerce" className="relative group h-80 rounded-3xl overflow-hidden border border-border-dark shadow-2xl block mb-6">
+                <div className="absolute inset-0 bg-cover bg-center scale-105 group-hover:scale-100 transition-transform duration-700" data-alt="E-commerce marketing abstract concept" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuAKQA1lU2k3smppSncd7aBRJLLYkm2n3ZLG6Uk82v16m7i2QUhd6fswCGU9Ip_oiTLaNVt6n4B34ndpv79kWJlsO5R2G2CBMZwL5rye_xs6pMBttqNUK9TSqH9OQhTmNQ_ZbsazNXUZk9QaT1ek6Yuu4ujcax8M3NatuNzCH5GXnwiFG2OqxEDLdn3YnacC1k9wErlmjGKz02cEqv3muvB2K8fWFsdi8a8GzCLE87bKU5moRPxxxkBHud532RKIJhxxiWKQhkRGA4_X')" }}></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent p-10 flex flex-col justify-end">
+                  <span className="text-xs font-bold text-accent-pink uppercase tracking-widest mb-3">Vertical Solution</span>
+                  <h4 className="text-3xl font-bold text-white mb-3">电商营销</h4>
+                  <p className="text-slate-300 text-base max-w-sm">覆盖商品详情、客服引导及促销策略的智能驱动。点击查看完整案例 &rarr;</p>
+                </div>
+              </Link>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="relative aspect-[9/16] rounded-xl overflow-hidden bg-surface-card border border-white/5 group">
+                    <video 
+                      className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                      autoPlay loop muted playsInline
+                      src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4" 
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-4">
+                      <span className="text-xs text-white font-medium">双十一爆款打造 {i}</span>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -449,33 +594,79 @@ export default function Home() {
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 sm:p-6">
           <div className="bg-[#1a1a1a] rounded-2xl w-full max-w-5xl max-h-[90vh] flex flex-col border border-white/10 shadow-2xl">
             <div className="flex items-center justify-between p-6 border-b border-white/5">
-              <h2 className="text-2xl font-bold text-white">Templates</h2>
+              <h2 className="text-2xl font-bold text-white">选择预设模板</h2>
               <button onClick={() => setIsTemplatesModalOpen(false)} className="text-slate-400 hover:text-white transition-colors">
                 <X size={24} />
               </button>
             </div>
-            <div className="p-6 overflow-y-auto">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {/* Template Cards */}
-                {[
-                  { title: 'Data Visualization', img: 'https://picsum.photos/seed/data/600/400' },
-                  { title: 'Saas promo video', img: 'https://picsum.photos/seed/saas/600/400' },
-                  { title: 'Saas promo video', img: 'https://picsum.photos/seed/saas2/600/400' },
-                  { title: 'Explainer Video', img: 'https://picsum.photos/seed/explain/600/400' },
-                  { title: 'Educational Videos', img: 'https://picsum.photos/seed/edu/600/400' },
-                  { title: 'Montage', img: 'https://picsum.photos/seed/montage/600/400' },
-                  { title: 'Business Event', img: 'https://picsum.photos/seed/business/600/400' },
-                  { title: 'Design Promo', img: 'https://picsum.photos/seed/design/600/400' },
-                  { title: 'Chatbot Promo', img: 'https://picsum.photos/seed/chat/600/400' },
-                ].map((template, idx) => (
-                  <div key={idx} className="group cursor-pointer" onClick={() => setIsTemplatesModalOpen(false)}>
-                    <div className="rounded-xl overflow-hidden mb-3 border border-white/5 group-hover:border-primary/50 transition-colors aspect-[3/2]">
-                      <img src={template.img} alt={template.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
+            <div className="p-6 overflow-y-auto space-y-8">
+              
+              {/* APP推广 */}
+              <div>
+                <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                  <span className="material-symbols-outlined text-primary">app_shortcut</span>
+                  APP推广模板
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {appTemplates.map((template, idx) => (
+                    <div 
+                      key={idx} 
+                      className="group cursor-pointer" 
+                      onClick={() => {
+                        setActiveAgent('app');
+                        setPromptText(template.prompt);
+                        setSelectedImageUrls([template.img]);
+                        setSelectedFiles([]);
+                        setIsTemplatesModalOpen(false);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                    >
+                      <div className="rounded-xl overflow-hidden mb-3 border border-white/5 group-hover:border-primary/50 transition-colors aspect-[3/2] relative">
+                        <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex items-center justify-center">
+                          <span className="bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform">使用此模板</span>
+                        </div>
+                        <img src={template.img} alt={template.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
+                      </div>
+                      <h3 className="text-sm font-medium text-slate-200 group-hover:text-white transition-colors">{template.title}</h3>
+                      <p className="text-xs text-slate-500 mt-1 line-clamp-2">{template.description}</p>
                     </div>
-                    <h3 className="text-sm font-medium text-slate-200 group-hover:text-white transition-colors">{template.title}</h3>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
+
+              {/* 营销推广 */}
+              <div>
+                <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                  <span className="material-symbols-outlined text-accent-pink">campaign</span>
+                  营销推广模板
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {marketingTemplates.map((template, idx) => (
+                    <div 
+                      key={idx} 
+                      className="group cursor-pointer" 
+                      onClick={() => {
+                        setActiveAgent('marketing');
+                        setPromptText(template.prompt);
+                        setSelectedImageUrls([template.img]);
+                        setSelectedFiles([]);
+                        setIsTemplatesModalOpen(false);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                    >
+                      <div className="rounded-xl overflow-hidden mb-3 border border-white/5 group-hover:border-accent-pink/50 transition-colors aspect-[3/2] relative">
+                        <div className="absolute inset-0 bg-accent-pink/20 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex items-center justify-center">
+                          <span className="bg-accent-pink text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform">使用此模板</span>
+                        </div>
+                        <img src={template.img} alt={template.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
+                      </div>
+                      <h3 className="text-sm font-medium text-slate-200 group-hover:text-white transition-colors">{template.title}</h3>
+                      <p className="text-xs text-slate-500 mt-1 line-clamp-2">{template.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
