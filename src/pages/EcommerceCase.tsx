@@ -2,36 +2,46 @@ import { Link } from 'react-router-dom';
 
 export default function EcommerceCase() {
   return (
-    <div className="bg-surface-dark text-slate-100 min-h-screen flex flex-col font-sans selection:bg-accent-pink/30 selection:text-white">
+    <div className="bg-surface-dark text-slate-100 min-h-screen flex flex-col font-sans selection:bg-primary/30 selection:text-white">
       {/* Navigation */}
       <nav className="sticky top-0 z-50 border-b border-border-dark bg-surface-dark/80 backdrop-blur-md px-6 lg:px-20 py-4 flex items-center justify-between">
         <div className="flex items-center gap-12">
           <Link to="/" className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity">
             <span className="material-symbols-outlined text-primary text-3xl">deployed_code</span>
-            <h2 className="text-xl font-bold tracking-tight">智推 Agent 生态</h2>
+            <h2 className="text-xl font-bold tracking-tight">Agents Me</h2>
           </Link>
           <div className="hidden md:flex items-center gap-8">
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/">首页</Link>
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/workspace">专业工作台</Link>
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/market">Agent 市场</Link>
+            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/product-concept">产品概念</Link>
+            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/pricing">产品定价</Link>
           </div>
+        </div>
+        <div className="flex items-center gap-6">
+          <button className="text-slate-400 hover:text-white transition-colors">
+            <span className="material-symbols-outlined">search</span>
+          </button>
+          <button className="bg-primary hover:bg-primary-hover text-white px-6 py-2.5 rounded-full text-sm font-bold transition-all shadow-lg shadow-primary/20">
+            登录
+          </button>
         </div>
       </nav>
 
       <main className="flex-1">
         {/* Hero Section */}
         <section className="relative pt-24 pb-16 px-6 lg:px-20 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-accent-pink/10 to-transparent pointer-events-none"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/10 to-transparent pointer-events-none"></div>
           <div className="max-w-4xl mx-auto text-center relative z-10">
             <span className="inline-block py-1 px-3 rounded-full bg-accent-pink/20 text-accent-pink text-xs font-bold tracking-widest uppercase mb-6 border border-accent-pink/20">
               Success Story
             </span>
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight font-display tracking-tight">
               电商营销案例：<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-pink to-accent-blue">双十一美妆爆款打造</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-pink to-primary">某美妆品牌的双11爆发</span>
             </h1>
             <p className="text-lg text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-              覆盖商品详情、客服引导及促销策略的智能驱动，帮助某美妆品牌在双十一期间实现销量同比增长 300%，客服响应时间缩短 80%。
+              覆盖商品详情、客服引导及促销策略的智能驱动方案，助力品牌在双11期间实现销售额同比增长 120%，转化率提升 3.5 倍。
             </p>
           </div>
         </section>
@@ -43,7 +53,7 @@ export default function EcommerceCase() {
               <div className="order-2 md:order-1 relative aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
                 <video 
                   className="absolute inset-0 w-full h-full object-cover"
-                  autoPlay loop muted playsInline
+                  autoPlay loop muted playsInline preload="auto"
                   src="https://storage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4" 
                 />
               </div>
@@ -67,90 +77,165 @@ export default function EcommerceCase() {
             </div>
 
             <div className="mb-20">
-              <h3 className="text-3xl font-bold text-white mb-8 text-center">解决方案：全链路营销自动化</h3>
-              <div className="grid md:grid-cols-3 gap-6">
-                <div className="bg-surface-card p-8 rounded-2xl border border-white/5">
-                  <div className="size-12 rounded-xl bg-accent-pink/20 text-accent-pink flex items-center justify-center mb-6">
-                    <span className="material-symbols-outlined">support_agent</span>
+              <h3 className="text-3xl font-bold text-white mb-12 text-center">电商全链路优化能力</h3>
+              <div className="grid md:grid-cols-3 gap-8">
+                {[
+                  {
+                    icon: "support_agent",
+                    title: "智能导购与转化",
+                    desc: "7x24小时在线，秒级响应用户咨询，自动识别购买意图并推荐相关商品，大幅提升转化率。",
+                    tags: ["意图识别", "多轮对话", "情感分析"]
+                  },
+                  {
+                    icon: "auto_awesome_mosaic",
+                    title: "动态详情页生成",
+                    desc: "根据用户浏览历史和偏好，动态生成个性化的商品详情页，突出核心卖点，提高购买转化。",
+                    tags: ["个性化生成", "A/B测试", "视觉优化"]
+                  },
+                  {
+                    icon: "local_offer",
+                    title: "智能促销策略",
+                    desc: "实时监控库存和销量，自动调整促销策略和优惠券发放，最大化利润空间。",
+                    tags: ["动态调价", "库存联动", "策略自动执行"]
+                  }
+                ].map((item, i) => (
+                  <div key={i} className="group p-8 rounded-[2.5rem] bg-surface-card border border-white/5 hover:border-primary/30 transition-all duration-500 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+                      <span className="material-symbols-outlined text-6xl">{item.icon}</span>
+                    </div>
+                    <div className="relative z-10">
+                      <div className="size-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 text-primary">
+                        <span className="material-symbols-outlined">{item.icon}</span>
+                      </div>
+                      <h4 className="text-xl font-bold text-white mb-4">{item.title}</h4>
+                      <p className="text-slate-400 text-sm leading-relaxed mb-6">{item.desc}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {item.tags.map((tag, j) => (
+                          <span key={j} className="text-[10px] font-bold text-slate-500 uppercase tracking-wider px-2 py-1 rounded bg-white/5">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                  <h4 className="text-xl font-bold text-white mb-3">智能客服 Agent</h4>
-                  <p className="text-slate-400 text-sm leading-relaxed">7x24小时在线，秒级响应用户咨询，自动识别购买意图并推荐相关商品，大幅提升转化率。</p>
-                </div>
-                <div className="bg-surface-card p-8 rounded-2xl border border-white/5">
-                  <div className="size-12 rounded-xl bg-purple-400/20 text-purple-400 flex items-center justify-center mb-6">
-                    <span className="material-symbols-outlined">auto_awesome_mosaic</span>
-                  </div>
-                  <h4 className="text-xl font-bold text-white mb-3">详情页 Agent</h4>
-                  <p className="text-slate-400 text-sm leading-relaxed">根据用户浏览历史和偏好，动态生成个性化的商品详情页，突出核心卖点，提高购买转化。</p>
-                </div>
-                <div className="bg-surface-card p-8 rounded-2xl border border-white/5">
-                  <div className="size-12 rounded-xl bg-orange-400/20 text-orange-400 flex items-center justify-center mb-6">
-                    <span className="material-symbols-outlined">local_offer</span>
-                  </div>
-                  <h4 className="text-xl font-bold text-white mb-3">促销策略 Agent</h4>
-                  <p className="text-slate-400 text-sm leading-relaxed">实时监控库存和销量，自动调整促销策略和优惠券发放，最大化利润空间。</p>
-                </div>
+                ))}
               </div>
             </div>
 
             {/* Workspace Execution Flow */}
-            <div>
-              <div className="flex items-center justify-between mb-8">
-                <h3 className="text-3xl font-bold text-white">专业工作台执行流程</h3>
-                <Link to="/workspace" className="text-accent-pink hover:text-white transition-colors text-sm flex items-center gap-1">
+            <div className="mt-24">
+              <div className="flex items-center justify-between mb-12">
+                <div>
+                  <h3 className="text-3xl font-bold text-white mb-2">专业工作台执行流程</h3>
+                  <p className="text-slate-400 text-sm">多 Agent 协同的自动化执行逻辑，支持可视化编辑与实时监控</p>
+                </div>
+                <Link to="/workspace" className="bg-white/5 hover:bg-white/10 text-white px-6 py-3 rounded-full transition-all text-sm font-bold flex items-center gap-2 border border-white/10">
                   进入工作台编辑 <span className="material-symbols-outlined text-sm">arrow_forward</span>
                 </Link>
               </div>
-              <div className="bg-[#1a1a1a] rounded-3xl border border-white/10 overflow-hidden relative min-h-[500px] flex items-center justify-center bg-[radial-gradient(#2a2a2a_1px,transparent_1px)] [background-size:24px_24px]">
-                {/* Mock Flow Nodes */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-8 w-full max-w-4xl px-8 overflow-x-auto pb-8">
-                  
-                  {/* Node 1 */}
-                  <div className="shrink-0 w-64 bg-surface-card rounded-xl border border-accent-pink/30 p-4 shadow-lg relative z-10">
-                    <div className="flex items-center gap-3 mb-3 border-b border-white/5 pb-3">
-                      <span className="material-symbols-outlined text-accent-pink">support_agent</span>
-                      <span className="font-bold text-white text-sm">客服 Agent</span>
+              
+              <div className="bg-[#0a0a0a] rounded-[3rem] border border-white/5 overflow-hidden relative min-h-[600px] flex items-center justify-center p-12">
+                {/* Background Grid & Effects */}
+                <div className="absolute inset-0 bg-[radial-gradient(#2a2a2a_1px,transparent_1px)] [background-size:32px_32px] opacity-30"></div>
+                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent-pink/10 blur-[120px] rounded-full"></div>
+                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/10 blur-[120px] rounded-full"></div>
+
+                {/* Flow Visualization */}
+                <div className="relative z-10 w-full max-w-5xl">
+                  <div className="flex flex-col md:flex-row items-center justify-between gap-12">
+                    
+                    {/* Node 1 */}
+                    <div className="relative group">
+                      <div className="absolute -inset-1 bg-gradient-to-r from-accent-pink to-primary rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
+                      <div className="relative w-72 bg-surface-card/80 backdrop-blur-xl rounded-3xl border border-white/10 p-8 shadow-2xl">
+                        <div className="flex items-center gap-4 mb-6">
+                          <div className="size-12 rounded-2xl bg-accent-pink/20 text-accent-pink flex items-center justify-center">
+                            <span className="material-symbols-outlined">shopping_bag</span>
+                          </div>
+                          <div>
+                            <h5 className="font-bold text-white">选品 Agent</h5>
+                            <span className="text-[10px] text-accent-pink font-bold uppercase tracking-widest">Input Stage</span>
+                          </div>
+                        </div>
+                        <div className="space-y-4">
+                          <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
+                            <p className="text-xs text-slate-400 mb-1">触发条件</p>
+                            <p className="text-sm text-white font-medium">季节更替 / 竞品上新</p>
+                          </div>
+                          <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
+                            <p className="text-xs text-slate-400 mb-1">执行动作</p>
+                            <p className="text-sm text-white font-medium">爆款预测 & 选品清单生成</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="hidden md:block absolute top-1/2 -right-8 translate-x-full -translate-y-1/2">
+                        <div className="flex items-center">
+                          <div className="w-12 h-px bg-gradient-to-r from-accent-pink to-primary"></div>
+                          <div className="size-2 rounded-full bg-primary shadow-[0_0_10px_rgba(0,255,159,0.5)]"></div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="space-y-2">
-                      <div className="text-xs text-slate-400 bg-black/20 p-2 rounded">触发条件：用户咨询</div>
-                      <div className="text-xs text-slate-400 bg-black/20 p-2 rounded">动作：意图识别 & 自动回复</div>
+
+                    {/* Node 2 */}
+                    <div className="relative group">
+                      <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent-blue rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
+                      <div className="relative w-72 bg-surface-card/80 backdrop-blur-xl rounded-3xl border border-white/10 p-8 shadow-2xl">
+                        <div className="flex items-center gap-4 mb-6">
+                          <div className="size-12 rounded-2xl bg-primary/20 text-primary flex items-center justify-center">
+                            <span className="material-symbols-outlined">support_agent</span>
+                          </div>
+                          <div>
+                            <h5 className="font-bold text-white">客服 Agent</h5>
+                            <span className="text-[10px] text-primary font-bold uppercase tracking-widest">Processing</span>
+                          </div>
+                        </div>
+                        <div className="space-y-4">
+                          <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
+                            <p className="text-xs text-slate-400 mb-1">触发条件</p>
+                            <p className="text-sm text-white font-medium">用户咨询 / 订单异常</p>
+                          </div>
+                          <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
+                            <p className="text-xs text-slate-400 mb-1">执行动作</p>
+                            <p className="text-sm text-white font-medium">智能回复 & 转化引导</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="hidden md:block absolute top-1/2 -right-8 translate-x-full -translate-y-1/2">
+                        <div className="flex items-center">
+                          <div className="w-12 h-px bg-gradient-to-r from-primary to-accent-blue"></div>
+                          <div className="size-2 rounded-full bg-accent-blue shadow-[0_0_10px_rgba(0,123,255,0.5)]"></div>
+                        </div>
+                      </div>
                     </div>
+
+                    {/* Node 3 */}
+                    <div className="relative group">
+                      <div className="absolute -inset-1 bg-gradient-to-r from-accent-blue to-accent-pink rounded-3xl blur opacity-20 group-hover:opacity-100 transition duration-500"></div>
+                      <div className="relative w-72 bg-surface-card/80 backdrop-blur-xl rounded-3xl border border-white/10 p-8 shadow-2xl">
+                        <div className="flex items-center gap-4 mb-6">
+                          <div className="size-12 rounded-2xl bg-accent-blue/20 text-accent-blue flex items-center justify-center">
+                            <span className="material-symbols-outlined">campaign</span>
+                          </div>
+                          <div>
+                            <h5 className="font-bold text-white">营销 Agent</h5>
+                            <span className="text-[10px] text-accent-blue font-bold uppercase tracking-widest">Output Stage</span>
+                          </div>
+                        </div>
+                        <div className="space-y-4">
+                          <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
+                            <p className="text-xs text-slate-400 mb-1">触发条件</p>
+                            <p className="text-sm text-white font-medium">库存积压 / 促销节点</p>
+                          </div>
+                          <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
+                            <p className="text-xs text-slate-400 mb-1">执行动作</p>
+                            <p className="text-sm text-white font-medium">营销素材分发 & 策略执行</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
                   </div>
-
-                  {/* Arrow */}
-                  <div className="shrink-0 text-slate-500 material-symbols-outlined">arrow_forward</div>
-
-                  {/* Node 2 */}
-                  <div className="shrink-0 w-64 bg-surface-card rounded-xl border border-purple-400/30 p-4 shadow-lg relative z-10">
-                    <div className="flex items-center gap-3 mb-3 border-b border-white/5 pb-3">
-                      <span className="material-symbols-outlined text-purple-400">auto_awesome_mosaic</span>
-                      <span className="font-bold text-white text-sm">详情页 Agent</span>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="text-xs text-slate-400 bg-black/20 p-2 rounded">触发条件：用户浏览商品</div>
-                      <div className="text-xs text-slate-400 bg-black/20 p-2 rounded">动作：动态渲染个性化页面</div>
-                    </div>
-                  </div>
-
-                  {/* Arrow */}
-                  <div className="shrink-0 text-slate-500 material-symbols-outlined">arrow_forward</div>
-
-                  {/* Node 3 */}
-                  <div className="shrink-0 w-64 bg-surface-card rounded-xl border border-orange-400/30 p-4 shadow-lg relative z-10">
-                    <div className="flex items-center gap-3 mb-3 border-b border-white/5 pb-3">
-                      <span className="material-symbols-outlined text-orange-400">local_offer</span>
-                      <span className="font-bold text-white text-sm">促销 Agent</span>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="text-xs text-slate-400 bg-black/20 p-2 rounded">触发条件：加入购物车/结算</div>
-                      <div className="text-xs text-slate-400 bg-black/20 p-2 rounded">动作：最优优惠券匹配</div>
-                    </div>
-                  </div>
-
                 </div>
-                
-                {/* Connecting Line (Mock) */}
-                <div className="absolute top-1/2 left-0 w-full h-0.5 bg-white/5 -translate-y-1/2 z-0"></div>
               </div>
             </div>
 

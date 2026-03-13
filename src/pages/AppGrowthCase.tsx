@@ -8,13 +8,23 @@ export default function AppGrowthCase() {
         <div className="flex items-center gap-12">
           <Link to="/" className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity">
             <span className="material-symbols-outlined text-primary text-3xl">deployed_code</span>
-            <h2 className="text-xl font-bold tracking-tight">智推 Agent 生态</h2>
+            <h2 className="text-xl font-bold tracking-tight">Agents Me</h2>
           </Link>
           <div className="hidden md:flex items-center gap-8">
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/">首页</Link>
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/workspace">专业工作台</Link>
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/market">Agent 市场</Link>
+            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/product-concept">产品概念</Link>
+            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/pricing">产品定价</Link>
           </div>
+        </div>
+        <div className="flex items-center gap-6">
+          <button className="text-slate-400 hover:text-white transition-colors">
+            <span className="material-symbols-outlined">search</span>
+          </button>
+          <button className="bg-primary hover:bg-primary-hover text-white px-6 py-2.5 rounded-full text-sm font-bold transition-all shadow-lg shadow-primary/20">
+            登录
+          </button>
         </div>
       </nav>
 
@@ -60,97 +70,174 @@ export default function AppGrowthCase() {
               <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
                 <video 
                   className="absolute inset-0 w-full h-full object-cover"
-                  autoPlay loop muted playsInline
+                  autoPlay loop muted playsInline preload="auto"
                   src="https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" 
                 />
               </div>
             </div>
 
             <div className="mb-20">
-              <h3 className="text-3xl font-bold text-white mb-8 text-center">解决方案：多 Agent 协同矩阵</h3>
-              <div className="grid md:grid-cols-3 gap-6">
-                <div className="bg-surface-card p-8 rounded-2xl border border-white/5">
-                  <div className="size-12 rounded-xl bg-primary/20 text-primary flex items-center justify-center mb-6">
-                    <span className="material-symbols-outlined">person_search</span>
+              <h3 className="text-3xl font-bold text-white mb-12 text-center">核心增长能力</h3>
+              <div className="grid md:grid-cols-3 gap-8">
+                {[
+                  {
+                    icon: "target",
+                    title: "精准获客引擎",
+                    desc: "基于深度学习的社交趋势分析，自动捕捉高价值潜在用户，实现获客成本降低 60%。",
+                    tags: ["实时趋势", "智能素材", "ROI 优化"]
+                  },
+                  {
+                    icon: "group_add",
+                    title: "用户全生命周期运营",
+                    desc: "从新客激活到老客留存，全自动化的触达机制，确保每个环节的用户流失率降至最低。",
+                    tags: ["动态画像", "个性化 Push", "自动召回"]
+                  },
+                  {
+                    icon: "trending_up",
+                    title: "数据驱动决策中心",
+                    desc: "毫秒级处理海量用户行为数据，为运营策略提供实时反馈与自动调整建议。",
+                    tags: ["行为建模", "策略闭环", "实时监控"]
+                  }
+                ].map((item, i) => (
+                  <div key={i} className="group p-8 rounded-[2.5rem] bg-surface-card border border-white/5 hover:border-primary/30 transition-all duration-500 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+                      <span className="material-symbols-outlined text-6xl">{item.icon}</span>
+                    </div>
+                    <div className="relative z-10">
+                      <div className="size-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 text-primary">
+                        <span className="material-symbols-outlined">{item.icon}</span>
+                      </div>
+                      <h4 className="text-xl font-bold text-white mb-4">{item.title}</h4>
+                      <p className="text-slate-400 text-sm leading-relaxed mb-6">{item.desc}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {item.tags.map((tag, j) => (
+                          <span key={j} className="text-[10px] font-bold text-slate-500 uppercase tracking-wider px-2 py-1 rounded bg-white/5">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                  <h4 className="text-xl font-bold text-white mb-3">获客 Agent</h4>
-                  <p className="text-slate-400 text-sm leading-relaxed">自动分析各大社交平台热点，生成符合目标群体口味的拉新素材，并进行A/B测试优化投放策略。</p>
-                </div>
-                <div className="bg-surface-card p-8 rounded-2xl border border-white/5">
-                  <div className="size-12 rounded-xl bg-accent-blue/20 text-accent-blue flex items-center justify-center mb-6">
-                    <span className="material-symbols-outlined">psychology</span>
-                  </div>
-                  <h4 className="text-xl font-bold text-white mb-3">画像 Agent</h4>
-                  <p className="text-slate-400 text-sm leading-relaxed">实时收集新用户行为数据，动态构建用户画像，为个性化内容推荐提供精准的数据支持。</p>
-                </div>
-                <div className="bg-surface-card p-8 rounded-2xl border border-white/5">
-                  <div className="size-12 rounded-xl bg-green-400/20 text-green-400 flex items-center justify-center mb-6">
-                    <span className="material-symbols-outlined">notifications_active</span>
-                  </div>
-                  <h4 className="text-xl font-bold text-white mb-3">促活 Agent</h4>
-                  <p className="text-slate-400 text-sm leading-relaxed">基于用户画像和活跃度模型，在最佳时机自动触发个性化Push和短信，有效召回流失用户。</p>
-                </div>
+                ))}
               </div>
             </div>
 
             {/* Workspace Execution Flow */}
-            <div>
-              <div className="flex items-center justify-between mb-8">
-                <h3 className="text-3xl font-bold text-white">专业工作台执行流程</h3>
-                <Link to="/workspace" className="text-primary hover:text-white transition-colors text-sm flex items-center gap-1">
+            <div className="mt-24">
+              <div className="flex items-center justify-between mb-12">
+                <div>
+                  <h3 className="text-3xl font-bold text-white mb-2">专业工作台执行流程</h3>
+                  <p className="text-slate-400 text-sm">多 Agent 协同的自动化执行逻辑，支持可视化编辑与实时监控</p>
+                </div>
+                <Link to="/workspace" className="bg-white/5 hover:bg-white/10 text-white px-6 py-3 rounded-full transition-all text-sm font-bold flex items-center gap-2 border border-white/10">
                   进入工作台编辑 <span className="material-symbols-outlined text-sm">arrow_forward</span>
                 </Link>
               </div>
-              <div className="bg-[#1a1a1a] rounded-3xl border border-white/10 overflow-hidden relative min-h-[500px] flex items-center justify-center bg-[radial-gradient(#2a2a2a_1px,transparent_1px)] [background-size:24px_24px]">
-                {/* Mock Flow Nodes */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-8 w-full max-w-4xl px-8 overflow-x-auto pb-8">
-                  
-                  {/* Node 1 */}
-                  <div className="shrink-0 w-64 bg-surface-card rounded-xl border border-primary/30 p-4 shadow-lg relative z-10">
-                    <div className="flex items-center gap-3 mb-3 border-b border-white/5 pb-3">
-                      <span className="material-symbols-outlined text-primary">person_search</span>
-                      <span className="font-bold text-white text-sm">获客 Agent</span>
+              
+              <div className="bg-[#0a0a0a] rounded-[3rem] border border-white/5 overflow-hidden relative min-h-[600px] flex items-center justify-center p-12">
+                {/* Background Grid & Effects */}
+                <div className="absolute inset-0 bg-[radial-gradient(#2a2a2a_1px,transparent_1px)] [background-size:32px_32px] opacity-30"></div>
+                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 blur-[120px] rounded-full"></div>
+                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent-blue/10 blur-[120px] rounded-full"></div>
+
+                {/* Flow Visualization */}
+                <div className="relative z-10 w-full max-w-5xl">
+                  <div className="flex flex-col md:flex-row items-center justify-between gap-12">
+                    
+                    {/* Node 1 */}
+                    <div className="relative group">
+                      <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent-blue rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
+                      <div className="relative w-72 bg-surface-card/80 backdrop-blur-xl rounded-3xl border border-white/10 p-8 shadow-2xl">
+                        <div className="flex items-center gap-4 mb-6">
+                          <div className="size-12 rounded-2xl bg-primary/20 text-primary flex items-center justify-center">
+                            <span className="material-symbols-outlined">person_search</span>
+                          </div>
+                          <div>
+                            <h5 className="font-bold text-white">获客 Agent</h5>
+                            <span className="text-[10px] text-primary font-bold uppercase tracking-widest">Input Stage</span>
+                          </div>
+                        </div>
+                        <div className="space-y-4">
+                          <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
+                            <p className="text-xs text-slate-400 mb-1">触发条件</p>
+                            <p className="text-sm text-white font-medium">新素材需求 / 流量波动</p>
+                          </div>
+                          <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
+                            <p className="text-xs text-slate-400 mb-1">执行动作</p>
+                            <p className="text-sm text-white font-medium">生成短视频脚本 & 视觉素材</p>
+                          </div>
+                        </div>
+                      </div>
+                      {/* Connector Arrow (Desktop) */}
+                      <div className="hidden md:block absolute top-1/2 -right-8 translate-x-full -translate-y-1/2">
+                        <div className="flex items-center">
+                          <div className="w-12 h-px bg-gradient-to-r from-primary to-accent-blue"></div>
+                          <div className="size-2 rounded-full bg-accent-blue shadow-[0_0_10px_rgba(0,123,255,0.5)]"></div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="space-y-2">
-                      <div className="text-xs text-slate-400 bg-black/20 p-2 rounded">触发条件：新素材需求</div>
-                      <div className="text-xs text-slate-400 bg-black/20 p-2 rounded">动作：生成短视频脚本</div>
+
+                    {/* Node 2 */}
+                    <div className="relative group">
+                      <div className="absolute -inset-1 bg-gradient-to-r from-accent-blue to-accent-pink rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
+                      <div className="relative w-72 bg-surface-card/80 backdrop-blur-xl rounded-3xl border border-white/10 p-8 shadow-2xl">
+                        <div className="flex items-center gap-4 mb-6">
+                          <div className="size-12 rounded-2xl bg-accent-blue/20 text-accent-blue flex items-center justify-center">
+                            <span className="material-symbols-outlined">psychology</span>
+                          </div>
+                          <div>
+                            <h5 className="font-bold text-white">画像 Agent</h5>
+                            <span className="text-[10px] text-accent-blue font-bold uppercase tracking-widest">Processing</span>
+                          </div>
+                        </div>
+                        <div className="space-y-4">
+                          <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
+                            <p className="text-xs text-slate-400 mb-1">触发条件</p>
+                            <p className="text-sm text-white font-medium">新用户注册 / 行为上报</p>
+                          </div>
+                          <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
+                            <p className="text-xs text-slate-400 mb-1">执行动作</p>
+                            <p className="text-sm text-white font-medium">动态打标 & 偏好模型更新</p>
+                          </div>
+                        </div>
+                      </div>
+                      {/* Connector Arrow (Desktop) */}
+                      <div className="hidden md:block absolute top-1/2 -right-8 translate-x-full -translate-y-1/2">
+                        <div className="flex items-center">
+                          <div className="w-12 h-px bg-gradient-to-r from-accent-blue to-accent-pink"></div>
+                          <div className="size-2 rounded-full bg-accent-pink shadow-[0_0_10px_rgba(255,0,123,0.5)]"></div>
+                        </div>
+                      </div>
                     </div>
+
+                    {/* Node 3 */}
+                    <div className="relative group">
+                      <div className="absolute -inset-1 bg-gradient-to-r from-accent-pink to-primary rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
+                      <div className="relative w-72 bg-surface-card/80 backdrop-blur-xl rounded-3xl border border-white/10 p-8 shadow-2xl">
+                        <div className="flex items-center gap-4 mb-6">
+                          <div className="size-12 rounded-2xl bg-accent-pink/20 text-accent-pink flex items-center justify-center">
+                            <span className="material-symbols-outlined">notifications_active</span>
+                          </div>
+                          <div>
+                            <h5 className="font-bold text-white">促活 Agent</h5>
+                            <span className="text-[10px] text-accent-pink font-bold uppercase tracking-widest">Output Stage</span>
+                          </div>
+                        </div>
+                        <div className="space-y-4">
+                          <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
+                            <p className="text-xs text-slate-400 mb-1">触发条件</p>
+                            <p className="text-sm text-white font-medium">活跃度预警 / 沉默召回</p>
+                          </div>
+                          <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
+                            <p className="text-xs text-slate-400 mb-1">执行动作</p>
+                            <p className="text-sm text-white font-medium">发送个性化 Push & 权益触达</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
                   </div>
-
-                  {/* Arrow */}
-                  <div className="shrink-0 text-slate-500 material-symbols-outlined">arrow_forward</div>
-
-                  {/* Node 2 */}
-                  <div className="shrink-0 w-64 bg-surface-card rounded-xl border border-accent-blue/30 p-4 shadow-lg relative z-10">
-                    <div className="flex items-center gap-3 mb-3 border-b border-white/5 pb-3">
-                      <span className="material-symbols-outlined text-accent-blue">psychology</span>
-                      <span className="font-bold text-white text-sm">画像 Agent</span>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="text-xs text-slate-400 bg-black/20 p-2 rounded">触发条件：新用户注册</div>
-                      <div className="text-xs text-slate-400 bg-black/20 p-2 rounded">动作：打标签 & 偏好分析</div>
-                    </div>
-                  </div>
-
-                  {/* Arrow */}
-                  <div className="shrink-0 text-slate-500 material-symbols-outlined">arrow_forward</div>
-
-                  {/* Node 3 */}
-                  <div className="shrink-0 w-64 bg-surface-card rounded-xl border border-green-400/30 p-4 shadow-lg relative z-10">
-                    <div className="flex items-center gap-3 mb-3 border-b border-white/5 pb-3">
-                      <span className="material-symbols-outlined text-green-400">notifications_active</span>
-                      <span className="font-bold text-white text-sm">促活 Agent</span>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="text-xs text-slate-400 bg-black/20 p-2 rounded">触发条件：活跃度下降</div>
-                      <div className="text-xs text-slate-400 bg-black/20 p-2 rounded">动作：发送个性化Push</div>
-                    </div>
-                  </div>
-
                 </div>
-                
-                {/* Connecting Line (Mock) */}
-                <div className="absolute top-1/2 left-0 w-full h-0.5 bg-white/5 -translate-y-1/2 z-0"></div>
               </div>
             </div>
 

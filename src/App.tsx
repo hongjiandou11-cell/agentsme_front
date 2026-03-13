@@ -10,6 +10,10 @@ import Market from './pages/Market';
 import Help from './pages/Help';
 import ProductConcept from './pages/ProductConcept';
 import VideoClone from './pages/VideoClone';
+import ProductMaterial from './pages/ProductMaterial';
+import AppShell from './pages/AppShell';
+import ContentPublish from './pages/ContentPublish';
+import Pricing from './pages/Pricing';
 import AppGrowthCase from './pages/AppGrowthCase';
 import EcommerceCase from './pages/EcommerceCase';
 
@@ -23,6 +27,10 @@ export default function App() {
         <Route path="/help" element={<Help />} />
         <Route path="/product-concept" element={<ProductConcept />} />
         <Route path="/video-clone" element={<VideoClone />} />
+        <Route path="/product-material" element={<ProductMaterial />} />
+        <Route path="/app-shell" element={<AppShell />} />
+        <Route path="/content-publish" element={<ContentPublish />} />
+        <Route path="/pricing" element={<Pricing />} />
         <Route path="/case/app-growth" element={<AppGrowthCase />} />
         <Route path="/case/ecommerce" element={<EcommerceCase />} />
       </Routes>

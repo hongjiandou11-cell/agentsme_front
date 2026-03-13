@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Plus, Palette, ArrowUp, X } from 'lucide-react';
+import { motion } from 'motion/react';
 
 export default function Home() {
   const [activeAgent, setActiveAgent] = useState<'app' | 'marketing'>('app');
@@ -51,6 +52,48 @@ export default function Home() {
       description: '定制AI助手APP的专属营销素材，主打温暖治愈的情感陪伴风格。',
       prompt: '请根据我上传的素材，帮我制作一个顶级的AI助手APP营销素材。我的APP名字叫“傻妞”，可以实现顶级的情感陪伴和每日日报生成，主打温暖治愈风。',
       type: 'app'
+    },
+    {
+      title: '手游预约推广',
+      img: 'https://picsum.photos/seed/game-app/600/400',
+      description: '生成高燃的手游预约宣传片脚本与视觉素材，提升预约转化。',
+      prompt: '为一款二次元动作手游制作预约推广素材。要求画面高燃、节奏感强，突出角色的华丽技能和精美立绘，引导用户点击预约。',
+      type: 'app'
+    },
+    {
+      title: '电商APP返利',
+      img: 'https://picsum.photos/seed/shop-app/600/400',
+      description: '制作电商返利APP的省钱攻略视频，主打“买到即赚到”的心理。',
+      prompt: '制作一个电商返利APP的省钱攻略视频。通过真人出镜或动画演示，讲解如何领取大额优惠券并获得返利，突出“省钱神器”的定位。',
+      type: 'app'
+    },
+    {
+      title: '在线教育APP拉新',
+      img: 'https://picsum.photos/seed/edu-app/600/400',
+      description: '生成针对家长痛点的在线教育课程推广素材，主打名师与提分。',
+      prompt: '为一款K12在线教育APP制作拉新素材。针对家长“孩子成绩上不去”的焦虑，突出“名师直播课”、“1对1辅导”和“快速提分”的优势。',
+      type: 'app'
+    },
+    {
+      title: '运动健身APP促活',
+      img: 'https://picsum.photos/seed/fit-app/600/400',
+      description: '生成充满能量的健身挑战邀请，激励用户坚持打卡。',
+      prompt: '为一个健身APP设计一个“21天马甲线挑战”的促活素材。文案要充满能量，配图要展示健美的身材，激励用户每天打开APP打卡运动。',
+      type: 'app'
+    },
+    {
+      title: '旅游攻略APP推广',
+      img: 'https://picsum.photos/seed/travel-app/600/400',
+      description: '制作唯美的旅游攻略视频，激发用户探索世界的欲望。',
+      prompt: '为旅游攻略APP制作一段唯美的风景视频。配合轻快的音乐和实用的旅游小贴士，激发用户下载APP查看完整攻略的欲望。',
+      type: 'app'
+    },
+    {
+      title: '外卖APP红包推广',
+      img: 'https://picsum.photos/seed/food-app/600/400',
+      description: '生成诱人的美食视频与大额红包领取引导，提升下单率。',
+      prompt: '制作一个外卖APP的红包推广素材。展示诱人的美食特写，配合“领券立减20元”的醒目字样，引导用户立即下单。',
+      type: 'app'
     }
   ];
 
@@ -75,6 +118,48 @@ export default function Home() {
       description: '制定包含群发话术、互动游戏和逼单文案的私域社群转化SOP。',
       prompt: '请帮我制定一个私域社群的转化SOP。包含连续3天的群发话术、互动游戏设计和最终的逼单转化文案，产品是高客单价的在线课程。',
       type: 'marketing'
+    },
+    {
+      title: '直播间话术脚本',
+      img: 'https://picsum.photos/seed/live-stream/600/400',
+      description: '生成高转化的直播间带货话术，包含开场、讲解和逼单环节。',
+      prompt: '为一款护肤品直播间编写带货话术。要求包含吸引人的开场白、产品核心卖点的深度讲解、以及限时限量的逼单环节，节奏感要强。',
+      type: 'marketing'
+    },
+    {
+      title: '短视频带货脚本',
+      img: 'https://picsum.photos/seed/short-video/600/400',
+      description: '定制爆款短视频带货脚本，包含黄金3秒开头与精准转化引导。',
+      prompt: '为一个家居好物编写短视频带货脚本。要求前3秒必须抓住眼球，中间展示产品解决痛点的过程，结尾有明确的购买引导。',
+      type: 'marketing'
+    },
+    {
+      title: '品牌故事宣传片',
+      img: 'https://picsum.photos/seed/brand-story/600/400',
+      description: '生成具有情感共鸣的品牌故事脚本，提升品牌溢价与忠诚度。',
+      prompt: '为一家手工皮具品牌编写品牌故事脚本。强调“匠心传承”、“岁月留痕”的情感价值，通过细腻的叙事提升品牌的格调。',
+      type: 'marketing'
+    },
+    {
+      title: '新品发布会PPT',
+      img: 'https://picsum.photos/seed/launch-event/600/400',
+      description: '自动规划新品发布会流程，并生成核心页面的视觉设计建议。',
+      prompt: '为一款新款智能手表规划发布会流程。包含开场视频构思、核心功能展示页的设计建议、以及价格公布环节的悬念设计。',
+      type: 'marketing'
+    },
+    {
+      title: '节日借势营销',
+      img: 'https://picsum.photos/seed/holiday/600/400',
+      description: '生成针对特定节日的创意营销方案，包含海报、文案与活动。',
+      prompt: '为“情人节”设计一个珠宝品牌的借势营销方案。包含创意海报设计思路、走心的情书文案、以及“买一送一”的限时活动策划。',
+      type: 'marketing'
+    },
+    {
+      title: 'B2B行业白皮书',
+      img: 'https://picsum.photos/seed/b2b/600/400',
+      description: '自动搜集行业数据，生成专业的B2B行业白皮书大纲与核心内容。',
+      prompt: '为“AI在制造业的应用”编写一份行业白皮书大纲。要求包含市场现状分析、核心技术应用案例、未来趋势预测等专业内容。',
+      type: 'marketing'
     }
   ];
 
@@ -85,21 +170,14 @@ export default function Home() {
         <div className="flex items-center gap-12">
           <div className="flex items-center gap-2 text-white">
             <span className="material-symbols-outlined text-primary text-3xl">deployed_code</span>
-            <h2 className="text-xl font-bold tracking-tight">智推 Agent 生态</h2>
+            <h2 className="text-xl font-bold tracking-tight">Agents Me</h2>
           </div>
           <div className="hidden md:flex items-center gap-8">
             <Link className="text-sm font-medium hover:text-white transition-colors text-white" to="/">首页</Link>
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/workspace">专业工作台</Link>
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/market">Agent 市场</Link>
-            <div className="relative group">
-              <span className="text-sm font-medium text-slate-400 hover:text-white transition-colors cursor-pointer flex items-center gap-1">
-                产品中心 <span className="material-symbols-outlined text-[16px]">expand_more</span>
-              </span>
-              <div className="absolute top-full left-0 mt-2 w-32 bg-[#1c1c1e] border border-white/10 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 overflow-hidden">
-                <Link to="/product-concept" className="block px-4 py-2.5 text-sm text-slate-300 hover:text-white hover:bg-white/5 transition-colors">产品概念</Link>
-                <Link to="/help" className="block px-4 py-2.5 text-sm text-slate-300 hover:text-white hover:bg-white/5 transition-colors">帮助中心</Link>
-              </div>
-            </div>
+            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/product-concept">产品概念</Link>
+            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/pricing">产品定价</Link>
           </div>
         </div>
         <div className="flex items-center gap-6">
@@ -118,7 +196,7 @@ export default function Home() {
           <div className="space-y-8">
             <div className="space-y-4">
               <h1 className="text-5xl lg:text-7xl font-bold tracking-tight leading-tight gradient-text">
-                智推 Agent 生态
+                Agents Me
               </h1>
               <p className="text-lg text-slate-400 max-w-lg leading-relaxed">
                 基于 Vibe Coding 模式，构建高效的 Agent A-B-C体系。重新定义商业需求与开发者的共生逻辑。
@@ -262,6 +340,7 @@ export default function Home() {
                 loop 
                 muted 
                 playsInline
+                preload="auto"
                 src="https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" 
               />
               <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-[10px] text-slate-400 font-mono tracking-widest uppercase z-10">
@@ -274,79 +353,175 @@ export default function Home() {
       </main>
 
       {/* ABC Mode Section */}
-      <section className="px-6 lg:px-20 py-32 bg-surface-dark relative">
+      <section className="px-6 lg:px-20 py-32 bg-gradient-to-br from-[#050505] via-[#121212] to-[#050505] relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-20 text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">ABC 模式：商业与研发的共生协同</h2>
-            <p className="text-slate-400 text-lg max-w-2xl mx-auto">精准对接用户营销需求，建立激励机制，让每一行代码产生价值。</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="glass-card p-10 rounded-3xl border-primary/20 bg-primary/5 transition-all">
-              <span className="material-symbols-outlined text-primary text-5xl mb-8">smart_toy</span>
-              <h3 className="text-2xl font-bold mb-4 text-white">A-side Agent 驱动</h3>
-              <p className="text-slate-300 text-base leading-relaxed">核心引擎调度。负责全链路的任务拆解、执行与结果校验，实现业务全流程闭环。</p>
-            </div>
-            <div className="glass-card p-10 rounded-3xl hover:bg-white/5 transition-all">
-              <span className="material-symbols-outlined text-accent-blue text-5xl mb-8">business_center</span>
-              <h3 className="text-2xl font-bold mb-4 text-white">B-side 商业需求</h3>
-              <p className="text-slate-400 text-base leading-relaxed">精准对齐企业级业务目标，通过 Agent 自动化处理复杂逻辑，提升 operational 效率。</p>
-            </div>
-            <div className="glass-card p-10 rounded-3xl hover:bg-white/5 transition-all">
-              <span className="material-symbols-outlined text-accent-pink text-5xl mb-8">payments</span>
-              <h3 className="text-2xl font-bold mb-4 text-white">C-side 开发者佣金</h3>
-              <p className="text-slate-400 text-base leading-relaxed">建立公平透明的激励体系。当 Agent 成功解决 B 端业务时，开发者将获得实时佣金结算。</p>
-            </div>
+        
+        {/* Background Decorative Elements */}
+        <div className="absolute top-0 left-0 w-full h-full opacity-30 pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/10 blur-[120px] rounded-full animate-pulse"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent-pink/10 blur-[120px] rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="mb-24 text-center">
+            <h2 className="text-4xl md:text-6xl font-bold mb-8 tracking-tight text-white">
+              ABC 模式：<span className="gradient-text">商业与研发的共生协同</span>
+            </h2>
+            <p className="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed">
+              精准对接用户营销需求，建立激励机制，让每一行代码产生价值。
+            </p>
           </div>
 
-          <div className="mt-16 space-y-16">
-            {/* APP Growth Section */}
-            <div>
-              <Link to="/case/app-growth" className="relative group h-80 rounded-3xl overflow-hidden border border-border-dark shadow-2xl block mb-6">
-                <div className="absolute inset-0 bg-cover bg-center scale-105 group-hover:scale-100 transition-transform duration-700" data-alt="Digital growth and data analytics pattern" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuB92iI8PuFUlwPXvWcIkDimzPa7bM6faYHfCBi9UfZFfI64Vb2kDt_D4hPmdyCrD6Htp5Z40sPOzd5DHAHwScPme7yBo_dx1SV0mMZ99Z24-gDObKHYn9Ie3TdnahnT8-nonMi6qvl2IWJRgyUE5DxZxgZ08IvWlUZ8yyXaGmyMuuwaOOM5Tu6E9asHX8WTwbgG5mVIP7JlO2U324XWx8dYEoJooqx0VgUNtKtsRs55heBpzhBug1hPrL4sWogYva87fgyw1NaKu0wU')" }}></div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent p-10 flex flex-col justify-end">
-                  <span className="text-xs font-bold text-primary uppercase tracking-widest mb-3">Core Focus</span>
-                  <h4 className="text-3xl font-bold text-white mb-3">APP 增长/打爆</h4>
-                  <p className="text-slate-300 text-base max-w-sm">基于多 Agent 协同的精准获客与留存自动化方案。点击查看完整案例 &rarr;</p>
+          <div className="relative">
+            {/* Connecting Line (Desktop) */}
+            <div className="hidden md:block absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-primary/20 via-accent-blue/20 to-accent-pink/20 -translate-y-1/2"></div>
+            
+            <div className="grid md:grid-cols-3 gap-12 relative">
+              {/* A-side */}
+              <div className="relative group rounded-[2rem] overflow-hidden aspect-[4/5] flex flex-col items-center justify-center text-center p-8 border border-white/10 shadow-2xl">
+                <video 
+                  className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-all duration-700 scale-110 group-hover:scale-100"
+                  autoPlay loop muted playsInline preload="auto"
+                  src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                <div className="relative z-10">
+                  <div className="size-20 rounded-full bg-surface-card/50 backdrop-blur-md border border-primary/30 flex items-center justify-center mb-6 mx-auto shadow-[0_0_30px_rgba(0,255,159,0.1)] group-hover:shadow-[0_0_50px_rgba(0,255,159,0.2)] transition-all duration-500">
+                    <span className="material-symbols-outlined text-primary text-3xl">smart_toy</span>
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 text-white">A-side Agent 驱动</h3>
+                  <p className="text-slate-300 text-sm leading-relaxed">
+                    核心引擎调度。负责全链路的任务拆解、执行与结果校验，实现业务全流程闭环。
+                  </p>
                 </div>
+              </div>
+
+              {/* B-side */}
+              <div className="relative group rounded-[2rem] overflow-hidden aspect-[4/5] flex flex-col items-center justify-center text-center p-8 border border-white/10 shadow-2xl">
+                <video 
+                  className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-all duration-700 scale-110 group-hover:scale-100"
+                  autoPlay loop muted playsInline preload="auto"
+                  src="https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                <div className="relative z-10">
+                  <div className="size-20 rounded-full bg-surface-card/50 backdrop-blur-md border border-accent-blue/30 flex items-center justify-center mb-6 mx-auto shadow-[0_0_30px_rgba(0,123,255,0.1)] group-hover:shadow-[0_0_50px_rgba(0,123,255,0.2)] transition-all duration-500">
+                    <span className="material-symbols-outlined text-accent-blue text-3xl">business_center</span>
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 text-white">B-side 商业需求</h3>
+                  <p className="text-slate-300 text-sm leading-relaxed">
+                    精准对齐企业级业务目标，通过 Agent 自动化处理复杂逻辑，提升运营效率。
+                  </p>
+                </div>
+              </div>
+
+              {/* C-side */}
+              <div className="relative group rounded-[2rem] overflow-hidden aspect-[4/5] flex flex-col items-center justify-center text-center p-8 border border-white/10 shadow-2xl">
+                <video 
+                  className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-all duration-700 scale-110 group-hover:scale-100"
+                  autoPlay loop muted playsInline preload="auto"
+                  src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                <div className="relative z-10">
+                  <div className="size-20 rounded-full bg-surface-card/50 backdrop-blur-md border border-accent-pink/30 flex items-center justify-center mb-6 mx-auto shadow-[0_0_30px_rgba(255,0,123,0.1)] group-hover:shadow-[0_0_50px_rgba(255,0,123,0.2)] transition-all duration-500">
+                    <span className="material-symbols-outlined text-accent-pink text-3xl">payments</span>
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 text-white">C-side 开发者佣金</h3>
+                  <p className="text-slate-300 text-sm leading-relaxed">
+                    建立公平透明的激励体系。当 Agent 成功解决 B 端业务时，开发者将获得实时佣金结算。
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* What You Can Do Section */}
+      <section id="what-you-can-do" className="px-6 lg:px-20 py-32 bg-background-dark relative overflow-hidden">
+        {/* Dynamic Background Effects */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-primary/5 blur-[120px] rounded-full animate-float"></div>
+          <div className="absolute bottom-0 right-1/4 w-[800px] h-[800px] bg-accent-pink/5 blur-[120px] rounded-full animate-float" style={{ animationDelay: '3s' }}></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-24">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">你可以做什么</h2>
+            <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
+          </div>
+
+          <div className="space-y-32">
+            {/* APP Growth Section */}
+            <div className="flex flex-col lg:flex-row items-center gap-16 p-8 lg:p-12 rounded-[3rem] bg-surface-dark/30 backdrop-blur-sm border border-white/5 relative group overflow-hidden">
+              {/* Dynamic Background Image for Section */}
+              <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-700">
+                <img 
+                  src="https://picsum.photos/seed/growth-bg/1920/1080" 
+                  alt="Background" 
+                  className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-10000 linear infinite"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+
+              <Link to="/case/app-growth" className="lg:w-1/3 space-y-6 relative z-10 group">
+                <span className="text-xs font-bold text-primary uppercase tracking-widest px-3 py-1 bg-primary/10 rounded-full inline-block">Core Focus</span>
+                <h3 className="text-3xl lg:text-4xl font-bold text-white group-hover:text-primary transition-colors">APP 增长/打爆</h3>
+                <p className="text-slate-400 text-lg leading-relaxed max-w-md">
+                  基于多 Agent 协同的精准获客与留存自动化方案。通过 AI 驱动的创意生成与投放优化，实现低成本规模化增长。
+                </p>
               </Link>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="relative aspect-[9/16] rounded-xl overflow-hidden bg-surface-card border border-white/5 group">
+              <div className="lg:w-2/3 grid grid-cols-2 gap-6 w-full relative z-10">
+                {[
+                  "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+                  "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+                  "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+                  "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
+                ].map((url, i) => (
+                  <div key={i} className="aspect-[4/3] rounded-2xl overflow-hidden bg-black border border-white/5 shadow-2xl relative group/vid">
                     <video 
-                      className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
-                      autoPlay loop muted playsInline
-                      src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" 
+                      className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover/vid:opacity-100 transition-opacity"
+                      autoPlay loop muted playsInline preload="auto"
+                      src={url} 
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-4">
-                      <span className="text-xs text-white font-medium">社交APP拉新案例 {i}</span>
-                    </div>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Ecommerce Section */}
-            <div>
-              <Link to="/case/ecommerce" className="relative group h-80 rounded-3xl overflow-hidden border border-border-dark shadow-2xl block mb-6">
-                <div className="absolute inset-0 bg-cover bg-center scale-105 group-hover:scale-100 transition-transform duration-700" data-alt="E-commerce marketing abstract concept" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuAKQA1lU2k3smppSncd7aBRJLLYkm2n3ZLG6Uk82v16m7i2QUhd6fswCGU9Ip_oiTLaNVt6n4B34ndpv79kWJlsO5R2G2CBMZwL5rye_xs6pMBttqNUK9TSqH9OQhTmNQ_ZbsazNXUZk9QaT1ek6Yuu4ujcax8M3NatuNzCH5GXnwiFG2OqxEDLdn3YnacC1k9wErlmjGKz02cEqv3muvB2K8fWFsdi8a8GzCLE87bKU5moRPxxxkBHud532RKIJhxxiWKQhkRGA4_X')" }}></div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent p-10 flex flex-col justify-end">
-                  <span className="text-xs font-bold text-accent-pink uppercase tracking-widest mb-3">Vertical Solution</span>
-                  <h4 className="text-3xl font-bold text-white mb-3">电商营销</h4>
-                  <p className="text-slate-300 text-base max-w-sm">覆盖商品详情、客服引导及促销策略的智能驱动。点击查看完整案例 &rarr;</p>
-                </div>
+            <div className="flex flex-col lg:flex-row-reverse items-center gap-16 p-8 lg:p-12 rounded-[3rem] bg-surface-dark/30 backdrop-blur-sm border border-white/5 relative group overflow-hidden">
+              {/* Dynamic Background Image for Section */}
+              <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-700">
+                <img 
+                  src="https://picsum.photos/seed/ecom-bg/1920/1080" 
+                  alt="Background" 
+                  className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-10000 linear infinite"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+
+              <Link to="/case/ecommerce" className="lg:w-1/3 space-y-6 relative z-10 group">
+                <span className="text-xs font-bold text-accent-pink uppercase tracking-widest px-3 py-1 bg-accent-pink/10 rounded-full inline-block">Vertical Solution</span>
+                <h3 className="text-3xl lg:text-4xl font-bold text-white group-hover:text-accent-pink transition-colors">电商营销</h3>
+                <p className="text-slate-400 text-lg leading-relaxed max-w-md">
+                  覆盖商品详情、客服引导及促销策略的智能驱动。利用 Agent 矩阵提升转化率，构建全链路营销闭环。
+                </p>
               </Link>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="relative aspect-[9/16] rounded-xl overflow-hidden bg-surface-card border border-white/5 group">
+              <div className="lg:w-2/3 grid grid-cols-2 gap-6 w-full relative z-10">
+                {[
+                  "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+                  "https://storage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+                  "https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+                  "https://storage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4"
+                ].map((url, i) => (
+                  <div key={i} className="aspect-[4/3] rounded-2xl overflow-hidden bg-black border border-white/5 shadow-2xl relative group/vid">
                     <video 
-                      className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
-                      autoPlay loop muted playsInline
-                      src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4" 
+                      className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover/vid:opacity-100 transition-opacity"
+                      autoPlay loop muted playsInline preload="auto"
+                      src={url} 
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-4">
-                      <span className="text-xs text-white font-medium">双十一爆款打造 {i}</span>
-                    </div>
                   </div>
                 ))}
               </div>
@@ -354,6 +529,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Global Showcase Section REMOVED */}
 
       {/* Atomic Lab Section */}
       <section id="atomic-lab" className="px-6 lg:px-20 py-32">
@@ -387,9 +564,9 @@ export default function Home() {
                 <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight">商品素材</h4>
                 <p className="text-sm text-slate-300">一键生成高质量电商视觉</p>
               </div>
-              <button className="relative z-10 w-full btn-secondary py-3 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0">
+              <Link to="/product-material" className="relative z-10 w-full btn-secondary py-3 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 text-center block">
                 立即使用
-              </button>
+              </Link>
             </div>
             <div className="group relative aspect-[3/4] rounded-3xl overflow-hidden glass-card p-8 flex flex-col justify-between border-border-dark">
               <div className="absolute inset-0 bg-cover bg-center opacity-60 group-hover:scale-110 transition-all duration-700 mix-blend-luminosity group-hover:mix-blend-normal" style={{ backgroundImage: "url('https://picsum.photos/seed/mobile-app/600/800')" }}></div>
@@ -398,9 +575,9 @@ export default function Home() {
                 <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight">APP套壳</h4>
                 <p className="text-sm text-slate-300">快速构建跨平台应用外壳</p>
               </div>
-              <button className="relative z-10 w-full btn-secondary py-3 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0">
+              <Link to="/app-shell" className="relative z-10 w-full btn-secondary py-3 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 text-center block">
                 立即使用
-              </button>
+              </Link>
             </div>
             <div className="group relative aspect-[3/4] rounded-3xl overflow-hidden glass-card p-8 flex flex-col justify-between border-border-dark">
               <div className="absolute inset-0 bg-cover bg-center opacity-60 group-hover:scale-110 transition-all duration-700 mix-blend-luminosity group-hover:mix-blend-normal" style={{ backgroundImage: "url('https://picsum.photos/seed/content-publish/600/800')" }}></div>
@@ -409,9 +586,9 @@ export default function Home() {
                 <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight">内容发布</h4>
                 <p className="text-sm text-slate-300">多渠道矩阵自动化分发</p>
               </div>
-              <button className="relative z-10 w-full btn-secondary py-3 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0">
+              <Link to="/content-publish" className="relative z-10 w-full btn-secondary py-3 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 text-center block">
                 立即使用
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -602,72 +779,77 @@ export default function Home() {
             <div className="p-6 overflow-y-auto space-y-8">
               
               {/* APP推广 */}
-              <div>
-                <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-primary">app_shortcut</span>
-                  APP推广模板
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {appTemplates.map((template, idx) => (
-                    <div 
-                      key={idx} 
-                      className="group cursor-pointer" 
-                      onClick={() => {
-                        setActiveAgent('app');
-                        setPromptText(template.prompt);
-                        setSelectedImageUrls([template.img]);
-                        setSelectedFiles([]);
-                        setIsTemplatesModalOpen(false);
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                      }}
-                    >
-                      <div className="rounded-xl overflow-hidden mb-3 border border-white/5 group-hover:border-primary/50 transition-colors aspect-[3/2] relative">
-                        <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex items-center justify-center">
-                          <span className="bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform">使用此模板</span>
+              {(activeAgent === 'app' || activeAgent === 'vibe') && (
+                <div>
+                  <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                    <span className="material-symbols-outlined text-primary">app_shortcut</span>
+                    APP推广模板
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {appTemplates.map((template, idx) => (
+                      <div 
+                        key={idx} 
+                        className="group cursor-pointer" 
+                        onClick={() => {
+                          setActiveAgent('app');
+                          setPromptText(template.prompt);
+                          setSelectedImageUrls([template.img]);
+                          setSelectedFiles([]);
+                          setIsTemplatesModalOpen(false);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                      >
+                        <div className="rounded-xl overflow-hidden mb-3 border border-white/5 group-hover:border-primary/50 transition-colors aspect-[3/2] relative">
+                          <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex items-center justify-center">
+                            <span className="bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform">使用此模板</span>
+                          </div>
+                          <img src={template.img} alt={template.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
                         </div>
-                        <img src={template.img} alt={template.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
+                        <h3 className="text-sm font-medium text-slate-200 group-hover:text-white transition-colors">{template.title}</h3>
+                        <p className="text-xs text-slate-500 mt-1 line-clamp-2">{template.description}</p>
                       </div>
-                      <h3 className="text-sm font-medium text-slate-200 group-hover:text-white transition-colors">{template.title}</h3>
-                      <p className="text-xs text-slate-500 mt-1 line-clamp-2">{template.description}</p>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* 营销推广 */}
-              <div>
-                <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-accent-pink">campaign</span>
-                  营销推广模板
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {marketingTemplates.map((template, idx) => (
-                    <div 
-                      key={idx} 
-                      className="group cursor-pointer" 
-                      onClick={() => {
-                        setActiveAgent('marketing');
-                        setPromptText(template.prompt);
-                        setSelectedImageUrls([template.img]);
-                        setSelectedFiles([]);
-                        setIsTemplatesModalOpen(false);
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                      }}
-                    >
-                      <div className="rounded-xl overflow-hidden mb-3 border border-white/5 group-hover:border-accent-pink/50 transition-colors aspect-[3/2] relative">
-                        <div className="absolute inset-0 bg-accent-pink/20 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex items-center justify-center">
-                          <span className="bg-accent-pink text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform">使用此模板</span>
+              {(activeAgent === 'marketing' || activeAgent === 'vibe') && (
+                <div>
+                  <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                    <span className="material-symbols-outlined text-accent-pink">campaign</span>
+                    营销推广模板
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {marketingTemplates.map((template, idx) => (
+                      <div 
+                        key={idx} 
+                        className="group cursor-pointer" 
+                        onClick={() => {
+                          setActiveAgent('marketing');
+                          setPromptText(template.prompt);
+                          setSelectedImageUrls([template.img]);
+                          setSelectedFiles([]);
+                          setIsTemplatesModalOpen(false);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                      >
+                        <div className="rounded-xl overflow-hidden mb-3 border border-white/5 group-hover:border-accent-pink/50 transition-colors aspect-[3/2] relative">
+                          <div className="absolute inset-0 bg-accent-pink/20 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex items-center justify-center">
+                            <span className="bg-accent-pink text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform">使用此模板</span>
+                          </div>
+                          <img src={template.img} alt={template.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
                         </div>
-                        <img src={template.img} alt={template.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
+                        <h3 className="text-sm font-medium text-slate-200 group-hover:text-white transition-colors">{template.title}</h3>
+                        <p className="text-xs text-slate-500 mt-1 line-clamp-2">{template.description}</p>
                       </div>
-                      <h3 className="text-sm font-medium text-slate-200 group-hover:text-white transition-colors">{template.title}</h3>
-                      <p className="text-xs text-slate-500 mt-1 line-clamp-2">{template.description}</p>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
             </div>
+
           </div>
         </div>
       )}

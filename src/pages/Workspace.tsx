@@ -8,21 +8,14 @@ export default function Workspace() {
         <div className="flex items-center gap-12">
           <div className="flex items-center gap-2 text-white">
             <span className="material-symbols-outlined text-primary text-3xl">deployed_code</span>
-            <h2 className="text-xl font-bold tracking-tight">智推 Agent 生态</h2>
+            <h2 className="text-xl font-bold tracking-tight">Agents Me</h2>
           </div>
           <div className="hidden md:flex items-center gap-8">
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/">首页</Link>
             <Link className="text-sm font-medium hover:text-white transition-colors text-white" to="/workspace">专业工作台</Link>
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/market">Agent 市场</Link>
-            <div className="relative group">
-              <span className="text-sm font-medium text-slate-400 hover:text-white transition-colors cursor-pointer flex items-center gap-1">
-                产品中心 <span className="material-symbols-outlined text-[16px]">expand_more</span>
-              </span>
-              <div className="absolute top-full left-0 mt-2 w-32 bg-[#1c1c1e] border border-white/10 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 overflow-hidden">
-                <Link to="/product-concept" className="block px-4 py-2.5 text-sm text-slate-300 hover:text-white hover:bg-white/5 transition-colors">产品概念</Link>
-                <Link to="/help" className="block px-4 py-2.5 text-sm text-slate-300 hover:text-white hover:bg-white/5 transition-colors">帮助中心</Link>
-              </div>
-            </div>
+            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/product-concept">产品概念</Link>
+            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/pricing">产品定价</Link>
           </div>
         </div>
         <div className="flex items-center gap-6">
