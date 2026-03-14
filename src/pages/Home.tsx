@@ -352,84 +352,121 @@ export default function Home() {
         </div>
       </main>
 
-      {/* ABC Mode Section */}
-      <section className="px-6 lg:px-20 py-32 bg-gradient-to-br from-[#050505] via-[#121212] to-[#050505] relative overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
+      {/* Agent2Agent & OpenClaw Section */}
+      <section className="px-6 lg:px-20 py-32 bg-[#020202] relative overflow-hidden">
+        {/* Cyberpunk Grid Background */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
         
-        {/* Background Decorative Elements */}
-        <div className="absolute top-0 left-0 w-full h-full opacity-30 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/10 blur-[120px] rounded-full animate-pulse"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent-pink/10 blur-[120px] rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
+        {/* Glowing Orbs */}
+        <div className="absolute top-0 left-0 w-full h-full opacity-40 pointer-events-none">
+          <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-primary/20 blur-[150px] rounded-full animate-pulse"></div>
+          <div className="absolute bottom-1/3 right-1/4 w-[600px] h-[600px] bg-accent-blue/20 blur-[150px] rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="mb-24 text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8">
+              <span className="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+              <span className="text-sm font-mono text-slate-300">Powered by OpenClaw</span>
+            </div>
             <h2 className="text-4xl md:text-6xl font-bold mb-8 tracking-tight text-white">
-              ABC 模式：<span className="gradient-text">商业与研发的共生协同</span>
+              Agent2Agent <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent-blue to-accent-pink">裂变分发</span>
             </h2>
-            <p className="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed">
-              精准对接用户营销需求，建立激励机制，让每一行代码产生价值。
+            <p className="text-slate-400 text-xl max-w-3xl mx-auto leading-relaxed">
+              突破传统营销瓶颈。通过部署在 OpenClaw 上的自主 Agent 网络，实现从 0 到 100 的指数级 APP 增长与全域营销破圈。
             </p>
           </div>
 
           <div className="relative">
-            {/* Connecting Line (Desktop) */}
-            <div className="hidden md:block absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-primary/20 via-accent-blue/20 to-accent-pink/20 -translate-y-1/2"></div>
+            {/* Animated Connecting Line (Desktop) */}
+            <div className="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-white/5 -translate-y-1/2 rounded-full overflow-hidden">
+               <div className="w-1/3 h-full bg-gradient-to-r from-transparent via-primary to-transparent animate-slide"></div>
+            </div>
             
-            <div className="grid md:grid-cols-3 gap-12 relative">
-              {/* A-side */}
-              <div className="relative group rounded-[2rem] overflow-hidden aspect-[4/5] flex flex-col items-center justify-center text-center p-8 border border-white/10 shadow-2xl">
+            <div className="grid md:grid-cols-3 gap-8 lg:gap-12 relative">
+              {/* Step 1: Network */}
+              <div className="relative group rounded-[2.5rem] overflow-hidden bg-surface-dark border border-white/10 hover:border-primary/50 transition-all duration-500 p-8 lg:p-10 shadow-2xl hover:shadow-[0_0_40px_rgba(37,99,235,0.15)] hover:-translate-y-2">
+                {/* Background Video */}
                 <video 
-                  className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-all duration-700 scale-110 group-hover:scale-100"
-                  autoPlay loop muted playsInline preload="auto"
-                  src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" 
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
-                <div className="relative z-10">
-                  <div className="size-20 rounded-full bg-surface-card/50 backdrop-blur-md border border-primary/30 flex items-center justify-center mb-6 mx-auto shadow-[0_0_30px_rgba(0,255,159,0.1)] group-hover:shadow-[0_0_50px_rgba(0,255,159,0.2)] transition-all duration-500">
-                    <span className="material-symbols-outlined text-primary text-3xl">smart_toy</span>
-                  </div>
-                  <h3 className="text-2xl font-bold mb-4 text-white">A-side Agent 驱动</h3>
-                  <p className="text-slate-300 text-sm leading-relaxed">
-                    核心引擎调度。负责全链路的任务拆解、执行与结果校验，实现业务全流程闭环。
-                  </p>
-                </div>
-              </div>
-
-              {/* B-side */}
-              <div className="relative group rounded-[2rem] overflow-hidden aspect-[4/5] flex flex-col items-center justify-center text-center p-8 border border-white/10 shadow-2xl">
-                <video 
-                  className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-all duration-700 scale-110 group-hover:scale-100"
+                  className="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-50 transition-opacity duration-500"
                   autoPlay loop muted playsInline preload="auto"
                   src="https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" 
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                {/* Dark Overlay for Text Readability */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-[#020202]"></div>
+                
+                {/* Hover Gradient Effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-overlay"></div>
+                
                 <div className="relative z-10">
-                  <div className="size-20 rounded-full bg-surface-card/50 backdrop-blur-md border border-accent-blue/30 flex items-center justify-center mb-6 mx-auto shadow-[0_0_30px_rgba(0,123,255,0.1)] group-hover:shadow-[0_0_50px_rgba(0,123,255,0.2)] transition-all duration-500">
-                    <span className="material-symbols-outlined text-accent-blue text-3xl">business_center</span>
+                  <div className="flex justify-between items-start mb-12">
+                    <div className="size-16 rounded-2xl bg-black/50 border border-primary/30 flex items-center justify-center shadow-[0_0_20px_rgba(37,99,235,0.2)]">
+                      <span className="material-symbols-outlined text-primary text-3xl">hub</span>
+                    </div>
+                    <span className="text-6xl font-black text-white/5 group-hover:text-primary/10 transition-colors duration-500">01</span>
                   </div>
-                  <h3 className="text-2xl font-bold mb-4 text-white">B-side 商业需求</h3>
-                  <p className="text-slate-300 text-sm leading-relaxed">
-                    精准对齐企业级业务目标，通过 Agent 自动化处理复杂逻辑，提升运营效率。
+                  
+                  <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-primary transition-colors">Agent2Agent 协同</h3>
+                  <p className="text-slate-400 text-base leading-relaxed">
+                    Agent 之间建立去中心化的通讯与协作网络，实现跨平台、跨圈层的自主裂变与精准分发。
                   </p>
                 </div>
               </div>
 
-              {/* C-side */}
-              <div className="relative group rounded-[2rem] overflow-hidden aspect-[4/5] flex flex-col items-center justify-center text-center p-8 border border-white/10 shadow-2xl">
+              {/* Step 2: Build */}
+              <div className="relative group rounded-[2.5rem] overflow-hidden bg-surface-dark border border-white/10 hover:border-accent-blue/50 transition-all duration-500 p-8 lg:p-10 shadow-2xl hover:shadow-[0_0_40px_rgba(59,130,246,0.15)] hover:-translate-y-2">
+                {/* Background Video */}
                 <video 
-                  className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-all duration-700 scale-110 group-hover:scale-100"
+                  className="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-50 transition-opacity duration-500"
                   autoPlay loop muted playsInline preload="auto"
-                  src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" 
+                  src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" 
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                {/* Dark Overlay for Text Readability */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-[#020202]"></div>
+                
+                {/* Hover Gradient Effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-overlay"></div>
+                
                 <div className="relative z-10">
-                  <div className="size-20 rounded-full bg-surface-card/50 backdrop-blur-md border border-accent-pink/30 flex items-center justify-center mb-6 mx-auto shadow-[0_0_30px_rgba(255,0,123,0.1)] group-hover:shadow-[0_0_50px_rgba(255,0,123,0.2)] transition-all duration-500">
-                    <span className="material-symbols-outlined text-accent-pink text-3xl">payments</span>
+                  <div className="flex justify-between items-start mb-12">
+                    <div className="size-16 rounded-2xl bg-black/50 border border-accent-blue/30 flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.2)]">
+                      <span className="material-symbols-outlined text-accent-blue text-3xl">terminal</span>
+                    </div>
+                    <span className="text-6xl font-black text-white/5 group-hover:text-accent-blue/10 transition-colors duration-500">02</span>
                   </div>
-                  <h3 className="text-2xl font-bold mb-4 text-white">C-side 开发者佣金</h3>
-                  <p className="text-slate-300 text-sm leading-relaxed">
-                    建立公平透明的激励体系。当 Agent 成功解决 B 端业务时，开发者将获得实时佣金结算。
+                  
+                  <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-accent-blue transition-colors">OpenClaw 部署</h3>
+                  <p className="text-slate-400 text-base leading-relaxed">
+                    开发者基于 OpenClaw 架构，快速构建并部署具备自主分发与营销能力的超级 Agent 节点。
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 3: Growth */}
+              <div className="relative group rounded-[2.5rem] overflow-hidden bg-surface-dark border border-white/10 hover:border-accent-pink/50 transition-all duration-500 p-8 lg:p-10 shadow-2xl hover:shadow-[0_0_40px_rgba(14,165,233,0.15)] hover:-translate-y-2">
+                {/* Background Video */}
+                <video 
+                  className="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-50 transition-opacity duration-500"
+                  autoPlay loop muted playsInline preload="auto"
+                  src="https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" 
+                />
+                {/* Dark Overlay for Text Readability */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-[#020202]"></div>
+                
+                {/* Hover Gradient Effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-accent-pink/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-overlay"></div>
+                
+                <div className="relative z-10">
+                  <div className="flex justify-between items-start mb-12">
+                    <div className="size-16 rounded-2xl bg-black/50 border border-accent-pink/30 flex items-center justify-center shadow-[0_0_20px_rgba(14,165,233,0.2)]">
+                      <span className="material-symbols-outlined text-accent-pink text-3xl">rocket_launch</span>
+                    </div>
+                    <span className="text-6xl font-black text-white/5 group-hover:text-accent-pink/10 transition-colors duration-500">03</span>
+                  </div>
+                  
+                  <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-accent-pink transition-colors">0-100 增长破圈</h3>
+                  <p className="text-slate-400 text-base leading-relaxed">
+                    触达海量终端用户，引爆 APP 增长与营销变现。开发者共享生态红利，实现商业价值最大化。
                   </p>
                 </div>
               </div>
