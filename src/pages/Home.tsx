@@ -169,8 +169,8 @@ export default function Home() {
       <nav className="sticky top-0 z-50 border-b border-white/5 bg-background-dark/80 backdrop-blur-md px-6 lg:px-20 py-4 flex items-center justify-between">
         <div className="flex items-center gap-12">
           <div className="flex items-center gap-2 text-white">
-            <span className="material-symbols-outlined text-primary text-3xl">deployed_code</span>
-            <h2 className="text-xl font-bold tracking-tight">Agents Me</h2>
+            <span className="material-symbols-outlined text-primary text-4xl">deployed_code</span>
+            <h2 className="text-2xl font-bold tracking-tight">Agents Me</h2>
           </div>
           <div className="hidden md:flex items-center gap-8">
             <Link className="text-sm font-medium hover:text-white transition-colors text-white" to="/">首页</Link>
@@ -192,8 +192,8 @@ export default function Home() {
 
       {/* Hero Section */}
       <main className="hero-gradient min-h-[80vh] flex flex-col items-center px-6 lg:px-20 pt-16 pb-24">
-        <div className="grid lg:grid-cols-2 gap-12 w-full max-w-7xl items-center">
-          <div className="space-y-8">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 w-full max-w-[90rem] items-center">
+          <div className="lg:col-span-6 space-y-8">
             <div className="space-y-4">
               <h1 className="text-5xl lg:text-7xl font-bold tracking-tight leading-tight gradient-text">
                 Agents Me
@@ -221,121 +221,120 @@ export default function Home() {
             </div>
 
             {/* Vibe Coding Mockup */}
-            <div className="bg-[#1a1a1a] rounded-2xl border border-[#5c4b8b] overflow-hidden shadow-2xl flex flex-col transition-all hover:border-[#7a65b8]">
-              {/* Agent Tabs */}
-              <div className="flex items-center gap-6 px-4 pt-4 border-b border-white/10 shrink-0">
-                <button 
-                  onClick={() => setActiveAgent('app')}
-                  className={`pb-3 text-sm font-medium transition-colors ${activeAgent === 'app' ? 'text-white border-b-2 border-white' : 'text-slate-400 hover:text-slate-200'}`}
-                >
-                  APP Agent
-                </button>
-                <button 
-                  onClick={() => setActiveAgent('marketing')}
-                  className={`pb-3 text-sm font-medium transition-colors ${activeAgent === 'marketing' ? 'text-white border-b-2 border-white' : 'text-slate-400 hover:text-slate-200'}`}
-                >
-                  Marketing Agent
-                </button>
-              </div>
+            <div className="relative group/editor mt-12">
+              {/* Glowing background effect for emphasis */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-primary via-accent-blue to-accent-pink rounded-2xl blur-md opacity-40 group-hover/editor:opacity-70 transition duration-1000 animate-pulse-slow"></div>
+              
+              <div className="relative bg-[#0f0f11] rounded-2xl border border-white/20 overflow-hidden shadow-[0_0_50px_rgba(37,99,235,0.2)] flex flex-col transition-all">
+                {/* Agent Tabs */}
+                <div className="flex items-center gap-6 px-6 pt-4 border-b border-white/5 shrink-0 bg-white/[0.02]">
+                  <button 
+                    onClick={() => setActiveAgent('app')}
+                    className={`pb-3 text-sm font-medium transition-colors relative ${activeAgent === 'app' ? 'text-white' : 'text-slate-500 hover:text-slate-300'}`}
+                  >
+                    APP Agent
+                    {activeAgent === 'app' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-primary rounded-t-full shadow-[0_-2px_10px_rgba(37,99,235,0.5)]"></div>}
+                  </button>
+                  <button 
+                    onClick={() => setActiveAgent('marketing')}
+                    className={`pb-3 text-sm font-medium transition-colors relative ${activeAgent === 'marketing' ? 'text-white' : 'text-slate-500 hover:text-slate-300'}`}
+                  >
+                    Marketing Agent
+                    {activeAgent === 'marketing' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-accent-pink rounded-t-full shadow-[0_-2px_10px_rgba(14,165,233,0.5)]"></div>}
+                  </button>
+                </div>
 
-              <div className="p-4 flex flex-col gap-4">
-                <textarea 
-                  className="w-full bg-transparent border-none focus:outline-none focus:ring-0 text-lg text-slate-200 resize-none placeholder-slate-500/70 leading-relaxed min-h-[120px]"
-                  placeholder={activeAgent === 'app' ? "请你根据我上传的素材，帮我只做一个顶级的app营销素材，我的app名字叫傻妞，是一个ai助手，可以实现顶级的情感陪伴，每日日报生成" : "请帮我完成选品，素材生成，和小红书的自动发布"}
-                  value={promptText}
-                  onChange={(e) => setPromptText(e.target.value)}
-                ></textarea>
-                
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3 flex-wrap">
-                    {/* File Upload Button */}
-                    <input 
-                      type="file" 
-                      ref={fileInputRef} 
-                      onChange={handleFileChange} 
-                      className="hidden" 
-                      accept="image/*,video/*" 
-                      multiple
-                    />
-                    
-                    {/* Display Template Images */}
-                    {selectedImageUrls.map((url, index) => (
-                      <div key={`template-${index}`} className="relative group w-10 h-10 rounded-lg overflow-hidden border border-white/10">
-                        <img src={url} alt={`Template ${index}`} className="w-full h-full object-cover" />
-                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button 
-                            onClick={(e) => { e.stopPropagation(); removeFile(index, true); }}
-                            className="text-white hover:text-rose-400"
-                          >
-                            <X size={16} />
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-
-                    {/* Display Uploaded Files */}
-                    {selectedFiles.map((file, index) => (
-                      <div key={`file-${index}`} className="relative group w-10 h-10 rounded-lg overflow-hidden border border-white/10 bg-white/5 flex items-center justify-center">
-                        {file.type.startsWith('image/') ? (
-                          <img src={URL.createObjectURL(file)} alt={`Upload ${index}`} className="w-full h-full object-cover" />
-                        ) : (
-                          <span className="material-symbols-outlined text-xl text-emerald-400">check</span>
-                        )}
-                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button 
-                            onClick={(e) => { e.stopPropagation(); removeFile(index, false); }}
-                            className="text-white hover:text-rose-400"
-                          >
-                            <X size={16} />
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-
-                    {/* Add More Button (only show if total < 5) */}
-                    {(selectedFiles.length + selectedImageUrls.length) < 5 && (
-                      <button 
-                        onClick={() => fileInputRef.current?.click()}
-                        className="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white transition-colors relative group overflow-hidden"
-                        title="上传素材 (最多5张)"
-                      >
-                        <Plus size={20} />
-                      </button>
-                    )}
-                    
-                    {/* Templates Button */}
-                    <button 
-                      onClick={() => setIsTemplatesModalOpen(true)}
-                      className="h-10 px-4 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 flex items-center gap-2 text-slate-400 hover:text-white transition-colors ml-2"
-                    >
-                      <Palette size={18} />
-                      <span className="text-sm font-medium">Templates</span>
-                    </button>
-
-                    {/* Hint Text for Template Image */}
-                    {selectedImageUrls.length > 0 && selectedFiles.length === 0 && (
-                      <span className="text-xs text-primary animate-pulse flex items-center gap-1 ml-2">
-                        <span className="material-symbols-outlined text-[14px]">arrow_back</span>
-                        点击替换或添加您自己的素材
-                      </span>
-                    )}
-                  </div>
+                <div className="p-6 flex flex-col gap-4 bg-gradient-to-b from-transparent to-white/[0.02]">
+                  <textarea 
+                    className="w-full bg-transparent border-none focus:outline-none focus:ring-0 text-lg text-slate-200 resize-none placeholder-slate-600 leading-relaxed min-h-[140px]"
+                    placeholder={activeAgent === 'app' ? "请你根据我上传的素材，帮我只做一个顶级的app营销素材，我的app名字叫傻妞，是一个ai助手，可以实现顶级的情感陪伴，每日日报生成..." : "请帮我完成选品，素材生成，和小红书的自动发布..."}
+                    value={promptText}
+                    onChange={(e) => setPromptText(e.target.value)}
+                  ></textarea>
                   
-                  {/* Submit Button */}
-                  <Link to="/workspace" className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors">
-                    <ArrowUp size={20} />
-                  </Link>
+                  <div className="flex items-center justify-between pt-2 border-t border-white/5 mt-2">
+                    <div className="flex items-center gap-3 flex-wrap">
+                      {/* File Upload Button */}
+                      <input 
+                        type="file" 
+                        ref={fileInputRef} 
+                        onChange={handleFileChange} 
+                        className="hidden" 
+                        accept="image/*,video/*" 
+                        multiple
+                      />
+                      
+                      {/* Display Template Images */}
+                      {selectedImageUrls.map((url, index) => (
+                        <div key={`template-${index}`} className="relative group w-12 h-12 rounded-xl overflow-hidden border border-white/10 shadow-lg">
+                          <img src={url} alt={`Template ${index}`} className="w-full h-full object-cover" />
+                          <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button 
+                              onClick={(e) => { e.stopPropagation(); removeFile(index, true); }}
+                              className="text-white hover:text-rose-400"
+                            >
+                              <X size={16} />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+
+                      {/* Display Uploaded Files */}
+                      {selectedFiles.map((file, index) => (
+                        <div key={`file-${index}`} className="relative group w-12 h-12 rounded-xl overflow-hidden border border-white/10 bg-white/5 flex items-center justify-center shadow-lg">
+                          {file.type.startsWith('image/') ? (
+                            <img src={URL.createObjectURL(file)} alt={`Upload ${index}`} className="w-full h-full object-cover" />
+                          ) : (
+                            <span className="material-symbols-outlined text-xl text-emerald-400">check</span>
+                          )}
+                          <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button 
+                              onClick={(e) => { e.stopPropagation(); removeFile(index, false); }}
+                              className="text-white hover:text-rose-400"
+                            >
+                              <X size={16} />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+
+                      {/* Add More Button */}
+                      {(selectedFiles.length + selectedImageUrls.length) < 5 && (
+                        <button 
+                          onClick={() => fileInputRef.current?.click()}
+                          className="w-12 h-12 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white transition-colors relative group overflow-hidden shadow-lg"
+                          title="上传素材 (最多5张)"
+                        >
+                          <Plus size={22} />
+                        </button>
+                      )}
+                      
+                      {/* Templates Button */}
+                      <button 
+                        onClick={() => setIsTemplatesModalOpen(true)}
+                        className="h-12 px-5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center gap-2 text-slate-300 hover:text-white transition-colors ml-2 shadow-lg"
+                      >
+                        <Palette size={18} className="text-primary" />
+                        <span className="text-sm font-medium">Templates</span>
+                      </button>
+                    </div>
+                    
+                    {/* Submit Button */}
+                    <Link to="/workspace" className="w-12 h-12 rounded-xl bg-primary hover:bg-primary-hover text-white flex items-center justify-center transition-colors shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_30px_rgba(37,99,235,0.6)] hover:-translate-y-0.5 transform">
+                      <ArrowUp size={22} />
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="relative group animate-float">
+          <div className="lg:col-span-6 relative group animate-float lg:pl-8">
             <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent-pink rounded-3xl blur-xl opacity-20 group-hover:opacity-40 transition duration-1000"></div>
-            <div className="relative glass-card rounded-3xl flex items-center justify-center overflow-hidden min-h-[350px] aspect-video border border-border-dark">
+            <div className="relative glass-card rounded-3xl flex items-center justify-center overflow-hidden aspect-video border border-white/10 shadow-2xl">
               {/* Replace the src below with your uploaded video URL */}
               <video 
-                className="absolute inset-0 w-full h-full object-cover opacity-80"
+                className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
                 autoPlay 
                 loop 
                 muted 
@@ -343,8 +342,12 @@ export default function Home() {
                 preload="auto"
                 src="https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" 
               />
-              <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-[10px] text-slate-400 font-mono tracking-widest uppercase z-10">
-                <span>Product Intro 2024</span>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+              <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-[10px] text-slate-300 font-mono tracking-widest uppercase z-10">
+                <span className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+                  Live Preview
+                </span>
                 <span>02:45</span>
               </div>
             </div>
@@ -365,10 +368,6 @@ export default function Home() {
 
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="mb-24 text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8">
-              <span className="w-2 h-2 rounded-full bg-primary animate-ping"></span>
-              <span className="text-sm font-mono text-slate-300">Powered by OpenClaw</span>
-            </div>
             <h2 className="text-4xl md:text-6xl font-bold mb-8 tracking-tight text-white">
               Agent2Agent <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent-blue to-accent-pink">裂变分发</span>
             </h2>
@@ -388,24 +387,17 @@ export default function Home() {
               <div className="relative group rounded-[2.5rem] overflow-hidden bg-surface-dark border border-white/10 hover:border-primary/50 transition-all duration-500 p-8 lg:p-10 shadow-2xl hover:shadow-[0_0_40px_rgba(37,99,235,0.15)] hover:-translate-y-2">
                 {/* Background Video */}
                 <video 
-                  className="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-50 transition-opacity duration-500"
+                  className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500"
                   autoPlay loop muted playsInline preload="auto"
                   src="https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" 
                 />
                 {/* Dark Overlay for Text Readability */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-[#020202]"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/30 to-[#020202]/90"></div>
                 
                 {/* Hover Gradient Effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-overlay"></div>
                 
                 <div className="relative z-10">
-                  <div className="flex justify-between items-start mb-12">
-                    <div className="size-16 rounded-2xl bg-black/50 border border-primary/30 flex items-center justify-center shadow-[0_0_20px_rgba(37,99,235,0.2)]">
-                      <span className="material-symbols-outlined text-primary text-3xl">hub</span>
-                    </div>
-                    <span className="text-6xl font-black text-white/5 group-hover:text-primary/10 transition-colors duration-500">01</span>
-                  </div>
-                  
                   <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-primary transition-colors">Agent2Agent 协同</h3>
                   <p className="text-slate-400 text-base leading-relaxed">
                     Agent 之间建立去中心化的通讯与协作网络，实现跨平台、跨圈层的自主裂变与精准分发。
@@ -417,24 +409,17 @@ export default function Home() {
               <div className="relative group rounded-[2.5rem] overflow-hidden bg-surface-dark border border-white/10 hover:border-accent-blue/50 transition-all duration-500 p-8 lg:p-10 shadow-2xl hover:shadow-[0_0_40px_rgba(59,130,246,0.15)] hover:-translate-y-2">
                 {/* Background Video */}
                 <video 
-                  className="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-50 transition-opacity duration-500"
+                  className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500"
                   autoPlay loop muted playsInline preload="auto"
                   src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" 
                 />
                 {/* Dark Overlay for Text Readability */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-[#020202]"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/30 to-[#020202]/90"></div>
                 
                 {/* Hover Gradient Effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-overlay"></div>
                 
                 <div className="relative z-10">
-                  <div className="flex justify-between items-start mb-12">
-                    <div className="size-16 rounded-2xl bg-black/50 border border-accent-blue/30 flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.2)]">
-                      <span className="material-symbols-outlined text-accent-blue text-3xl">terminal</span>
-                    </div>
-                    <span className="text-6xl font-black text-white/5 group-hover:text-accent-blue/10 transition-colors duration-500">02</span>
-                  </div>
-                  
                   <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-accent-blue transition-colors">OpenClaw 部署</h3>
                   <p className="text-slate-400 text-base leading-relaxed">
                     开发者基于 OpenClaw 架构，快速构建并部署具备自主分发与营销能力的超级 Agent 节点。
@@ -446,24 +431,17 @@ export default function Home() {
               <div className="relative group rounded-[2.5rem] overflow-hidden bg-surface-dark border border-white/10 hover:border-accent-pink/50 transition-all duration-500 p-8 lg:p-10 shadow-2xl hover:shadow-[0_0_40px_rgba(14,165,233,0.15)] hover:-translate-y-2">
                 {/* Background Video */}
                 <video 
-                  className="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-50 transition-opacity duration-500"
+                  className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500"
                   autoPlay loop muted playsInline preload="auto"
                   src="https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" 
                 />
                 {/* Dark Overlay for Text Readability */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-[#020202]"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/30 to-[#020202]/90"></div>
                 
                 {/* Hover Gradient Effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-accent-pink/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-overlay"></div>
                 
                 <div className="relative z-10">
-                  <div className="flex justify-between items-start mb-12">
-                    <div className="size-16 rounded-2xl bg-black/50 border border-accent-pink/30 flex items-center justify-center shadow-[0_0_20px_rgba(14,165,233,0.2)]">
-                      <span className="material-symbols-outlined text-accent-pink text-3xl">rocket_launch</span>
-                    </div>
-                    <span className="text-6xl font-black text-white/5 group-hover:text-accent-pink/10 transition-colors duration-500">03</span>
-                  </div>
-                  
                   <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-accent-pink transition-colors">0-100 增长破圈</h3>
                   <p className="text-slate-400 text-base leading-relaxed">
                     触达海量终端用户，引爆 APP 增长与营销变现。开发者共享生态红利，实现商业价值最大化。
@@ -584,7 +562,7 @@ export default function Home() {
           <div className="grid md:grid-cols-4 gap-6">
             {/* Lab Cards */}
             <div className="group relative aspect-[3/4] rounded-3xl overflow-hidden glass-card p-8 flex flex-col justify-between border-border-dark">
-              <div className="absolute inset-0 bg-cover bg-center opacity-60 group-hover:scale-110 transition-all duration-700 mix-blend-luminosity group-hover:mix-blend-normal" style={{ backgroundImage: "url('https://picsum.photos/seed/video-clone/600/800')" }}></div>
+              <div className="absolute inset-0 bg-cover bg-center opacity-60 group-hover:scale-110 transition-all duration-700" style={{ backgroundImage: "url('https://picsum.photos/seed/video-clone/600/800')" }}></div>
               <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-black/60"></div>
               <div className="relative z-10">
                 <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight">视频克隆</h4>
@@ -595,7 +573,7 @@ export default function Home() {
               </Link>
             </div>
             <div className="group relative aspect-[3/4] rounded-3xl overflow-hidden glass-card p-8 flex flex-col justify-between border-border-dark">
-              <div className="absolute inset-0 bg-cover bg-center opacity-60 group-hover:scale-110 transition-all duration-700 mix-blend-luminosity group-hover:mix-blend-normal" style={{ backgroundImage: "url('https://picsum.photos/seed/product-design/600/800')" }}></div>
+              <div className="absolute inset-0 bg-cover bg-center opacity-60 group-hover:scale-110 transition-all duration-700" style={{ backgroundImage: "url('https://picsum.photos/seed/product-design/600/800')" }}></div>
               <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-black/60"></div>
               <div className="relative z-10">
                 <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight">商品素材</h4>
@@ -606,7 +584,7 @@ export default function Home() {
               </Link>
             </div>
             <div className="group relative aspect-[3/4] rounded-3xl overflow-hidden glass-card p-8 flex flex-col justify-between border-border-dark">
-              <div className="absolute inset-0 bg-cover bg-center opacity-60 group-hover:scale-110 transition-all duration-700 mix-blend-luminosity group-hover:mix-blend-normal" style={{ backgroundImage: "url('https://picsum.photos/seed/mobile-app/600/800')" }}></div>
+              <div className="absolute inset-0 bg-cover bg-center opacity-60 group-hover:scale-110 transition-all duration-700" style={{ backgroundImage: "url('https://picsum.photos/seed/mobile-app/600/800')" }}></div>
               <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-black/60"></div>
               <div className="relative z-10">
                 <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight">APP套壳</h4>
@@ -617,7 +595,7 @@ export default function Home() {
               </Link>
             </div>
             <div className="group relative aspect-[3/4] rounded-3xl overflow-hidden glass-card p-8 flex flex-col justify-between border-border-dark">
-              <div className="absolute inset-0 bg-cover bg-center opacity-60 group-hover:scale-110 transition-all duration-700 mix-blend-luminosity group-hover:mix-blend-normal" style={{ backgroundImage: "url('https://picsum.photos/seed/content-publish/600/800')" }}></div>
+              <div className="absolute inset-0 bg-cover bg-center opacity-60 group-hover:scale-110 transition-all duration-700" style={{ backgroundImage: "url('https://picsum.photos/seed/content-publish/600/800')" }}></div>
               <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-black/60"></div>
               <div className="relative z-10">
                 <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight">内容发布</h4>
