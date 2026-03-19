@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'motion/react';
 
 export default function ContentPublish() {
   const [content, setContent] = useState('');
@@ -33,12 +34,19 @@ export default function ContentPublish() {
   };
 
   return (
-    <div className="bg-background-dark text-slate-100 font-sans min-h-screen flex flex-col">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.3 }}
+      className="bg-[#0a0a0a] text-slate-100 font-sans min-h-screen flex flex-col"
+    >
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 border-b border-white/5 bg-background-dark/80 backdrop-blur-md px-6 lg:px-20 py-4 flex items-center justify-between">
+      <nav className="sticky top-0 z-50 border-b border-white/5 bg-[#0a0a0a]/80 backdrop-blur-md px-6 lg:px-20 py-4 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Link to="/" className="text-slate-400 hover:text-white transition-colors flex items-center justify-center size-10 rounded-full hover:bg-white/5">
+          <Link to="/" className="text-slate-400 hover:text-white transition-colors flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/5 border border-white/10">
             <span className="material-symbols-outlined">arrow_back</span>
+            <span className="text-sm font-medium">返回首页</span>
           </Link>
           <div className="flex items-center gap-2 text-white">
             <span className="material-symbols-outlined text-primary text-2xl">send</span>
@@ -55,7 +63,7 @@ export default function ContentPublish() {
             <p className="text-slate-400 text-sm">编写内容，AI 助手将为您同步分发至各大主流社交平台。</p>
           </div>
 
-          <div className="glass-card p-8 rounded-3xl border border-white/5 space-y-8">
+          <div className="bg-[#121214] p-8 rounded-3xl border border-white/5 space-y-8">
             {/* Content Text */}
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
@@ -136,7 +144,7 @@ export default function ContentPublish() {
         {/* Right Column: Status Area */}
         <div className="lg:col-span-5">
           <div className="sticky top-24">
-            <div className="glass-card rounded-3xl border border-white/5 overflow-hidden flex flex-col h-[600px]">
+            <div className="bg-[#121214] rounded-3xl border border-white/5 overflow-hidden flex flex-col h-[600px]">
               <div className="p-4 border-b border-white/5 bg-white/[0.02] flex items-center justify-between">
                 <h3 className="text-sm font-medium text-slate-300 flex items-center gap-2">
                   <span className="material-symbols-outlined text-sm">analytics</span>
@@ -190,6 +198,6 @@ export default function ContentPublish() {
           </div>
         </div>
       </main>
-    </div>
+    </motion.div>
   );
 }

@@ -1,214 +1,344 @@
 import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'motion/react';
+import InspirationModal from '../components/InspirationModal';
 
 export default function AppShell() {
-  const [appName, setAppName] = useState('');
-  const [targetUrl, setTargetUrl] = useState('');
-  const [iconUrl, setIconUrl] = useState('');
-  const [iconFile, setIconFile] = useState<File | null>(null);
-  const [uploadType, setUploadType] = useState<'local' | 'url'>('local');
-  const [templateType, setTemplateType] = useState<'mobile' | 'desktop'>('mobile');
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [packagingMode, setPackagingMode] = useState<'device' | 'marketing' | 'browser'>('device');
+  const [deviceType, setDeviceType] = useState<'iphone' | 'mac'>('iphone');
+  const [deviceModel, setDeviceModel] = useState('iPhone 17 Pro 橙色');
+  const [backgroundType, setBackgroundType] = useState<'gradient' | 'solid' | 'transparent'>('gradient');
+  
   const [isGenerating, setIsGenerating] = useState(false);
-  const [isDone, setIsDone] = useState(false);
+  const [resultImages, setResultImages] = useState<string[] | null>(null);
+  const [showInspiration, setShowInspiration] = useState(false);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setIconFile(e.target.files[0]);
-      setIconUrl(''); // Clear URL if local file is selected
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const filesArray = Array.from(e.target.files);
+      setImageFiles(prev => [...prev, ...filesArray]);
     }
   };
 
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+    if (e.dataTransfer.files) {
+      const filesArray = Array.from(e.dataTransfer.files).filter((f: any) => f.type.startsWith('image/'));
+      setImageFiles(prev => [...prev, ...filesArray]);
+    }
+  };
+
+  const removeImage = (index: number, type: 'file' | 'url') => {
+    if (type === 'file') {
+      setImageFiles(prev => prev.filter((_, i) => i !== index));
+    } else {
+      setImageUrls(prev => prev.filter((_, i) => i !== index));
+    }
+  };
+
+  const handleInspirationSelect = (url: string) => {
+    setImageUrls(prev => [...prev, url]);
+  };
+
   const handleGenerate = async () => {
-    if (!appName || (!iconFile && !iconUrl)) {
-      alert("请填写APP名称并上传图标");
+    if (imageFiles.length === 0 && imageUrls.length === 0) {
+      alert("请上传截图");
       return;
     }
 
     setIsGenerating(true);
-    setIsDone(false);
+    setResultImages(null);
 
-    // Simulate shell generation
+    // Simulate generation
     setTimeout(() => {
       setIsGenerating(false);
-      setIsDone(true);
+      setResultImages(['https://picsum.photos/seed/appshell/800/600']);
     }, 3000);
   };
 
-  const displayIcon = iconFile ? URL.createObjectURL(iconFile) : (iconUrl || 'https://picsum.photos/seed/icon/200/200');
-
   return (
-    <div className="bg-background-dark text-slate-100 font-sans min-h-screen flex flex-col">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.3 }}
+      className="bg-[#0a0a0a] text-slate-100 font-sans min-h-screen flex flex-col"
+    >
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 border-b border-white/5 bg-background-dark/80 backdrop-blur-md px-6 lg:px-20 py-4 flex items-center justify-between">
+      <nav className="sticky top-0 z-50 border-b border-white/5 bg-[#0a0a0a]/80 backdrop-blur-md px-6 lg:px-20 py-4 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Link to="/" className="text-slate-400 hover:text-white transition-colors flex items-center justify-center size-10 rounded-full hover:bg-white/5">
+          <Link to="/" className="text-slate-400 hover:text-white transition-colors flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/5 border border-white/10">
             <span className="material-symbols-outlined">arrow_back</span>
+            <span className="text-sm font-medium">返回首页</span>
           </Link>
           <div className="flex items-center gap-2 text-white">
-            <span className="material-symbols-outlined text-primary text-3xl">phone_iphone</span>
-            <h2 className="text-2xl font-bold tracking-tight">APP 套壳工具</h2>
+            <h2 className="text-xl font-bold tracking-tight">截图包装生成</h2>
           </div>
         </div>
       </nav>
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column: Form Settings */}
-        <div className="lg:col-span-7 space-y-8">
+        <div className="lg:col-span-6 space-y-6">
           <div>
-            <h1 className="text-3xl font-display font-bold text-white mb-2">快速 APP 套壳</h1>
-            <p className="text-slate-400 text-sm">将您的 H5 页面或 Web 应用快速打包成原生体验的 APP。</p>
+            <h1 className="text-3xl font-bold text-white mb-2">截图包装生成</h1>
+            <p className="text-slate-400 text-sm">上传截图，选择包装模式，AI 自动生成精美展示图。</p>
           </div>
 
-          <div className="glass-card p-8 rounded-3xl border border-white/5 space-y-8">
-            {/* App Name */}
+          <div className="bg-[#121214] p-8 rounded-3xl border border-white/5 space-y-8">
+            
+            {/* Screenshot Upload */}
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
-                <span className="material-symbols-outlined text-sm text-primary">badge</span>
-                APP 名称
-              </label>
-              <input
-                type="text"
-                value={appName}
-                onChange={(e) => setAppName(e.target.value)}
-                placeholder="例如: 我的智能助手"
-                className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-slate-600 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all"
-              />
-            </div>
-
-            {/* AppStore URL */}
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
-                <span className="material-symbols-outlined text-sm text-primary">storefront</span>
-                AppStore 链接 <span className="text-slate-500 text-xs font-normal">(可选)</span>
-              </label>
-              <input
-                type="text"
-                value={targetUrl}
-                onChange={(e) => setTargetUrl(e.target.value)}
-                placeholder="例如: https://apps.apple.com/app/id..."
-                className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-slate-600 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all"
-              />
-            </div>
-
-            {/* Icon Upload */}
-            <div>
-              <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center justify-between mb-3">
                 <label className="text-sm font-medium text-slate-300 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-sm text-primary">add_photo_alternate</span>
-                  APP 素材
+                  <span className="material-symbols-outlined text-sm text-primary">image</span>
+                  截图上传 <span className="text-red-500">*</span>
                 </label>
-                <div className="flex bg-black/20 rounded-lg p-1">
-                  <button 
-                    onClick={() => setUploadType('local')}
-                    className={`px-3 py-1 text-xs rounded-md transition-colors ${uploadType === 'local' ? 'bg-white/10 text-white' : 'text-slate-400 hover:text-slate-200'}`}
-                  >
-                    本地上传
-                  </button>
-                  <button 
-                    onClick={() => setUploadType('url')}
-                    className={`px-3 py-1 text-xs rounded-md transition-colors ${uploadType === 'url' ? 'bg-white/10 text-white' : 'text-slate-400 hover:text-slate-200'}`}
-                  >
-                    URL链接
-                  </button>
-                </div>
+                <button 
+                  onClick={() => setShowInspiration(true)}
+                  className="text-xs text-primary hover:text-primary/80 flex items-center gap-1"
+                >
+                  <span className="material-symbols-outlined text-[14px]">lightbulb</span>
+                  从灵感库选择
+                </button>
               </div>
-              
-              {uploadType === 'local' ? (
+
+              <div className="space-y-3">
                 <div 
                   onClick={() => fileInputRef.current?.click()}
-                  className="w-full border-2 border-dashed border-white/10 hover:border-primary/50 rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer transition-colors bg-black/20 group"
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                  className={`w-full border border-dashed rounded-2xl p-8 flex flex-col items-center justify-center cursor-pointer transition-colors group ${
+                    isDragging 
+                      ? 'border-primary bg-primary/10' 
+                      : 'border-white/10 hover:border-primary/50 bg-black/20'
+                  }`}
                 >
                   <input 
                     type="file" 
                     ref={fileInputRef} 
-                    onChange={handleFileChange} 
+                    onChange={handleImageUpload} 
                     className="hidden" 
                     accept="image/*" 
+                    multiple
                   />
-                  {iconFile ? (
-                    <div className="flex items-center gap-4">
-                      <img src={URL.createObjectURL(iconFile)} alt="Selected Icon" className="w-16 h-16 rounded-2xl object-cover shadow-lg" />
-                      <div className="text-left">
-                        <p className="text-sm text-white font-medium truncate max-w-[200px]">{iconFile.name}</p>
-                        <p className="text-xs text-emerald-400 mt-1">点击重新上传</p>
-                      </div>
-                    </div>
-                  ) : (
-                    <>
-                      <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                        <span className="material-symbols-outlined text-slate-400 group-hover:text-primary">upload</span>
-                      </div>
-                      <p className="text-sm text-slate-300 mb-1">点击或拖拽上传图标</p>
-                      <p className="text-xs text-amber-400/80">💡 提示：请尽可能上传 1024x1024 的高清图片，以保证打包质量</p>
-                    </>
-                  )}
+                  <div className={`size-12 rounded-full flex items-center justify-center transition-colors mb-3 ${
+                    isDragging
+                      ? 'bg-primary/20 text-primary'
+                      : 'bg-white/5 text-slate-400 group-hover:text-primary group-hover:bg-primary/10'
+                  }`}>
+                    <span className="material-symbols-outlined">cloud_upload</span>
+                  </div>
+                  <p className={`text-sm transition-colors ${
+                    isDragging ? 'text-primary font-medium' : 'text-slate-300 group-hover:text-primary'
+                  }`}>
+                    {isDragging ? '松开鼠标上传图片' : '点击或拖拽上传截图（可多张）'}
+                  </p>
                 </div>
-              ) : (
-                <div className="space-y-2">
-                  <input
-                    type="text"
-                    value={iconUrl}
-                    onChange={(e) => { setIconUrl(e.target.value); setIconFile(null); }}
-                    placeholder="https://example.com/icon.png"
-                    className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-slate-600 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all"
-                  />
-                  <p className="text-xs text-amber-400/80">💡 提示：请尽可能提供高清图片的链接</p>
-                </div>
-              )}
+                
+                {(imageFiles.length > 0 || imageUrls.length > 0) && (
+                  <div className="flex flex-wrap gap-3 mt-4">
+                    {imageFiles.map((file, idx) => (
+                      <div key={`file-${idx}`} className="relative group/img">
+                        <img src={URL.createObjectURL(file)} alt="preview" className="w-20 h-20 object-cover rounded-xl border border-white/10" />
+                        <button 
+                          onClick={() => removeImage(idx, 'file')}
+                          className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full size-5 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity"
+                        >
+                          <span className="material-symbols-outlined text-[12px]">close</span>
+                        </button>
+                      </div>
+                    ))}
+                    {imageUrls.map((url, idx) => (
+                      <div key={`url-${idx}`} className="relative group/img">
+                        <img src={url} alt="preview" className="w-20 h-20 object-cover rounded-xl border border-white/10" referrerPolicy="no-referrer" />
+                        <button 
+                          onClick={() => removeImage(idx, 'url')}
+                          className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full size-5 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity"
+                        >
+                          <span className="material-symbols-outlined text-[12px]">close</span>
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
 
-            {/* Template Type */}
+            {/* Packaging Mode */}
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-3 flex items-center gap-2">
-                <span className="material-symbols-outlined text-sm text-primary">devices</span>
-                模版类型
+              <label className="block text-sm font-medium text-slate-300 mb-3">
+                包装模式
               </label>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-3 gap-4">
                 <button 
-                  onClick={() => setTemplateType('mobile')}
-                  className={`flex flex-col items-center justify-center gap-3 p-4 rounded-xl border transition-all ${
-                    templateType === 'mobile' 
-                      ? 'bg-primary/10 border-primary text-white shadow-[0_0_20px_rgba(37,99,235,0.15)]' 
-                      : 'bg-black/20 border-white/10 text-slate-400 hover:border-white/20 hover:bg-white/5'
+                  onClick={() => setPackagingMode('device')}
+                  className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border transition-all ${
+                    packagingMode === 'device' 
+                      ? 'bg-[#1e3a8a]/30 border-[#3b82f6] text-white' 
+                      : 'bg-black/20 border-white/10 text-slate-400 hover:border-white/20 hover:text-white'
                   }`}
                 >
-                  <span className="material-symbols-outlined text-3xl">smartphone</span>
-                  <span className="text-sm font-medium">手机 APP</span>
+                  <span className="material-symbols-outlined text-2xl">smartphone</span>
+                  <span className="text-sm font-medium">设备套壳</span>
+                  <span className="text-[10px] text-slate-500">iPhone / Mac 设备框</span>
                 </button>
                 <button 
-                  onClick={() => setTemplateType('desktop')}
-                  className={`flex flex-col items-center justify-center gap-3 p-4 rounded-xl border transition-all ${
-                    templateType === 'desktop' 
-                      ? 'bg-primary/10 border-primary text-white shadow-[0_0_20px_rgba(37,99,235,0.15)]' 
-                      : 'bg-black/20 border-white/10 text-slate-400 hover:border-white/20 hover:bg-white/5'
+                  onClick={() => setPackagingMode('marketing')}
+                  className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border transition-all ${
+                    packagingMode === 'marketing' 
+                      ? 'bg-[#1e3a8a]/30 border-[#3b82f6] text-white' 
+                      : 'bg-black/20 border-white/10 text-slate-400 hover:border-white/20 hover:text-white'
                   }`}
                 >
-                  <span className="material-symbols-outlined text-3xl">desktop_windows</span>
-                  <span className="text-sm font-medium">电脑桌面端</span>
+                  <span className="material-symbols-outlined text-2xl">campaign</span>
+                  <span className="text-sm font-medium">营销图</span>
+                  <span className="text-[10px] text-slate-500">渐变背景+卖点文案</span>
+                </button>
+                <button 
+                  onClick={() => setPackagingMode('browser')}
+                  className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border transition-all ${
+                    packagingMode === 'browser' 
+                      ? 'bg-[#1e3a8a]/30 border-[#3b82f6] text-white' 
+                      : 'bg-black/20 border-white/10 text-slate-400 hover:border-white/20 hover:text-white'
+                  }`}
+                >
+                  <span className="material-symbols-outlined text-2xl">language</span>
+                  <span className="text-sm font-medium">Browser</span>
+                  <span className="text-[10px] text-slate-500">浏览器窗口框</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Device Model */}
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-3">
+                设备型号
+              </label>
+              <div className="flex gap-3 mb-4">
+                <button 
+                  onClick={() => setDeviceType('iphone')}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all ${
+                    deviceType === 'iphone'
+                      ? 'bg-[#1e3a8a]/30 border-[#3b82f6] text-white'
+                      : 'bg-black/20 border-white/10 text-slate-400 hover:border-white/20 hover:text-white'
+                  }`}
+                >
+                  <span className="material-symbols-outlined text-[18px]">smartphone</span>
+                  <span className="text-sm">iPhone</span>
+                </button>
+                <button 
+                  onClick={() => setDeviceType('mac')}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all ${
+                    deviceType === 'mac'
+                      ? 'bg-[#1e3a8a]/30 border-[#3b82f6] text-white'
+                      : 'bg-black/20 border-white/10 text-slate-400 hover:border-white/20 hover:text-white'
+                  }`}
+                >
+                  <span className="material-symbols-outlined text-[18px]">laptop_mac</span>
+                  <span className="text-sm">Mac</span>
+                </button>
+              </div>
+              
+              <div className="relative">
+                <select 
+                  value={deviceModel}
+                  onChange={(e) => setDeviceModel(e.target.value)}
+                  className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white appearance-none focus:outline-none focus:border-primary/50 transition-all"
+                >
+                  {deviceType === 'iphone' ? (
+                    <>
+                      <option value="iPhone 17 Pro 橙色">iPhone 17 Pro 橙色</option>
+                      <option value="iPhone 17 Pro 钛金属">iPhone 17 Pro 钛金属</option>
+                      <option value="iPhone 16 Pro Max">iPhone 16 Pro Max</option>
+                    </>
+                  ) : (
+                    <>
+                      <option value="MacBook Pro 16 M3">MacBook Pro 16 M3</option>
+                      <option value="MacBook Air 15">MacBook Air 15</option>
+                      <option value="iMac 24">iMac 24</option>
+                    </>
+                  )}
+                </select>
+                <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">expand_more</span>
+              </div>
+            </div>
+
+            {/* Background Type */}
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-3">
+                背景类型
+              </label>
+              <div className="flex bg-black/40 p-1 rounded-xl border border-white/10">
+                <button
+                  onClick={() => setBackgroundType('gradient')}
+                  className={`flex-1 py-2.5 text-sm font-medium rounded-lg transition-all ${
+                    backgroundType === 'gradient'
+                      ? 'bg-[#3b82f6] text-white shadow-md'
+                      : 'text-slate-400 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  渐变背景
+                </button>
+                <button
+                  onClick={() => setBackgroundType('solid')}
+                  className={`flex-1 py-2.5 text-sm font-medium rounded-lg transition-all ${
+                    backgroundType === 'solid'
+                      ? 'bg-[#3b82f6] text-white shadow-md'
+                      : 'text-slate-400 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  纯色背景
+                </button>
+                <button
+                  onClick={() => setBackgroundType('transparent')}
+                  className={`flex-1 py-2.5 text-sm font-medium rounded-lg transition-all ${
+                    backgroundType === 'transparent'
+                      ? 'bg-[#3b82f6] text-white shadow-md'
+                      : 'text-slate-400 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  透明背景
                 </button>
               </div>
             </div>
             
             <button 
               onClick={handleGenerate}
-              disabled={isGenerating}
-              className={`w-full py-4 rounded-xl font-bold text-lg shadow-lg transition-all flex items-center justify-center gap-2 ${
-                isGenerating 
-                  ? 'bg-primary/50 text-white/70 cursor-not-allowed' 
-                  : 'bg-primary hover:bg-primary/90 text-white shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_30px_rgba(37,99,235,0.5)] hover:-translate-y-0.5'
+              disabled={isGenerating || (imageFiles.length === 0 && imageUrls.length === 0)}
+              className={`w-full py-4 rounded-xl font-bold text-base transition-all flex items-center justify-center gap-2 ${
+                isGenerating || (imageFiles.length === 0 && imageUrls.length === 0)
+                  ? 'bg-[#1e3a8a] text-white/70 cursor-not-allowed' 
+                  : 'bg-[#2563eb] hover:bg-[#1d4ed8] text-white'
               }`}
             >
               {isGenerating ? (
                 <>
                   <span className="material-symbols-outlined animate-spin">progress_activity</span>
-                  正在创作中...
+                  正在生成中...
                 </>
               ) : (
                 <>
-                  <span className="material-symbols-outlined">magic_button</span>
-                  开始创作
+                  <span className="material-symbols-outlined">auto_awesome</span>
+                  开始生成
                 </>
               )}
             </button>
@@ -216,134 +346,41 @@ export default function AppShell() {
         </div>
 
         {/* Right Column: Preview Area */}
-        <div className="lg:col-span-5">
+        <div className="lg:col-span-6">
           <div className="sticky top-24">
-            <div className="glass-card rounded-3xl border border-white/5 overflow-hidden flex flex-col h-[700px]">
-              <div className="p-4 border-b border-white/5 bg-white/[0.02] flex items-center justify-between">
-                <h3 className="text-sm font-medium text-slate-300 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-sm">{templateType === 'mobile' ? 'smartphone' : 'desktop_windows'}</span>
-                  {templateType === 'mobile' ? '手机预览' : '桌面端预览'}
-                </h3>
-                <div className="flex gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-rose-500/50"></div>
-                  <div className="w-3 h-3 rounded-full bg-amber-500/50"></div>
-                  <div className="w-3 h-3 rounded-full bg-emerald-500/50"></div>
-                </div>
+            <div className="bg-[#121214] rounded-3xl border border-white/5 overflow-hidden flex flex-col h-[700px]">
+              <div className="p-4 border-b border-white/5 flex items-center gap-2">
+                <span className="material-symbols-outlined text-sm text-slate-400">preview</span>
+                <h3 className="text-sm font-medium text-slate-300">效果预览</h3>
               </div>
               
-              <div className="flex-1 bg-black/40 flex items-center justify-center p-8 relative overflow-hidden">
-                {/* Background Glow */}
-                {isDone && <div className="absolute inset-0 bg-primary/5 blur-[100px] animate-pulse-slow"></div>}
-
-                {templateType === 'mobile' ? (
-                  /* Mobile Mockup */
-                  <div className="w-[300px] h-[600px] bg-black rounded-[3rem] border-[12px] border-slate-800 shadow-2xl relative overflow-hidden flex flex-col transition-all duration-500">
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-7 bg-slate-800 rounded-b-3xl z-20"></div>
-                    
-                    {isGenerating ? (
-                      <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900 z-10 p-6 text-center">
-                        <div className="relative size-24 mb-8">
-                          <div className="absolute inset-0 border-4 border-primary/20 rounded-full"></div>
-                          <div className="absolute inset-0 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <span className="material-symbols-outlined text-primary text-3xl animate-pulse">build</span>
-                          </div>
-                        </div>
-                        <h3 className="text-lg font-bold text-white mb-2">正在创作中...</h3>
-                        <p className="text-sm text-slate-400">正在为您打包原生应用体验</p>
-                        
-                        {/* Progress Bar Simulation */}
-                        <div className="w-48 h-1.5 bg-white/10 rounded-full mt-8 overflow-hidden">
-                          <div className="h-full bg-gradient-to-r from-primary to-accent-blue w-full animate-[slideRight_2s_ease-in-out_infinite]" style={{ transformOrigin: 'left' }}></div>
-                        </div>
-                      </div>
-                    ) : isDone ? (
-                      <div className="absolute inset-0 bg-slate-50 flex flex-col relative z-10">
-                        {/* App Header */}
-                        <div className="pt-12 pb-4 px-6 bg-white shadow-sm flex items-center gap-3 z-20">
-                          <img src={displayIcon} alt="Icon" className="w-8 h-8 rounded-lg object-cover shadow-sm" />
-                          <h4 className="text-slate-900 font-bold text-lg truncate">{appName || '未命名应用'}</h4>
-                        </div>
-                        {/* App Content (Iframe simulation) */}
-                        <div className="flex-1 bg-slate-100 relative overflow-hidden">
-                          <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
-                            <div className="size-24 rounded-3xl shadow-xl mb-6 overflow-hidden border-2 border-white bg-white">
-                              <img src={displayIcon} alt="Icon" className="w-full h-full object-cover" />
-                            </div>
-                            <h2 className="text-2xl font-black text-slate-800 mb-2">{appName || 'APP 名称'}</h2>
-                            <p className="text-slate-500 text-sm mb-8">套壳应用已生成完毕</p>
-                            
-                            <div className="w-full space-y-3">
-                              <button className="w-full py-3.5 bg-primary hover:bg-primary-hover text-white rounded-xl text-sm font-bold shadow-lg shadow-primary/30 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
-                                <span className="material-symbols-outlined text-lg">download</span>
-                                下载 iOS 包
-                              </button>
-                              <button className="w-full py-3.5 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-sm font-bold shadow-lg transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
-                                <span className="material-symbols-outlined text-lg">android</span>
-                                下载 Android 包
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="absolute inset-0 bg-slate-900 flex flex-col items-center justify-center p-6 text-center">
-                        <div className="size-20 rounded-full bg-white/5 flex items-center justify-center mb-6">
-                          <span className="material-symbols-outlined text-slate-500 text-4xl">touch_app</span>
-                        </div>
-                        <h3 className="text-lg font-bold text-white mb-2">等待创作</h3>
-                        <p className="text-slate-500 text-sm">配置左侧信息后，点击开始创作预览效果</p>
-                      </div>
-                    )}
+              <div className="flex-1 bg-[#0a0a0a] flex items-center justify-center p-8 relative overflow-hidden">
+                {isGenerating ? (
+                  <div className="relative z-10 flex flex-col items-center text-center gap-4 w-full">
+                    <div className="size-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 animate-pulse">
+                      <span className="material-symbols-outlined text-3xl animate-spin">settings</span>
+                    </div>
+                    <div className="w-full max-w-xs space-y-2">
+                      <p className="text-slate-300 text-sm">正在生成包装图...</p>
+                      <p className="text-slate-500 text-xs">这可能需要几秒钟时间</p>
+                    </div>
+                  </div>
+                ) : resultImages && resultImages.length > 0 ? (
+                  <div className="relative z-10 w-full h-full flex flex-col items-center justify-center gap-6">
+                    <img src={resultImages[0]} alt="Result" className="w-full h-auto max-h-full object-contain rounded-xl shadow-2xl" />
+                    <div className="flex gap-4 w-full justify-center">
+                      <button className="px-6 py-2.5 bg-white/10 hover:bg-white/20 rounded-xl text-sm font-medium transition-colors flex items-center justify-center gap-2 text-white">
+                        <span className="material-symbols-outlined text-sm">download</span>
+                        下载图片
+                      </button>
+                    </div>
                   </div>
                 ) : (
-                  /* Desktop Mockup */
-                  <div className="w-full max-w-[500px] h-[350px] bg-slate-900 rounded-xl border border-slate-700 shadow-2xl relative overflow-hidden flex flex-col transition-all duration-500">
-                    <div className="h-8 bg-slate-800 border-b border-slate-700 flex items-center px-4 gap-2">
-                      <div className="w-2.5 h-2.5 rounded-full bg-rose-500"></div>
-                      <div className="w-2.5 h-2.5 rounded-full bg-amber-500"></div>
-                      <div className="w-2.5 h-2.5 rounded-full bg-emerald-500"></div>
+                  <div className="relative z-10 flex flex-col items-center text-center gap-4">
+                    <div className="size-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-500">
+                      <span className="material-symbols-outlined text-2xl">smartphone</span>
                     </div>
-                    
-                    {isGenerating ? (
-                      <div className="flex-1 flex flex-col items-center justify-center bg-slate-900 z-10 p-6 text-center">
-                        <div className="relative size-20 mb-6">
-                          <div className="absolute inset-0 border-4 border-primary/20 rounded-full"></div>
-                          <div className="absolute inset-0 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <span className="material-symbols-outlined text-primary text-2xl animate-pulse">build</span>
-                          </div>
-                        </div>
-                        <h3 className="text-lg font-bold text-white mb-2">正在创作中...</h3>
-                        <p className="text-sm text-slate-400">正在为您打包桌面端应用</p>
-                      </div>
-                    ) : isDone ? (
-                      <div className="flex-1 bg-slate-50 flex flex-col relative z-10">
-                        <div className="flex-1 flex items-center justify-center p-8">
-                          <div className="flex items-center gap-8 bg-white p-8 rounded-2xl shadow-xl border border-slate-100 w-full max-w-md">
-                            <div className="size-24 rounded-2xl shadow-md overflow-hidden shrink-0">
-                              <img src={displayIcon} alt="Icon" className="w-full h-full object-cover" />
-                            </div>
-                            <div>
-                              <h2 className="text-2xl font-black text-slate-800 mb-1 truncate">{appName || 'APP 名称'}</h2>
-                              <p className="text-slate-500 text-sm mb-4">桌面端应用已就绪</p>
-                              <button className="px-6 py-2.5 bg-primary hover:bg-primary-hover text-white rounded-lg text-sm font-bold shadow-md shadow-primary/20 transition-all flex items-center gap-2">
-                                <span className="material-symbols-outlined text-sm">download</span>
-                                下载安装包
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="flex-1 bg-slate-900 flex flex-col items-center justify-center p-6 text-center">
-                        <div className="size-16 rounded-full bg-white/5 flex items-center justify-center mb-4">
-                          <span className="material-symbols-outlined text-slate-500 text-3xl">desktop_windows</span>
-                        </div>
-                        <h3 className="text-lg font-bold text-white mb-2">等待创作</h3>
-                        <p className="text-slate-500 text-sm">配置左侧信息后，点击开始创作预览效果</p>
-                      </div>
-                    )}
+                    <p className="text-slate-500 text-sm">上传截图后点击生成</p>
                   </div>
                 )}
               </div>
@@ -351,6 +388,14 @@ export default function AppShell() {
           </div>
         </div>
       </main>
-    </div>
+      
+      {/* Inspiration Modal */}
+      <InspirationModal
+        isOpen={showInspiration}
+        onClose={() => setShowInspiration(false)}
+        type="image"
+        onSelect={handleInspirationSelect}
+      />
+    </motion.div>
   );
 }

@@ -5,18 +5,21 @@ export default function EcommerceCase() {
     <div className="bg-surface-dark text-slate-100 min-h-screen flex flex-col font-sans selection:bg-primary/30 selection:text-white">
       {/* Navigation */}
       <nav className="sticky top-0 z-50 border-b border-border-dark bg-surface-dark/80 backdrop-blur-md px-6 lg:px-20 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-12">
-          <Link to="/" className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity">
+        <div className="flex items-center gap-4">
+          <Link to="/" className="text-slate-400 hover:text-white transition-colors flex items-center justify-center size-10 rounded-full hover:bg-white/5">
+            <span className="material-symbols-outlined">arrow_back</span>
+          </Link>
+          <div className="flex items-center gap-2 text-white">
             <span className="material-symbols-outlined text-primary text-3xl">deployed_code</span>
             <h2 className="text-xl font-bold tracking-tight">Agents Me</h2>
-          </Link>
-          <div className="hidden md:flex items-center gap-8">
-            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/">首页</Link>
-            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/workspace">专业工作台</Link>
-            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/market">Agent 市场</Link>
-            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/product-concept">产品概念</Link>
-            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/pricing">产品定价</Link>
           </div>
+        </div>
+        <div className="hidden md:flex items-center gap-8">
+          <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/">首页</Link>
+          <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/workspace">专业工作台</Link>
+          <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/market">Agent 市场</Link>
+          <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/product-concept">产品概念</Link>
+          <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/pricing">产品定价</Link>
         </div>
         <div className="flex items-center gap-6">
           <button className="text-slate-400 hover:text-white transition-colors">

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Plus, Palette, ArrowUp, X } from 'lucide-react';
+import { Plus, Palette, ArrowUp, X, Wand2, Image as ImageIcon, Music, Type, Video, Brush, PaintBucket, Maximize, Tag, ImagePlus, List, Users, UploadCloud, Megaphone, Square, Camera, Layout, Sparkles } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export default function Home() {
@@ -9,6 +9,9 @@ export default function Home() {
   const [selectedImageUrls, setSelectedImageUrls] = useState<string[]>([]);
   const [promptText, setPromptText] = useState('');
   const [isTemplatesModalOpen, setIsTemplatesModalOpen] = useState(false);
+  const [vibeVideoUrl, setVibeVideoUrl] = useState<string | null>(null);
+  const [vibeMode, setVibeMode] = useState<'video' | 'image'>('video');
+  const [vibePrompt, setVibePrompt] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -163,8 +166,110 @@ export default function Home() {
     }
   ];
 
+  const baseVideos = [
+    "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+    "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+    "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+    "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+    "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+    "https://storage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+    "https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+    "https://storage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4",
+    "https://storage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4",
+    "https://storage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4",
+    "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+    "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+    "https://storage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4"
+  ];
+
+  const masonryPatternAppGrowth = [
+    "aspect-[3/4]",
+    "aspect-[16/9]",
+    "aspect-[9/16]",
+    "aspect-[4/3]",
+    "aspect-[4/3]",
+    "aspect-[9/16]",
+    "aspect-[16/9]",
+    "aspect-[3/4]",
+    "aspect-[16/9]",
+    "aspect-[3/4]",
+    "aspect-[4/3]",
+    "aspect-[9/16]",
+    "aspect-[9/16]",
+    "aspect-[4/3]",
+    "aspect-[3/4]",
+    "aspect-[16/9]",
+  ];
+
+  const masonryPatternEcommerce = [
+    "aspect-[9/16]",
+    "aspect-[4/3]",
+    "aspect-[3/4]",
+    "aspect-[16/9]",
+    "aspect-[16/9]",
+    "aspect-[3/4]",
+    "aspect-[9/16]",
+    "aspect-[4/3]",
+    "aspect-[3/4]",
+    "aspect-[16/9]",
+    "aspect-[4/3]",
+    "aspect-[9/16]",
+    "aspect-[4/3]",
+    "aspect-[9/16]",
+    "aspect-[16/9]",
+    "aspect-[3/4]",
+  ];
+
+  // Generate unique-looking videos and images for App Growth
+  const appGrowthItems = Array.from({ length: 16 }).map((_, i) => {
+    const isVideo = i % 3 !== 0; // 2/3 videos, 1/3 images
+    const aspectClass = masonryPatternAppGrowth[i % masonryPatternAppGrowth.length];
+    
+    let width = 600;
+    let height = 600;
+    if (aspectClass === 'aspect-[16/9]') { width = 800; height = 450; }
+    else if (aspectClass === 'aspect-[9/16]') { width = 450; height = 800; }
+    else if (aspectClass === 'aspect-[4/3]') { width = 800; height = 600; }
+    else if (aspectClass === 'aspect-[3/4]') { width = 600; height = 800; }
+
+    return {
+      type: isVideo ? 'video' : 'image',
+      url: isVideo 
+        ? `${baseVideos[i % baseVideos.length]}#t=${(i * 3) % 40}`
+        : `https://picsum.photos/seed/appgrowth${i}/${width}/${height}`,
+      aspectRatioClass: aspectClass
+    };
+  });
+
+  // Generate unique-looking videos and images for Ecommerce
+  const ecommerceItems = Array.from({ length: 16 }).map((_, i) => {
+    const isVideo = i % 4 !== 0; // 3/4 videos, 1/4 images
+    const aspectClass = masonryPatternEcommerce[i % masonryPatternEcommerce.length];
+    
+    let width = 600;
+    let height = 600;
+    if (aspectClass === 'aspect-[16/9]') { width = 800; height = 450; }
+    else if (aspectClass === 'aspect-[9/16]') { width = 450; height = 800; }
+    else if (aspectClass === 'aspect-[4/3]') { width = 800; height = 600; }
+    else if (aspectClass === 'aspect-[3/4]') { width = 600; height = 800; }
+
+    return {
+      type: isVideo ? 'video' : 'image',
+      url: isVideo 
+        ? `${baseVideos[(i + 5) % baseVideos.length]}#t=${(i * 7) % 40}`
+        : `https://picsum.photos/seed/ecommerce${i}/${width}/${height}`,
+      aspectRatioClass: aspectClass
+    };
+  });
+
   return (
-    <div className="bg-background-dark text-slate-100 antialiased min-h-screen">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.3 }}
+      className="bg-background-dark text-slate-100 antialiased min-h-screen"
+    >
       {/* Navigation */}
       <nav className="sticky top-0 z-50 border-b border-white/5 bg-background-dark/80 backdrop-blur-md px-6 lg:px-20 py-4 flex items-center justify-between">
         <div className="flex items-center gap-12">
@@ -177,6 +282,7 @@ export default function Home() {
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/workspace">专业工作台</Link>
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/market">Agent 市场</Link>
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/product-concept">产品概念</Link>
+            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/inspiration-library">灵感库</Link>
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/pricing">产品定价</Link>
           </div>
         </div>
@@ -191,163 +297,190 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <main className="hero-gradient min-h-[80vh] flex flex-col items-center px-6 lg:px-20 pt-16 pb-24">
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 w-full max-w-[90rem] items-center">
-          <div className="lg:col-span-6 space-y-8">
-            <div className="space-y-4">
-              <h1 className="text-5xl lg:text-7xl font-bold tracking-tight leading-tight gradient-text">
-                Agents Me
-              </h1>
-              <p className="text-lg text-slate-400 max-w-lg leading-relaxed">
-                基于 Vibe Coding 模式，构建高效的 Agent A-B-C体系。重新定义商业需求与开发者的共生逻辑。
-              </p>
-              <div className="pt-6 flex items-center gap-4">
-                <div className="relative group">
-                  <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-accent-blue rounded-lg blur opacity-40 group-hover:opacity-75 transition duration-500"></div>
-                  <button 
-                    onClick={() => document.getElementById('atomic-lab')?.scrollIntoView({ behavior: 'smooth' })}
-                    className="relative bg-surface-card border border-white/10 hover:border-primary/50 text-white px-5 py-2 rounded-lg text-sm font-bold flex items-center gap-2 transition-all transform hover:-translate-y-0.5 shadow-lg"
-                  >
-                    <span className="material-symbols-outlined text-[18px] text-primary animate-pulse">explore</span>
-                    探索能力
-                    <span className="material-symbols-outlined text-[14px] opacity-50 group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                  </button>
-                </div>
-                <div className="text-xs text-slate-400 flex items-center gap-2 ml-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                  4项核心能力已上线
-                </div>
+      <main className="hero-gradient min-h-[80vh] flex flex-col lg:flex-row items-start justify-between px-6 lg:px-20 pt-16 pb-24 gap-12">
+        <style>{`
+          @keyframes scan-line {
+            0% { top: 0%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+          }
+          .animate-scan-line {
+            animation: scan-line 3s linear infinite;
+          }
+        `}</style>
+        
+        {/* Left Column: Text & Vibe Coding Mockup */}
+        <div className="w-full lg:w-1/2 flex flex-col space-y-12">
+          {/* Text Content */}
+          <div className="flex flex-col items-start space-y-6">
+            <h1 className="text-5xl lg:text-7xl font-bold tracking-tight leading-tight text-white">
+              Agents Me
+            </h1>
+            <p className="text-lg text-slate-400 max-w-xl leading-relaxed">
+              基于 Vibe Coding 模式，构建高效的 Agent A-B-C体系。重新定义商业需求与开发者的共生逻辑。
+            </p>
+            <div className="pt-2 flex items-center gap-4">
+              <div className="relative group">
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-accent-blue rounded-lg blur opacity-40 group-hover:opacity-75 transition duration-500"></div>
+                <button 
+                  onClick={() => document.getElementById('what-you-can-do')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="relative bg-surface-card border border-white/10 hover:border-primary/50 text-white px-8 py-3 rounded-lg text-sm font-bold flex items-center gap-2 transition-all transform hover:-translate-y-0.5 shadow-lg"
+                >
+                  <span className="material-symbols-outlined text-[18px] text-primary animate-pulse">explore</span>
+                  探索能力
+                  <span className="material-symbols-outlined text-[14px] opacity-50 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                </button>
               </div>
-            </div>
-
-            {/* Vibe Coding Mockup */}
-            <div className="relative group/editor mt-12">
-              {/* Glowing background effect for emphasis */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-primary via-accent-blue to-accent-pink rounded-2xl blur-md opacity-40 group-hover/editor:opacity-70 transition duration-1000 animate-pulse-slow"></div>
-              
-              <div className="relative bg-[#0f0f11] rounded-2xl border border-white/20 overflow-hidden shadow-[0_0_50px_rgba(37,99,235,0.2)] flex flex-col transition-all">
-                {/* Agent Tabs */}
-                <div className="flex items-center gap-6 px-6 pt-4 border-b border-white/5 shrink-0 bg-white/[0.02]">
-                  <button 
-                    onClick={() => setActiveAgent('app')}
-                    className={`pb-3 text-sm font-medium transition-colors relative ${activeAgent === 'app' ? 'text-white' : 'text-slate-500 hover:text-slate-300'}`}
-                  >
-                    APP Agent
-                    {activeAgent === 'app' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-primary rounded-t-full shadow-[0_-2px_10px_rgba(37,99,235,0.5)]"></div>}
-                  </button>
-                  <button 
-                    onClick={() => setActiveAgent('marketing')}
-                    className={`pb-3 text-sm font-medium transition-colors relative ${activeAgent === 'marketing' ? 'text-white' : 'text-slate-500 hover:text-slate-300'}`}
-                  >
-                    Marketing Agent
-                    {activeAgent === 'marketing' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-accent-pink rounded-t-full shadow-[0_-2px_10px_rgba(14,165,233,0.5)]"></div>}
-                  </button>
-                </div>
-
-                <div className="p-6 flex flex-col gap-4 bg-gradient-to-b from-transparent to-white/[0.02]">
-                  <textarea 
-                    className="w-full bg-transparent border-none focus:outline-none focus:ring-0 text-lg text-slate-200 resize-none placeholder-slate-600 leading-relaxed min-h-[140px]"
-                    placeholder={activeAgent === 'app' ? "请你根据我上传的素材，帮我只做一个顶级的app营销素材，我的app名字叫傻妞，是一个ai助手，可以实现顶级的情感陪伴，每日日报生成..." : "请帮我完成选品，素材生成，和小红书的自动发布..."}
-                    value={promptText}
-                    onChange={(e) => setPromptText(e.target.value)}
-                  ></textarea>
-                  
-                  <div className="flex items-center justify-between pt-2 border-t border-white/5 mt-2">
-                    <div className="flex items-center gap-3 flex-wrap">
-                      {/* File Upload Button */}
-                      <input 
-                        type="file" 
-                        ref={fileInputRef} 
-                        onChange={handleFileChange} 
-                        className="hidden" 
-                        accept="image/*,video/*" 
-                        multiple
-                      />
-                      
-                      {/* Display Template Images */}
-                      {selectedImageUrls.map((url, index) => (
-                        <div key={`template-${index}`} className="relative group w-12 h-12 rounded-xl overflow-hidden border border-white/10 shadow-lg">
-                          <img src={url} alt={`Template ${index}`} className="w-full h-full object-cover" />
-                          <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button 
-                              onClick={(e) => { e.stopPropagation(); removeFile(index, true); }}
-                              className="text-white hover:text-rose-400"
-                            >
-                              <X size={16} />
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-
-                      {/* Display Uploaded Files */}
-                      {selectedFiles.map((file, index) => (
-                        <div key={`file-${index}`} className="relative group w-12 h-12 rounded-xl overflow-hidden border border-white/10 bg-white/5 flex items-center justify-center shadow-lg">
-                          {file.type.startsWith('image/') ? (
-                            <img src={URL.createObjectURL(file)} alt={`Upload ${index}`} className="w-full h-full object-cover" />
-                          ) : (
-                            <span className="material-symbols-outlined text-xl text-emerald-400">check</span>
-                          )}
-                          <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button 
-                              onClick={(e) => { e.stopPropagation(); removeFile(index, false); }}
-                              className="text-white hover:text-rose-400"
-                            >
-                              <X size={16} />
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-
-                      {/* Add More Button */}
-                      {(selectedFiles.length + selectedImageUrls.length) < 5 && (
-                        <button 
-                          onClick={() => fileInputRef.current?.click()}
-                          className="w-12 h-12 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white transition-colors relative group overflow-hidden shadow-lg"
-                          title="上传素材 (最多5张)"
-                        >
-                          <Plus size={22} />
-                        </button>
-                      )}
-                      
-                      {/* Templates Button */}
-                      <button 
-                        onClick={() => setIsTemplatesModalOpen(true)}
-                        className="h-12 px-5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center gap-2 text-slate-300 hover:text-white transition-colors ml-2 shadow-lg"
-                      >
-                        <Palette size={18} className="text-primary" />
-                        <span className="text-sm font-medium">Templates</span>
-                      </button>
-                    </div>
-                    
-                    {/* Submit Button */}
-                    <Link to="/workspace" className="w-12 h-12 rounded-xl bg-primary hover:bg-primary-hover text-white flex items-center justify-center transition-colors shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_30px_rgba(37,99,235,0.6)] hover:-translate-y-0.5 transform">
-                      <ArrowUp size={22} />
-                    </Link>
-                  </div>
-                </div>
+              <div className="flex items-center gap-2 text-sm text-slate-400 ml-4">
+                <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                4项核心能力已上线
               </div>
             </div>
           </div>
 
-          <div className="lg:col-span-6 relative group animate-float lg:pl-8">
-            <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent-pink rounded-3xl blur-xl opacity-20 group-hover:opacity-40 transition duration-1000"></div>
-            <div className="relative glass-card rounded-3xl flex items-center justify-center overflow-hidden aspect-video border border-white/10 shadow-2xl">
-              {/* Replace the src below with your uploaded video URL */}
+          {/* Vibe Coding Mockup */}
+          <div className="relative group/editor w-full max-w-2xl">
+            {/* Glowing background effect for emphasis */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-primary/40 via-accent-blue/40 to-accent-pink/40 rounded-2xl blur-xl opacity-60 group-hover/editor:opacity-100 transition duration-1000 animate-pulse-slow"></div>
+            
+            <div className="relative bg-[#0f0f11]/90 backdrop-blur-xl rounded-2xl border border-white/20 overflow-hidden shadow-[0_0_50px_rgba(37,99,235,0.2)] flex flex-col transition-all">
+              
+              {/* Editor Bottom Layer Visual Effects Removed as requested */}
+
+              {/* Agent Tabs */}
+              <div className="relative z-10 flex items-center gap-6 px-6 pt-4 border-b border-white/10 shrink-0 bg-white/[0.02]">
+                <button 
+                  onClick={() => setActiveAgent('app')}
+                  className={`pb-3 text-sm font-medium transition-colors relative ${activeAgent === 'app' ? 'text-white' : 'text-slate-500 hover:text-slate-300'}`}
+                >
+                  APP Agent
+                  {activeAgent === 'app' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-primary rounded-t-full shadow-[0_-2px_10px_rgba(37,99,235,0.5)]"></div>}
+                </button>
+                <button 
+                  onClick={() => setActiveAgent('marketing')}
+                  className={`pb-3 text-sm font-medium transition-colors relative ${activeAgent === 'marketing' ? 'text-white' : 'text-slate-500 hover:text-slate-300'}`}
+                >
+                  Marketing Agent
+                  {activeAgent === 'marketing' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-accent-pink rounded-t-full shadow-[0_-2px_10px_rgba(14,165,233,0.5)]"></div>}
+                </button>
+              </div>
+
+              <div className="relative z-10 p-6 flex flex-col gap-4 bg-gradient-to-b from-transparent to-white/[0.02]">
+                <textarea 
+                  className="w-full bg-transparent border-none focus:outline-none focus:ring-0 text-lg text-slate-300 resize-none placeholder-slate-600 leading-relaxed min-h-[120px]"
+                  placeholder={activeAgent === 'app' ? "请你根据我上传的素材，帮我只做一个顶级的app营销素材，我的app名字叫傻妞，是一个ai助手，可以实现顶级的情感陪伴，每日日报生成..." : "请帮我完成选品，素材生成，和小红书的自动发布..."}
+                  value={promptText}
+                  onChange={(e) => setPromptText(e.target.value)}
+                ></textarea>
+                
+                <div className="flex items-center justify-between pt-4 border-t border-white/5 mt-2">
+                  <div className="flex items-center gap-3 flex-wrap">
+                    {/* File Upload Button */}
+                    <input 
+                      type="file" 
+                      ref={fileInputRef} 
+                      onChange={handleFileChange} 
+                      className="hidden" 
+                      accept="image/*,video/*" 
+                      multiple
+                    />
+                    
+                    {/* Add More Button */}
+                    {(selectedFiles.length + selectedImageUrls.length) < 5 && (
+                      <button 
+                        onClick={() => fileInputRef.current?.click()}
+                        className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white transition-colors relative group overflow-hidden shadow-lg"
+                        title="上传素材 (最多5张)"
+                      >
+                        <Plus size={20} />
+                      </button>
+                    )}
+                    
+                    {/* Templates Button */}
+                    <button 
+                      onClick={() => setIsTemplatesModalOpen(true)}
+                      className="h-10 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center gap-2 text-slate-300 hover:text-white transition-colors shadow-lg"
+                    >
+                      <Palette size={16} className="text-slate-400" />
+                      <span className="text-sm font-medium">Templates</span>
+                    </button>
+
+                    {/* Display Template Images */}
+                    {selectedImageUrls.map((url, index) => (
+                      <div key={`template-${index}`} className="relative group w-10 h-10 rounded-xl overflow-hidden border border-white/10 shadow-lg">
+                        <img src={url} alt={`Template ${index}`} className="w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button 
+                            onClick={(e) => { e.stopPropagation(); removeFile(index, true); }}
+                            className="text-white hover:text-rose-400"
+                          >
+                            <X size={14} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+
+                    {/* Display Uploaded Files */}
+                    {selectedFiles.map((file, index) => (
+                      <div key={`file-${index}`} className="relative group w-10 h-10 rounded-xl overflow-hidden border border-white/10 bg-white/5 flex items-center justify-center shadow-lg">
+                        {file.type.startsWith('image/') ? (
+                          <img src={URL.createObjectURL(file)} alt={`Upload ${index}`} className="w-full h-full object-cover" />
+                        ) : (
+                          <span className="material-symbols-outlined text-lg text-emerald-400">check</span>
+                        )}
+                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button 
+                            onClick={(e) => { e.stopPropagation(); removeFile(index, false); }}
+                            className="text-white hover:text-rose-400"
+                          >
+                            <X size={14} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {/* Submit Button */}
+                  <Link to="/workspace" className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors shadow-lg hover:-translate-y-0.5 transform">
+                    <ArrowUp size={20} />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column: Video Preview */}
+        <div className="w-full lg:w-1/2 relative group/preview mt-8 lg:mt-0">
+          <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 via-accent-blue/30 to-accent-pink/30 rounded-3xl blur-xl opacity-50 group-hover/preview:opacity-80 transition duration-1000"></div>
+          
+          <div className="relative w-full aspect-video bg-[#0a0a0c] rounded-3xl border border-white/10 overflow-hidden shadow-2xl flex items-center justify-center">
+            {vibeMode === 'video' ? (
               <video 
-                className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
+                className="absolute inset-0 w-full h-full object-cover opacity-90"
                 autoPlay 
                 loop 
                 muted 
                 playsInline
-                preload="auto"
-                src="https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" 
+                src={vibeVideoUrl || baseVideos[0]} 
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-              <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-[10px] text-slate-300 font-mono tracking-widest uppercase z-10">
-                <span className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
-                  Live Preview
-                </span>
+            ) : (
+              <img 
+                className="absolute inset-0 w-full h-full object-cover opacity-90"
+                src={vibeVideoUrl || 'https://picsum.photos/seed/vibe/1200/800'} 
+                alt="Vibe Preview"
+                referrerPolicy="no-referrer"
+              />
+            )}
+            
+            {/* Overlay Controls - Bottom */}
+            <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-xs text-slate-300 font-mono tracking-widest uppercase z-20">
+              <span className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10">
+                <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+                LIVE PREVIEW
+              </span>
+              <div className="flex items-center gap-4 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10">
                 <span>02:45</span>
               </div>
             </div>
@@ -355,103 +488,8 @@ export default function Home() {
         </div>
       </main>
 
-      {/* Agent2Agent & OpenClaw Section */}
-      <section className="px-6 lg:px-20 py-32 bg-[#020202] relative overflow-hidden">
-        {/* Cyberpunk Grid Background */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
-        
-        {/* Glowing Orbs */}
-        <div className="absolute top-0 left-0 w-full h-full opacity-40 pointer-events-none">
-          <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-primary/20 blur-[150px] rounded-full animate-pulse"></div>
-          <div className="absolute bottom-1/3 right-1/4 w-[600px] h-[600px] bg-accent-blue/20 blur-[150px] rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
-        </div>
 
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="mb-24 text-center">
-            <h2 className="text-4xl md:text-6xl font-bold mb-8 tracking-tight text-white">
-              Agent2Agent <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent-blue to-accent-pink">裂变分发</span>
-            </h2>
-            <p className="text-slate-400 text-xl max-w-3xl mx-auto leading-relaxed">
-              突破传统营销瓶颈。通过部署在 OpenClaw 上的自主 Agent 网络，实现从 0 到 100 的指数级 APP 增长与全域营销破圈。
-            </p>
-          </div>
 
-          <div className="relative">
-            {/* Animated Connecting Line (Desktop) */}
-            <div className="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-white/5 -translate-y-1/2 rounded-full overflow-hidden">
-               <div className="w-1/3 h-full bg-gradient-to-r from-transparent via-primary to-transparent animate-slide"></div>
-            </div>
-            
-            <div className="grid md:grid-cols-3 gap-8 lg:gap-12 relative">
-              {/* Step 1: Network */}
-              <div className="relative group rounded-[2.5rem] overflow-hidden bg-surface-dark border border-white/10 hover:border-primary/50 transition-all duration-500 p-8 lg:p-10 shadow-2xl hover:shadow-[0_0_40px_rgba(37,99,235,0.15)] hover:-translate-y-2">
-                {/* Background Video */}
-                <video 
-                  className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500"
-                  autoPlay loop muted playsInline preload="auto"
-                  src="https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" 
-                />
-                {/* Dark Overlay for Text Readability */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/30 to-[#020202]/90"></div>
-                
-                {/* Hover Gradient Effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-overlay"></div>
-                
-                <div className="relative z-10">
-                  <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-primary transition-colors">Agent2Agent 协同</h3>
-                  <p className="text-slate-400 text-base leading-relaxed">
-                    Agent 之间建立去中心化的通讯与协作网络，实现跨平台、跨圈层的自主裂变与精准分发。
-                  </p>
-                </div>
-              </div>
-
-              {/* Step 2: Build */}
-              <div className="relative group rounded-[2.5rem] overflow-hidden bg-surface-dark border border-white/10 hover:border-accent-blue/50 transition-all duration-500 p-8 lg:p-10 shadow-2xl hover:shadow-[0_0_40px_rgba(59,130,246,0.15)] hover:-translate-y-2">
-                {/* Background Video */}
-                <video 
-                  className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500"
-                  autoPlay loop muted playsInline preload="auto"
-                  src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" 
-                />
-                {/* Dark Overlay for Text Readability */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/30 to-[#020202]/90"></div>
-                
-                {/* Hover Gradient Effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-overlay"></div>
-                
-                <div className="relative z-10">
-                  <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-accent-blue transition-colors">OpenClaw 部署</h3>
-                  <p className="text-slate-400 text-base leading-relaxed">
-                    开发者基于 OpenClaw 架构，快速构建并部署具备自主分发与营销能力的超级 Agent 节点。
-                  </p>
-                </div>
-              </div>
-
-              {/* Step 3: Growth */}
-              <div className="relative group rounded-[2.5rem] overflow-hidden bg-surface-dark border border-white/10 hover:border-accent-pink/50 transition-all duration-500 p-8 lg:p-10 shadow-2xl hover:shadow-[0_0_40px_rgba(14,165,233,0.15)] hover:-translate-y-2">
-                {/* Background Video */}
-                <video 
-                  className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500"
-                  autoPlay loop muted playsInline preload="auto"
-                  src="https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" 
-                />
-                {/* Dark Overlay for Text Readability */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/30 to-[#020202]/90"></div>
-                
-                {/* Hover Gradient Effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-accent-pink/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-overlay"></div>
-                
-                <div className="relative z-10">
-                  <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-accent-pink transition-colors">0-100 增长破圈</h3>
-                  <p className="text-slate-400 text-base leading-relaxed">
-                    触达海量终端用户，引爆 APP 增长与营销变现。开发者共享生态红利，实现商业价值最大化。
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* What You Can Do Section */}
       <section id="what-you-can-do" className="px-6 lg:px-20 py-32 bg-background-dark relative overflow-hidden">
@@ -469,7 +507,7 @@ export default function Home() {
 
           <div className="space-y-32">
             {/* APP Growth Section */}
-            <div className="flex flex-col lg:flex-row items-center gap-16 p-8 lg:p-12 rounded-[3rem] bg-surface-dark/30 backdrop-blur-sm border border-white/5 relative group overflow-hidden">
+            <div className="flex flex-col gap-12 p-8 lg:p-12 rounded-[3rem] bg-surface-dark/30 backdrop-blur-sm border border-white/5 relative group overflow-hidden">
               {/* Dynamic Background Image for Section */}
               <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-700">
                 <img 
@@ -480,33 +518,54 @@ export default function Home() {
                 />
               </div>
 
-              <Link to="/case/app-growth" className="lg:w-1/3 space-y-6 relative z-10 group">
+              <Link to="/case/app-growth" className="w-full text-center space-y-6 relative z-10 group">
                 <span className="text-xs font-bold text-primary uppercase tracking-widest px-3 py-1 bg-primary/10 rounded-full inline-block">Core Focus</span>
                 <h3 className="text-3xl lg:text-4xl font-bold text-white group-hover:text-primary transition-colors">APP 增长/打爆</h3>
-                <p className="text-slate-400 text-lg leading-relaxed max-w-md">
+                <p className="text-slate-400 text-lg leading-relaxed max-w-2xl mx-auto">
                   基于多 Agent 协同的精准获客与留存自动化方案。通过 AI 驱动的创意生成与投放优化，实现低成本规模化增长。
                 </p>
               </Link>
-              <div className="lg:w-2/3 grid grid-cols-2 gap-6 w-full relative z-10">
-                {[
-                  "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-                  "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-                  "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
-                  "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
-                ].map((url, i) => (
-                  <div key={i} className="aspect-[4/3] rounded-2xl overflow-hidden bg-black border border-white/5 shadow-2xl relative group/vid">
-                    <video 
-                      className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover/vid:opacity-100 transition-opacity"
-                      autoPlay loop muted playsInline preload="auto"
-                      src={url} 
-                    />
-                  </div>
-                ))}
+              
+              <div className="w-full relative z-10">
+                <div className="columns-2 md:columns-3 lg:columns-4 gap-4 md:gap-6">
+                  {appGrowthItems.map((item, i) => (
+                    <div key={i} className={`mb-4 md:mb-6 w-full rounded-2xl overflow-hidden bg-black border border-white/5 shadow-2xl relative group/vid cursor-pointer break-inside-avoid ${item.aspectRatioClass}`}>
+                      {item.type === 'video' ? (
+                        <video 
+                          className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover/vid:opacity-70 transition-opacity duration-300"
+                          autoPlay loop muted playsInline preload="auto"
+                          src={item.url} 
+                        />
+                      ) : (
+                        <img 
+                          className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover/vid:opacity-70 transition-opacity duration-300"
+                          src={item.url} 
+                          alt="App Growth"
+                          referrerPolicy="no-referrer"
+                        />
+                      )}
+                      {/* Magic Wand Icons */}
+                      <div className="absolute inset-0 flex items-center justify-center gap-2 opacity-0 group-hover/vid:opacity-100 transition-all duration-300 z-20 bg-black/40 backdrop-blur-sm">
+                        <button 
+                          onClick={(e) => { 
+                            e.preventDefault(); 
+                            setVibeMode(item.type as 'video' | 'image'); 
+                            setVibeVideoUrl(item.url);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className="size-10 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white hover:bg-primary hover:border-primary hover:scale-110 transition-all shadow-lg flex items-center justify-center group/btn relative"
+                        >
+                          {item.type === 'video' ? <Wand2 size={18} /> : <ImageIcon size={18} />}
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
             {/* Ecommerce Section */}
-            <div className="flex flex-col lg:flex-row-reverse items-center gap-16 p-8 lg:p-12 rounded-[3rem] bg-surface-dark/30 backdrop-blur-sm border border-white/5 relative group overflow-hidden">
+            <div className="flex flex-col gap-12 p-8 lg:p-12 rounded-[3rem] bg-surface-dark/30 backdrop-blur-sm border border-white/5 relative group overflow-hidden">
               {/* Dynamic Background Image for Section */}
               <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-700">
                 <img 
@@ -517,28 +576,49 @@ export default function Home() {
                 />
               </div>
 
-              <Link to="/case/ecommerce" className="lg:w-1/3 space-y-6 relative z-10 group">
+              <Link to="/case/ecommerce" className="w-full text-center space-y-6 relative z-10 group">
                 <span className="text-xs font-bold text-accent-pink uppercase tracking-widest px-3 py-1 bg-accent-pink/10 rounded-full inline-block">Vertical Solution</span>
                 <h3 className="text-3xl lg:text-4xl font-bold text-white group-hover:text-accent-pink transition-colors">电商营销</h3>
-                <p className="text-slate-400 text-lg leading-relaxed max-w-md">
+                <p className="text-slate-400 text-lg leading-relaxed max-w-2xl mx-auto">
                   覆盖商品详情、客服引导及促销策略的智能驱动。利用 Agent 矩阵提升转化率，构建全链路营销闭环。
                 </p>
               </Link>
-              <div className="lg:w-2/3 grid grid-cols-2 gap-6 w-full relative z-10">
-                {[
-                  "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
-                  "https://storage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
-                  "https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
-                  "https://storage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4"
-                ].map((url, i) => (
-                  <div key={i} className="aspect-[4/3] rounded-2xl overflow-hidden bg-black border border-white/5 shadow-2xl relative group/vid">
-                    <video 
-                      className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover/vid:opacity-100 transition-opacity"
-                      autoPlay loop muted playsInline preload="auto"
-                      src={url} 
-                    />
-                  </div>
-                ))}
+              
+              <div className="w-full relative z-10">
+                <div className="columns-2 md:columns-3 lg:columns-4 gap-4 md:gap-6">
+                  {ecommerceItems.map((item, i) => (
+                    <div key={i} className={`mb-4 md:mb-6 w-full rounded-2xl overflow-hidden bg-black border border-white/5 shadow-2xl relative group/vid cursor-pointer break-inside-avoid ${item.aspectRatioClass}`}>
+                      {item.type === 'video' ? (
+                        <video 
+                          className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover/vid:opacity-70 transition-opacity duration-300"
+                          autoPlay loop muted playsInline preload="auto"
+                          src={item.url} 
+                        />
+                      ) : (
+                        <img 
+                          className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover/vid:opacity-70 transition-opacity duration-300"
+                          src={item.url} 
+                          alt="Ecommerce"
+                          referrerPolicy="no-referrer"
+                        />
+                      )}
+                      {/* Magic Wand Buttons */}
+                      <div className="absolute inset-0 flex items-center justify-center gap-2 opacity-0 group-hover/vid:opacity-100 transition-all duration-300 z-20 bg-black/40 backdrop-blur-sm">
+                        <button 
+                          onClick={(e) => { 
+                            e.preventDefault(); 
+                            setVibeMode(item.type as 'video' | 'image'); 
+                            setVibeVideoUrl(item.url);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className="size-10 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white hover:bg-accent-pink hover:border-accent-pink hover:scale-110 transition-all shadow-lg flex items-center justify-center group/btn relative"
+                        >
+                          {item.type === 'video' ? <Wand2 size={18} /> : <ImageIcon size={18} />}
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -573,6 +653,17 @@ export default function Home() {
               </Link>
             </div>
             <div className="group relative aspect-[3/4] rounded-3xl overflow-hidden glass-card p-8 flex flex-col justify-between border-border-dark">
+              <div className="absolute inset-0 bg-cover bg-center opacity-60 group-hover:scale-110 transition-all duration-700" style={{ backgroundImage: "url('https://picsum.photos/seed/ecommerce-video/600/800')" }}></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-accent-pink/10 via-transparent to-black/60"></div>
+              <div className="relative z-10">
+                <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight">电商带货视频克隆</h4>
+                <p className="text-sm text-slate-300">专属电商场景的带货视频</p>
+              </div>
+              <Link to="/ecommerce-video-clone" className="relative z-10 w-full btn-secondary py-3 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 text-center block">
+                立即使用
+              </Link>
+            </div>
+            <div className="group relative aspect-[3/4] rounded-3xl overflow-hidden glass-card p-8 flex flex-col justify-between border-border-dark">
               <div className="absolute inset-0 bg-cover bg-center opacity-60 group-hover:scale-110 transition-all duration-700" style={{ backgroundImage: "url('https://picsum.photos/seed/product-design/600/800')" }}></div>
               <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-black/60"></div>
               <div className="relative z-10">
@@ -588,20 +679,9 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-black/60"></div>
               <div className="relative z-10">
                 <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight">APP套壳</h4>
-                <p className="text-sm text-slate-300">快速构建跨平台应用外壳</p>
+                <p className="text-sm text-slate-300">快速构建跨平台应用套壳</p>
               </div>
               <Link to="/app-shell" className="relative z-10 w-full btn-secondary py-3 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 text-center block">
-                立即使用
-              </Link>
-            </div>
-            <div className="group relative aspect-[3/4] rounded-3xl overflow-hidden glass-card p-8 flex flex-col justify-between border-border-dark">
-              <div className="absolute inset-0 bg-cover bg-center opacity-60 group-hover:scale-110 transition-all duration-700" style={{ backgroundImage: "url('https://picsum.photos/seed/content-publish/600/800')" }}></div>
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-black/60"></div>
-              <div className="relative z-10">
-                <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight">内容发布</h4>
-                <p className="text-sm text-slate-300">多渠道矩阵自动化分发</p>
-              </div>
-              <Link to="/content-publish" className="relative z-10 w-full btn-secondary py-3 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 text-center block">
                 立即使用
               </Link>
             </div>
@@ -868,6 +948,152 @@ export default function Home() {
           </div>
         </div>
       )}
-    </div>
+      {/* Vibe Coding Bottom Panel */}
+      {vibeVideoUrl && (
+        <div className="fixed bottom-0 left-0 right-0 z-[110] bg-surface-dark/95 backdrop-blur-2xl border-t border-white/10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] animate-slide-up">
+          <div className="max-w-7xl mx-auto p-4 md:p-6 flex flex-col md:flex-row gap-6 items-end relative">
+            
+            {/* Close Button */}
+            <button 
+              onClick={() => {
+                setVibeVideoUrl(null);
+                setVibePrompt('');
+              }} 
+              className="absolute top-4 right-4 z-20 size-8 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white transition-all"
+            >
+              <X size={16} />
+            </button>
+
+            {/* Left: Mini Preview */}
+            <div className="w-full md:w-64 shrink-0 rounded-xl overflow-hidden bg-black border border-white/10 relative aspect-video shadow-lg">
+              {vibeMode === 'video' ? (
+                <video 
+                  className="w-full h-full object-cover"
+                  autoPlay loop muted playsInline
+                  src={vibeVideoUrl} 
+                />
+              ) : (
+                <img 
+                  className="w-full h-full object-cover"
+                  src={vibeVideoUrl} 
+                  alt="Vibe Preview"
+                  referrerPolicy="no-referrer"
+                />
+              )}
+              <div className="absolute top-2 left-2 flex items-center gap-1.5 px-2 py-1 rounded-md bg-black/60 backdrop-blur-md border border-white/10">
+                <Wand2 size={12} className="text-white animate-pulse" />
+                <span className="text-[10px] font-mono text-slate-300 uppercase">
+                  {vibeMode === 'video' ? 'Video Editing' : 'Image Editing'}
+                </span>
+              </div>
+            </div>
+
+            {/* Right: Input Area */}
+            <div className="flex-1 w-full flex flex-col gap-3">
+              <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center gap-2">
+                  <Wand2 size={18} className="text-primary" />
+                  <h3 className="text-white font-bold">
+                    Vibe Coding 创作
+                  </h3>
+                  <span className="text-sm text-slate-400 ml-2 hidden sm:inline">
+                    {vibeMode === 'video' ? '描述您想如何修改此视频...' : '描述您想如何修改或生成图片...'}
+                  </span>
+                </div>
+                
+                {/* Mode Switcher Tabs */}
+                <div className="flex bg-black/40 p-1 rounded-lg border border-white/10 mr-8 md:mr-0">
+                  <button
+                    onClick={() => setVibeMode('video')}
+                    className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${vibeMode === 'video' ? 'bg-white/20 text-white shadow-sm' : 'text-slate-400 hover:text-white'}`}
+                  >
+                    视频
+                  </button>
+                  <button
+                    onClick={() => setVibeMode('image')}
+                    className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${vibeMode === 'image' ? 'bg-white/20 text-white shadow-sm' : 'text-slate-400 hover:text-white'}`}
+                  >
+                    图片
+                  </button>
+                </div>
+              </div>
+              
+              <div className="relative">
+                <textarea 
+                  value={vibePrompt}
+                  onChange={(e) => setVibePrompt(e.target.value)}
+                  placeholder={vibeMode === 'video' ? "例如：把视频色调改成赛博朋克风，并加上动感的电子音乐..." : "例如：极简风桌面收纳盒，纯实木材质，磁吸模块化设计..."}
+                  className="w-full bg-black/40 border border-white/10 rounded-xl pl-4 pr-12 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 resize-none h-20"
+                />
+                <button 
+                  className={`absolute right-3 bottom-3 size-8 rounded-lg flex items-center justify-center transition-all ${
+                    vibePrompt.trim() 
+                      ? 'bg-primary text-white shadow-[0_0_10px_rgba(37,99,235,0.4)] hover:bg-primary-hover' 
+                      : 'bg-white/5 text-slate-500 cursor-not-allowed'
+                  }`}
+                >
+                  <ArrowUp size={16} />
+                </button>
+              </div>
+              
+              {vibeMode === 'video' ? (
+                <div className="flex items-center gap-3 overflow-x-auto pb-1 scrollbar-hide">
+                  <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 transition-colors whitespace-nowrap">
+                    <Music size={14} />
+                    替换配乐
+                  </button>
+                  <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 transition-colors whitespace-nowrap">
+                    <Type size={14} />
+                    修改字幕
+                  </button>
+                  <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 transition-colors whitespace-nowrap">
+                    <Palette size={14} />
+                    调整色调
+                  </button>
+                  <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 transition-colors whitespace-nowrap">
+                    <Video size={14} />
+                    克隆运镜
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-3 overflow-x-auto pb-1 scrollbar-hide">
+                    <span className="text-xs text-slate-400 whitespace-nowrap font-medium">图片风格</span>
+                    <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 transition-colors whitespace-nowrap">
+                      <Megaphone size={14} /> 营销图
+                    </button>
+                    <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 transition-colors whitespace-nowrap">
+                      <Square size={14} /> 白底图
+                    </button>
+                    <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 transition-colors whitespace-nowrap">
+                      <Camera size={14} /> 实拍图
+                    </button>
+                    <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 transition-colors whitespace-nowrap">
+                      <Layout size={14} /> 详情页
+                    </button>
+                    <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 transition-colors whitespace-nowrap">
+                      <Sparkles size={14} /> 小红书
+                    </button>
+                  </div>
+                  <div className="flex items-center gap-3 overflow-x-auto pb-1 scrollbar-hide">
+                    <span className="text-xs text-slate-400 whitespace-nowrap font-medium">生成张数</span>
+                    <button className="flex items-center justify-center px-4 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 transition-colors whitespace-nowrap">
+                      1 张
+                    </button>
+                    <button className="flex items-center justify-center px-4 py-1.5 rounded-lg bg-primary/20 hover:bg-primary/30 border border-primary/50 text-xs text-primary transition-colors whitespace-nowrap">
+                      4 张 (推荐)
+                    </button>
+                    <button className="flex items-center justify-center px-4 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 transition-colors whitespace-nowrap">
+                      8 张
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+    </motion.div>
   );
 }

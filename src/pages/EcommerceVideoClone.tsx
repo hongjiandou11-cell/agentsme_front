@@ -3,16 +3,18 @@ import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import InspirationModal from '../components/InspirationModal';
 
-export default function VideoClone() {
+export default function EcommerceVideoClone() {
   const [videoUrl, setVideoUrl] = useState('');
   const [videoFile, setVideoFile] = useState<File | null>(null);
 
-  const [imageFiles, setImageFiles] = useState<File[]>([]);
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [productImageFiles, setProductImageFiles] = useState<File[]>([]);
+  const [productImageUrls, setProductImageUrls] = useState<string[]>([]);
 
-  const [productName, setProductName] = useState('');
-  const [prompt, setPrompt] = useState('');
-  const [engine, setEngine] = useState<'remotion' | 'veo'>('remotion');
+  const [personImageFiles, setPersonImageFiles] = useState<File[]>([]);
+  const [personImageUrls, setPersonImageUrls] = useState<string[]>([]);
+
+  const [productSellingPoints, setProductSellingPoints] = useState('');
+  const [engine, setEngine] = useState<'wanxiang' | 'nanobanana' | 'veo'>('wanxiang');
 
   const [isGenerating, setIsGenerating] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -21,10 +23,12 @@ export default function VideoClone() {
   const [resultData, setResultData] = useState<{ resultUrl?: string; logs?: string[] } | null>(null);
 
   const [showVideoInspiration, setShowVideoInspiration] = useState(false);
-  const [showImageInspiration, setShowImageInspiration] = useState(false);
+  const [showProductImageInspiration, setShowProductImageInspiration] = useState(false);
+  const [showPersonImageInspiration, setShowPersonImageInspiration] = useState(false);
 
   const videoInputRef = useRef<HTMLInputElement>(null);
-  const imageInputRef = useRef<HTMLInputElement>(null);
+  const productImageInputRef = useRef<HTMLInputElement>(null);
+  const personImageInputRef = useRef<HTMLInputElement>(null);
 
   const handleVideoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -38,18 +42,30 @@ export default function VideoClone() {
     }
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, type: 'product' | 'person') => {
     if (e.target.files) {
       const filesArray = Array.from(e.target.files);
-      setImageFiles(prev => [...prev, ...filesArray]);
+      if (type === 'product') {
+        setProductImageFiles(prev => [...prev, ...filesArray]);
+      } else {
+        setPersonImageFiles(prev => [...prev, ...filesArray]);
+      }
     }
   };
 
-  const removeImage = (index: number, type: 'file' | 'url') => {
-    if (type === 'file') {
-      setImageFiles(prev => prev.filter((_, i) => i !== index));
+  const removeImage = (index: number, type: 'file' | 'url', category: 'product' | 'person') => {
+    if (category === 'product') {
+      if (type === 'file') {
+        setProductImageFiles(prev => prev.filter((_, i) => i !== index));
+      } else {
+        setProductImageUrls(prev => prev.filter((_, i) => i !== index));
+      }
     } else {
-      setImageUrls(prev => prev.filter((_, i) => i !== index));
+      if (type === 'file') {
+        setPersonImageFiles(prev => prev.filter((_, i) => i !== index));
+      } else {
+        setPersonImageUrls(prev => prev.filter((_, i) => i !== index));
+      }
     }
   };
 
@@ -69,7 +85,7 @@ export default function VideoClone() {
       setAnalysisResult([
         { timeRange: '00:00-00:05', visualDescription: '开场特写', cameraMovement: '缓慢推进', animationEffects: '淡入', aiGenerationPrompt: '电影级光影，特写镜头，缓慢推进...' }
       ]);
-      setPrompt('【视频风格】赛博朋克/电影感\n【转场效果】平滑缩放/淡入淡出\n【画面描述】...');
+      setProductSellingPoints('【卖点1】...\n【卖点2】...');
     }, 2000);
   };
 
@@ -105,7 +121,7 @@ export default function VideoClone() {
             <span className="text-sm font-medium">返回首页</span>
           </Link>
           <div className="flex items-center gap-2 text-white">
-            <h2 className="text-xl font-bold tracking-tight">AI 视频克隆</h2>
+            <h2 className="text-xl font-bold tracking-tight">电商视频克隆</h2>
           </div>
         </div>
       </nav>
@@ -114,8 +130,8 @@ export default function VideoClone() {
         {/* Left Column: Form Settings */}
         <div className="lg:col-span-7 space-y-6">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2">AI 视频克隆</h1>
-            <p className="text-slate-400 text-sm">提供参考视频和APP截图，AI将分析动效并用您的截图重新生成视频。</p>
+            <h1 className="text-3xl font-bold text-white mb-2">电商视频克隆</h1>
+            <p className="text-slate-400 text-sm">提供参考口播视频和商品图，AI将替换商品并重写文案，生成全新带货视频。</p>
           </div>
 
           <div className="bg-[#121214] p-8 rounded-3xl border border-white/5 space-y-8">
@@ -176,6 +192,7 @@ export default function VideoClone() {
                   灵感库
                 </button>
               </div>
+              <p className="text-xs text-slate-500 mt-2">支持30秒以内的口播带货视频；支持抖音/YouTube/B站等平台链接</p>
               
               {videoFile && (
                 <div className="mt-3 flex items-center gap-2 text-sm text-slate-300 bg-white/5 p-2 rounded-lg border border-white/10 w-fit">
@@ -194,15 +211,15 @@ export default function VideoClone() {
               )}
             </div>
 
-            {/* Reference Images */}
+            {/* Product Images */}
             <div>
               <div className="flex items-center justify-between mb-3">
                 <label className="text-sm font-medium text-slate-300 flex items-center gap-2">
                   <span className="material-symbols-outlined text-sm text-primary">image</span>
-                  APP 截图 <span className="text-red-500">*</span>
+                  商品图 <span className="text-red-500">*</span>
                 </label>
                 <button 
-                  onClick={() => setShowImageInspiration(true)}
+                  onClick={() => setShowProductImageInspiration(true)}
                   className="text-xs text-primary hover:text-primary/80 flex items-center gap-1"
                 >
                   <span className="material-symbols-outlined text-[14px]">lightbulb</span>
@@ -212,13 +229,13 @@ export default function VideoClone() {
 
               <div className="space-y-3">
                 <div 
-                  onClick={() => imageInputRef.current?.click()}
+                  onClick={() => productImageInputRef.current?.click()}
                   className="w-full border border-dashed border-white/10 hover:border-primary/50 rounded-2xl p-8 flex flex-col items-center justify-center cursor-pointer transition-colors bg-black/20 group"
                 >
                   <input 
                     type="file" 
-                    ref={imageInputRef} 
-                    onChange={handleImageUpload} 
+                    ref={productImageInputRef} 
+                    onChange={(e) => handleImageUpload(e, 'product')} 
                     className="hidden" 
                     accept="image/*" 
                     multiple
@@ -226,28 +243,28 @@ export default function VideoClone() {
                   <div className="size-12 rounded-full bg-white/5 flex items-center justify-center text-slate-400 group-hover:text-primary group-hover:bg-primary/10 transition-colors mb-3">
                     <span className="material-symbols-outlined">cloud_upload</span>
                   </div>
-                  <p className="text-sm text-slate-300 mb-1">点击上传截图（可多张）</p>
-                  <p className="text-xs text-slate-500">这些截图将替换参考视频中的画面内容</p>
+                  <p className="text-sm text-slate-300 mb-1">上传新的商品图片</p>
+                  <p className="text-xs text-slate-500">将替换视频中原有商品</p>
                 </div>
                 
-                {(imageFiles.length > 0 || imageUrls.length > 0) && (
+                {(productImageFiles.length > 0 || productImageUrls.length > 0) && (
                   <div className="flex flex-wrap gap-3 mt-4">
-                    {imageFiles.map((file, idx) => (
+                    {productImageFiles.map((file, idx) => (
                       <div key={`file-${idx}`} className="relative group/img">
                         <img src={URL.createObjectURL(file)} alt="preview" className="w-20 h-20 object-cover rounded-xl border border-white/10" />
                         <button 
-                          onClick={() => removeImage(idx, 'file')}
+                          onClick={() => removeImage(idx, 'file', 'product')}
                           className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full size-5 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity"
                         >
                           <span className="material-symbols-outlined text-[12px]">close</span>
                         </button>
                       </div>
                     ))}
-                    {imageUrls.map((url, idx) => (
+                    {productImageUrls.map((url, idx) => (
                       <div key={`url-${idx}`} className="relative group/img">
                         <img src={url} alt="preview" className="w-20 h-20 object-cover rounded-xl border border-white/10" referrerPolicy="no-referrer" />
                         <button 
-                          onClick={() => removeImage(idx, 'url')}
+                          onClick={() => removeImage(idx, 'url', 'product')}
                           className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full size-5 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity"
                         >
                           <span className="material-symbols-outlined text-[12px]">close</span>
@@ -259,31 +276,77 @@ export default function VideoClone() {
               </div>
             </div>
 
-            {/* Product Name */}
+            {/* Person Images */}
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-3 flex items-center gap-2">
-                <span className="material-symbols-outlined text-sm text-primary">inventory_2</span>
-                产品名称 <span className="text-slate-500 font-normal">（选填）</span>
-              </label>
-              <input
-                type="text"
-                value={productName}
-                onChange={(e) => setProductName(e.target.value)}
-                placeholder="例如：我的APP"
-                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-primary/50 transition-all"
-              />
+              <div className="flex items-center justify-between mb-3">
+                <label className="text-sm font-medium text-slate-300 flex items-center gap-2">
+                  <span className="material-symbols-outlined text-sm text-primary">person</span>
+                  人物图 (选填)
+                </label>
+                <button 
+                  onClick={() => setShowPersonImageInspiration(true)}
+                  className="text-xs text-primary hover:text-primary/80 flex items-center gap-1"
+                >
+                  <span className="material-symbols-outlined text-[14px]">lightbulb</span>
+                  从灵感库选择
+                </button>
+              </div>
+
+              <div className="space-y-3">
+                <div 
+                  onClick={() => personImageInputRef.current?.click()}
+                  className="w-full border border-dashed border-white/10 hover:border-primary/50 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer transition-colors bg-black/20 group"
+                >
+                  <input 
+                    type="file" 
+                    ref={personImageInputRef} 
+                    onChange={(e) => handleImageUpload(e, 'person')} 
+                    className="hidden" 
+                    accept="image/*" 
+                    multiple
+                  />
+                  <p className="text-sm text-slate-400 group-hover:text-primary transition-colors">上传替换人物图片（可选）</p>
+                </div>
+                
+                {(personImageFiles.length > 0 || personImageUrls.length > 0) && (
+                  <div className="flex flex-wrap gap-3 mt-4">
+                    {personImageFiles.map((file, idx) => (
+                      <div key={`file-${idx}`} className="relative group/img">
+                        <img src={URL.createObjectURL(file)} alt="preview" className="w-20 h-20 object-cover rounded-xl border border-white/10" />
+                        <button 
+                          onClick={() => removeImage(idx, 'file', 'person')}
+                          className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full size-5 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity"
+                        >
+                          <span className="material-symbols-outlined text-[12px]">close</span>
+                        </button>
+                      </div>
+                    ))}
+                    {personImageUrls.map((url, idx) => (
+                      <div key={`url-${idx}`} className="relative group/img">
+                        <img src={url} alt="preview" className="w-20 h-20 object-cover rounded-xl border border-white/10" referrerPolicy="no-referrer" />
+                        <button 
+                          onClick={() => removeImage(idx, 'url', 'person')}
+                          className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full size-5 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity"
+                        >
+                          <span className="material-symbols-outlined text-[12px]">close</span>
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
 
-            {/* Prompt */}
+            {/* Product Selling Points */}
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-3 flex items-center gap-2">
-                <span className="material-symbols-outlined text-sm text-primary">edit</span>
-                创意简述 <span className="text-slate-500 font-normal">（选填）</span>
+                <span className="material-symbols-outlined text-sm text-primary">edit_note</span>
+                商品卖点 <span className="text-red-500">*</span>
               </label>
               <textarea
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                placeholder="描述您希望的视频风格、氛围或特殊要求..."
+                value={productSellingPoints}
+                onChange={(e) => setProductSellingPoints(e.target.value)}
+                placeholder="描述商品的核心卖点、价格、优惠信息等，AI将基于此重写口播文案..."
                 rows={4}
                 className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-primary/50 transition-all resize-none"
               ></textarea>
@@ -293,19 +356,30 @@ export default function VideoClone() {
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-3 flex items-center gap-2">
                 <span className="material-symbols-outlined text-sm text-primary">tune</span>
-                生成引擎
+                视频生成引擎
               </label>
               <div className="flex bg-black/40 p-1 rounded-xl border border-white/10">
                 <button
-                  onClick={() => setEngine('remotion')}
+                  onClick={() => setEngine('wanxiang')}
                   className={`flex-1 py-3 text-sm font-medium rounded-lg transition-all flex items-center justify-center gap-2 ${
-                    engine === 'remotion'
+                    engine === 'wanxiang'
                       ? 'bg-[#2563eb] text-white shadow-md'
                       : 'text-slate-400 hover:text-white hover:bg-white/5'
                   }`}
                 >
-                  <span className="material-symbols-outlined text-[18px]">code</span>
-                  Remotion (动效模板)
+                  <span className="material-symbols-outlined text-[18px]">shopping_bag</span>
+                  万象 (Wanxiang)
+                </button>
+                <button
+                  onClick={() => setEngine('nanobanana')}
+                  className={`flex-1 py-3 text-sm font-medium rounded-lg transition-all flex items-center justify-center gap-2 ${
+                    engine === 'nanobanana'
+                      ? 'bg-[#2563eb] text-white shadow-md'
+                      : 'text-slate-400 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  <span className="material-symbols-outlined text-[18px]">bolt</span>
+                  NanoBanana
                 </button>
                 <button
                   onClick={() => setEngine('veo')}
@@ -316,15 +390,12 @@ export default function VideoClone() {
                   }`}
                 >
                   <span className="material-symbols-outlined text-[18px]">movie</span>
-                  Veo 3.1 (AI 视频)
+                  Veo 3.1
                 </button>
               </div>
-              <p className="text-xs text-slate-500 mt-2">
-                {engine === 'remotion' ? 'Remotion：基于模板的精确动效克隆，适合 App/Web 展示视频' : 'Veo 3.1：基于 AI 视频生成大模型，适合创意和氛围感视频'}
-              </p>
             </div>
 
-            <button 
+              <button 
               onClick={handleGenerate}
               disabled={isGenerating}
               className={`w-full py-4 rounded-xl font-bold text-base transition-all flex items-center justify-center gap-2 ${
@@ -340,8 +411,8 @@ export default function VideoClone() {
                 </>
               ) : (
                 <>
-                  <span className="material-symbols-outlined">auto_awesome</span>
-                  开始克隆视频
+                  <span className="material-symbols-outlined">movie</span>
+                  生成带货视频
                 </>
               )}
             </button>
@@ -354,7 +425,7 @@ export default function VideoClone() {
             <div className="bg-[#121214] rounded-3xl border border-white/5 overflow-hidden flex flex-col h-[700px]">
               <div className="p-4 border-b border-white/5 flex items-center gap-2">
                 <span className="material-symbols-outlined text-sm text-slate-400">preview</span>
-                <h3 className="text-sm font-medium text-slate-300">效果预览</h3>
+                <h3 className="text-sm font-medium text-slate-300">生成预览</h3>
               </div>
               <div className="flex-1 bg-[#0a0a0a] flex items-center justify-center p-8 relative overflow-hidden">
                 {isGenerating ? (
@@ -370,7 +441,7 @@ export default function VideoClone() {
                 ) : resultData ? (
                   <div className="relative z-10 w-full h-full flex flex-col items-center justify-center gap-6">
                     <div className="w-full aspect-[9/16] max-h-full bg-black rounded-xl border border-white/10 overflow-hidden relative group">
-                      <div className="absolute inset-0 bg-[url('https://picsum.photos/seed/result/450/800')] bg-cover bg-center"></div>
+                      <div className="absolute inset-0 bg-[url('https://picsum.photos/seed/ecomresult/450/800')] bg-cover bg-center"></div>
                       <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                         <button className="size-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/30 hover:scale-110 transition-all">
                           <span className="material-symbols-outlined text-3xl ml-1">play_arrow</span>
@@ -381,10 +452,10 @@ export default function VideoClone() {
                 ) : (
                   <div className="relative z-10 flex flex-col items-center text-center gap-4">
                     <div className="size-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-500">
-                      <span className="material-symbols-outlined text-2xl">movie</span>
+                      <span className="material-symbols-outlined text-2xl">shopping_cart</span>
                     </div>
                     <div>
-                      <p className="text-slate-300 text-sm">等待生成...</p>
+                      <p className="text-slate-300 text-sm">等待生成预览...</p>
                       <p className="text-slate-500 text-xs mt-1">配置左侧参数后点击生成</p>
                     </div>
                   </div>
@@ -403,12 +474,18 @@ export default function VideoClone() {
       />
       
       <InspirationModal 
-        isOpen={showImageInspiration} 
-        onClose={() => setShowImageInspiration(false)} 
+        isOpen={showProductImageInspiration} 
+        onClose={() => setShowProductImageInspiration(false)} 
+        type="product" 
+        onSelect={(url) => setProductImageUrls(prev => [...prev, url])} 
+      />
+
+      <InspirationModal 
+        isOpen={showPersonImageInspiration} 
+        onClose={() => setShowPersonImageInspiration(false)} 
         type="image" 
-        onSelect={(url) => setImageUrls(prev => [...prev, url])} 
+        onSelect={(url) => setPersonImageUrls(prev => [...prev, url])} 
       />
     </motion.div>
   );
 }
-
