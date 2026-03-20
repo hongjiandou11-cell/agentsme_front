@@ -101,7 +101,7 @@ export default function DashboardHome() {
         
         {/* Main Title */}
         <h1 className="text-4xl md:text-5xl font-bold mb-12 tracking-tight text-center">
-          任意视频，告诉你的 Agent 即可创建
+          任意视频，告诉 AI 即可创建
         </h1>
 
         {/* Omni-Prompt Area */}
@@ -189,63 +189,6 @@ export default function DashboardHome() {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-
-        {/* Atomic Lab Section */}
-        <div className="w-full max-w-6xl mb-16">
-          <div className="flex items-end justify-between mb-6">
-            <div>
-              <h2 className="text-lg font-bold mb-1">原子实验室</h2>
-              <p className="text-zinc-400 text-sm">最小化功能单元，快速拼装您的专属 Agent</p>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Lab Cards */}
-            <div className="group relative aspect-[3/4] rounded-2xl overflow-hidden bg-[#18181b] p-6 flex flex-col justify-between border border-white/10 hover:border-white/20 transition-all">
-              <div className="absolute inset-0 bg-cover bg-center opacity-40 group-hover:scale-105 transition-all duration-700" style={{ backgroundImage: "url('https://picsum.photos/seed/video-clone/600/800')" }}></div>
-              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-transparent to-black/80"></div>
-              <div className="relative z-10">
-                <h4 className="text-xl font-bold text-white mb-2 tracking-tight text-center">视频克隆</h4>
-                <p className="text-xs text-zinc-300 text-center">AI驱动的爆款视频生成</p>
-              </div>
-              <Link to="/dashboard/app/video" className="relative z-10 w-full bg-white/10 hover:bg-white/20 py-2.5 rounded-lg text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 text-center block backdrop-blur-sm">
-                立即使用
-              </Link>
-            </div>
-            <div className="group relative aspect-[3/4] rounded-2xl overflow-hidden bg-[#18181b] p-6 flex flex-col justify-between border border-white/10 hover:border-white/20 transition-all">
-              <div className="absolute inset-0 bg-cover bg-center opacity-40 group-hover:scale-105 transition-all duration-700" style={{ backgroundImage: "url('https://picsum.photos/seed/ecommerce-video/600/800')" }}></div>
-              <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-transparent to-black/80"></div>
-              <div className="relative z-10">
-                <h4 className="text-xl font-bold text-white mb-2 tracking-tight text-center">电商带货视频克隆</h4>
-                <p className="text-xs text-zinc-300 text-center">专属电商场景的带货视频</p>
-              </div>
-              <Link to="/dashboard/ecommerce/video" className="relative z-10 w-full bg-white/10 hover:bg-white/20 py-2.5 rounded-lg text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 text-center block backdrop-blur-sm">
-                立即使用
-              </Link>
-            </div>
-            <div className="group relative aspect-[3/4] rounded-2xl overflow-hidden bg-[#18181b] p-6 flex flex-col justify-between border border-white/10 hover:border-white/20 transition-all">
-              <div className="absolute inset-0 bg-cover bg-center opacity-40 group-hover:scale-105 transition-all duration-700" style={{ backgroundImage: "url('https://picsum.photos/seed/product-design/600/800')" }}></div>
-              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-black/80"></div>
-              <div className="relative z-10">
-                <h4 className="text-xl font-bold text-white mb-2 tracking-tight text-center">商品素材</h4>
-                <p className="text-xs text-zinc-300 text-center">一键生成高质量电商视觉</p>
-              </div>
-              <Link to="/dashboard/ecommerce/material" className="relative z-10 w-full bg-white/10 hover:bg-white/20 py-2.5 rounded-lg text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 text-center block backdrop-blur-sm">
-                立即使用
-              </Link>
-            </div>
-            <div className="group relative aspect-[3/4] rounded-2xl overflow-hidden bg-[#18181b] p-6 flex flex-col justify-between border border-white/10 hover:border-white/20 transition-all">
-              <div className="absolute inset-0 bg-cover bg-center opacity-40 group-hover:scale-105 transition-all duration-700" style={{ backgroundImage: "url('https://picsum.photos/seed/mobile-app/600/800')" }}></div>
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-black/80"></div>
-              <div className="relative z-10">
-                <h4 className="text-xl font-bold text-white mb-2 tracking-tight text-center">APP套壳</h4>
-                <p className="text-xs text-zinc-300 text-center">快速构建跨平台应用套壳</p>
-              </div>
-              <Link to="/dashboard/app/shell" className="relative z-10 w-full bg-white/10 hover:bg-white/20 py-2.5 rounded-lg text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 text-center block backdrop-blur-sm">
-                立即使用
-              </Link>
-            </div>
           </div>
         </div>
 

@@ -7,7 +7,7 @@ export default function Pricing() {
       price: "0",
       description: "适合个人开发者和初创团队进行初步探索",
       features: [
-        "每月 100 次 Agent 调用",
+        "每月 100 次 AI 调用",
         "基础视频克隆功能",
         "标准商品素材生成",
         "社区支持",
@@ -21,12 +21,12 @@ export default function Pricing() {
       price: "299",
       description: "为追求高效增长的专业团队量身定制",
       features: [
-        "每月 2,000 次 Agent 调用",
+        "每月 2,000 次 AI 调用",
         "高级 4K 视频克隆",
         "无限量商品素材生成",
         "优先技术支持",
         "10GB 云端存储空间",
-        "多 Agent 协同工作流"
+        "多 AI 协同工作流"
       ],
       buttonText: "立即订阅",
       highlight: true
@@ -36,12 +36,12 @@ export default function Pricing() {
       price: "定制",
       description: "满足大型企业复杂业务场景的深度定制需求",
       features: [
-        "无限次 Agent 调用",
+        "无限次 AI 调用",
         "私有化部署支持",
         "专属客户经理",
         "SLA 服务保障",
         "无限云端存储空间",
-        "定制化 Agent 开发"
+        "定制化 AI 开发"
       ],
       buttonText: "联系我们",
       highlight: false
@@ -55,11 +55,10 @@ export default function Pricing() {
         <div className="flex items-center gap-12">
           <Link to="/" className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity">
             <span className="material-symbols-outlined text-primary text-3xl">deployed_code</span>
-            <h2 className="text-xl font-bold tracking-tight">Agents Me</h2>
+            <h2 className="text-xl font-bold tracking-tight">AI Me</h2>
           </Link>
           <div className="hidden md:flex items-center gap-8">
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/">首页</Link>
-            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/market">Agent 市场</Link>
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/product-concept">产品概念</Link>
             <Link className="text-sm font-medium text-white transition-colors" to="/pricing">产品定价</Link>
           </div>
@@ -128,7 +127,7 @@ export default function Pricing() {
           {/* FAQ Preview */}
           <div className="mt-32 p-12 rounded-[3rem] bg-white/[0.02] border border-white/5 text-center">
             <h3 className="text-2xl font-bold text-white mb-4">需要更大规模的定制？</h3>
-            <p className="text-slate-400 mb-8">我们的专家团队可以为您提供专属的 Agent 解决方案和私有化部署建议。</p>
+            <p className="text-slate-400 mb-8">我们的专家团队可以为您提供专属的 AI 解决方案和私有化部署建议。</p>
             <button className="text-primary font-bold flex items-center gap-2 mx-auto hover:gap-3 transition-all">
               咨询专家团队 <span className="material-symbols-outlined">arrow_forward</span>
             </button>
@@ -138,7 +137,7 @@ export default function Pricing() {
 
       {/* Footer */}
       <footer className="border-t border-border-dark py-12 px-6 lg:px-20 text-center text-slate-500 text-sm">
-        <p>© 2024 Agents Me. All rights reserved.</p>
+        <p>© 2024 AI Me. All rights reserved.</p>
       </footer>
     </div>
   );

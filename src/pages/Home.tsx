@@ -5,7 +5,7 @@ import { motion } from 'motion/react';
 
 export default function Home() {
   const navigate = useNavigate();
-  const [activeAgent, setActiveAgent] = useState<'app' | 'marketing'>('app');
+  const [activeAI, setActiveAI] = useState<'app' | 'marketing'>('app');
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [selectedImageUrls, setSelectedImageUrls] = useState<string[]>([]);
   const [promptText, setPromptText] = useState('');
@@ -356,7 +356,7 @@ export default function Home() {
         <div className="flex items-center gap-12">
           <div className="flex items-center gap-2 text-white">
             <span className="material-symbols-outlined text-primary text-4xl">deployed_code</span>
-            <h2 className="text-2xl font-bold tracking-tight">Agents Me</h2>
+            <h2 className="text-2xl font-bold tracking-tight">AI Me</h2>
           </div>
           <div className="hidden md:flex items-center gap-8">
             <Link className="text-sm font-medium hover:text-white transition-colors text-white" to="/">首页</Link>
@@ -395,10 +395,10 @@ export default function Home() {
           {/* Text Content */}
           <div className="flex flex-col items-start space-y-6">
             <h1 className="text-5xl lg:text-7xl font-bold tracking-tight leading-tight text-white">
-              Agents Me
+              AI Me
             </h1>
             <p className="text-lg text-slate-400 max-w-xl leading-relaxed">
-              基于 Vibe Coding 模式，构建高效的 Agent A-B-C体系。重新定义商业需求与开发者的共生逻辑。
+              基于 Vibe Coding 模式，构建高效的 AI A-B-C体系。重新定义商业需求与开发者的共生逻辑。
             </p>
             <div className="pt-2 flex items-center gap-4">
               <div className="relative group">
@@ -428,28 +428,28 @@ export default function Home() {
               
               {/* Editor Bottom Layer Visual Effects Removed as requested */}
 
-              {/* Agent Tabs */}
+              {/* AI Tabs */}
               <div className="relative z-10 flex items-center gap-6 px-6 pt-4 border-b border-white/10 shrink-0 bg-white/[0.02]">
                 <button 
-                  onClick={() => setActiveAgent('app')}
-                  className={`pb-3 text-sm font-medium transition-colors relative ${activeAgent === 'app' ? 'text-white' : 'text-slate-500 hover:text-slate-300'}`}
+                  onClick={() => setActiveAI('app')}
+                  className={`pb-3 text-sm font-medium transition-colors relative ${activeAI === 'app' ? 'text-white' : 'text-slate-500 hover:text-slate-300'}`}
                 >
-                  APP Agent
-                  {activeAgent === 'app' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-primary rounded-t-full shadow-[0_-2px_10px_rgba(37,99,235,0.5)]"></div>}
+                  APP AI 助手
+                  {activeAI === 'app' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-primary rounded-t-full shadow-[0_-2px_10px_rgba(37,99,235,0.5)]"></div>}
                 </button>
                 <button 
-                  onClick={() => setActiveAgent('marketing')}
-                  className={`pb-3 text-sm font-medium transition-colors relative ${activeAgent === 'marketing' ? 'text-white' : 'text-slate-500 hover:text-slate-300'}`}
+                  onClick={() => setActiveAI('marketing')}
+                  className={`pb-3 text-sm font-medium transition-colors relative ${activeAI === 'marketing' ? 'text-white' : 'text-slate-500 hover:text-slate-300'}`}
                 >
-                  Marketing Agent
-                  {activeAgent === 'marketing' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-accent-pink rounded-t-full shadow-[0_-2px_10px_rgba(14,165,233,0.5)]"></div>}
+                  营销 AI 助手
+                  {activeAI === 'marketing' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-accent-pink rounded-t-full shadow-[0_-2px_10px_rgba(14,165,233,0.5)]"></div>}
                 </button>
               </div>
 
               <div className="relative z-10 p-6 flex flex-col gap-4 bg-gradient-to-b from-transparent to-white/[0.02]">
                 <textarea 
                   className="w-full bg-transparent border-none focus:outline-none focus:ring-0 text-lg text-slate-300 resize-none placeholder-slate-600 leading-relaxed min-h-[120px]"
-                  placeholder={activeAgent === 'app' ? "请你根据我上传的素材，帮我只做一个顶级的app营销素材，我的app名字叫傻妞，是一个ai助手，可以实现顶级的情感陪伴，每日日报生成..." : "请帮我完成选品，素材生成，和小红书的自动发布..."}
+                  placeholder={activeAI === 'app' ? "请你根据我上传的素材，帮我只做一个顶级的app营销素材，我的app名字叫傻妞，是一个ai助手，可以实现顶级的情感陪伴，每日日报生成..." : "请帮我完成选品，素材生成，和小红书的自动发布..."}
                   value={promptText}
                   onChange={(e) => setPromptText(e.target.value)}
                 ></textarea>
@@ -598,7 +598,7 @@ export default function Home() {
                   <span className="text-xs font-bold text-primary uppercase tracking-widest px-3 py-1 bg-primary/10 border border-primary/20 rounded-full inline-block">Core Focus</span>
                   <h3 className="text-3xl lg:text-4xl font-bold text-white">APP 增长/打爆</h3>
                   <p className="text-slate-400 text-lg leading-relaxed">
-                    基于多 Agent 协同的精准获客方案。支持 APP 套壳包装、视频克隆等核心能力，通过 AI 驱动的创意生成与投放优化，实现低成本规模化增长。
+                    基于多 AI 协同的精准获客方案。支持 APP 套壳包装、视频克隆等核心能力，通过 AI 驱动的创意生成与投放优化，实现低成本规模化增长。
                   </p>
                 </div>
               </div>
@@ -658,7 +658,7 @@ export default function Home() {
                   <span className="text-xs font-bold text-accent-pink uppercase tracking-widest px-3 py-1 bg-accent-pink/10 border border-accent-pink/20 rounded-full inline-block">Vertical Solution</span>
                   <h3 className="text-3xl lg:text-4xl font-bold text-white">电商营销</h3>
                   <p className="text-slate-400 text-lg leading-relaxed">
-                    支持复刻带货视频、电商视频克隆及商品营销素材生成。基于 Agent 矩阵的智能驱动，提升转化率，构建全链路营销闭环。
+                    支持复刻带货视频、电商视频克隆及商品营销素材生成。基于 AI 矩阵的智能驱动，提升转化率，构建全链路营销闭环。
                   </p>
                 </div>
               </div>
@@ -717,7 +717,7 @@ export default function Home() {
           <div className="flex items-end justify-between mb-16">
             <div>
               <h2 className="text-4xl font-bold mb-4 gradient-text">原子实验室</h2>
-              <p className="text-slate-400 text-lg">最小化功能单元，快速拼装您的专属 Agent</p>
+              <p className="text-slate-400 text-lg">最小化功能单元，快速拼装您的专属 AI 助手</p>
             </div>
             <a className="text-primary text-sm font-semibold flex items-center gap-1 hover:gap-2 transition-all" href="#">
               查看全部实验 <span className="material-symbols-outlined text-sm">arrow_forward</span>
@@ -773,7 +773,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Popular Agent Market Section */}
+      {/* Popular AI Market Section */}
       <section className="px-6 lg:px-20 py-32 bg-surface-dark border-y border-border-dark relative overflow-hidden">
         {/* Immersive Dynamic Background */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -801,7 +801,7 @@ export default function Home() {
                 <span className="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_10px_rgba(19,164,236,0.8)]"></span>
                 <span className="text-primary font-mono text-sm uppercase tracking-widest">Live Leaderboard</span>
               </div>
-              <h2 className="text-4xl md:text-5xl font-bold font-display tracking-tight text-white">热门 Agent 市场</h2>
+              <h2 className="text-4xl md:text-5xl font-bold font-display tracking-tight text-white">热门 AI 助手市场</h2>
             </div>
             <Link className="px-6 py-3 rounded-full border border-white/10 hover:border-primary/50 text-white text-sm font-semibold flex items-center gap-2 transition-all group/link bg-white/5 hover:bg-white/10" to="/market">
               探索完整市场 <span className="material-symbols-outlined text-sm group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
@@ -809,7 +809,7 @@ export default function Home() {
           </div>
 
           <div className="flex flex-col gap-4">
-            {/* Agent Item 1 */}
+            {/* AI 助手 Item 1 */}
             <div className="group relative bg-surface-card rounded-2xl border border-white/5 hover:border-primary/30 transition-all duration-500 overflow-hidden cursor-pointer">
               <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-top"></div>
@@ -853,7 +853,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Agent Item 2 */}
+            {/* AI 助手 Item 2 */}
             <div className="group relative bg-surface-card rounded-2xl border border-white/5 hover:border-accent-pink/30 transition-all duration-500 overflow-hidden cursor-pointer">
               <div className="absolute inset-0 bg-gradient-to-r from-accent-pink/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="absolute left-0 top-0 bottom-0 w-1 bg-accent-pink scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-top"></div>
@@ -864,7 +864,7 @@ export default function Home() {
                     2
                   </div>
                   <div className="size-14 rounded-2xl bg-accent-pink/20 border border-accent-pink/30 flex items-center justify-center text-accent-pink shrink-0 shadow-[0_0_15px_rgba(244,114,182,0.2)] group-hover:scale-110 transition-transform duration-500">
-                    <span className="material-symbols-outlined text-3xl">support_agent</span>
+                    <span className="material-symbols-outlined text-3xl">smart_toy</span>
                   </div>
                   <div>
                     <div className="flex items-center gap-3 mb-2">
@@ -897,7 +897,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Agent Item 3 */}
+            {/* AI 助手 Item 3 */}
             <div className="group relative bg-surface-card rounded-2xl border border-white/5 hover:border-green-400/30 transition-all duration-500 overflow-hidden cursor-pointer">
               <div className="absolute inset-0 bg-gradient-to-r from-green-400/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="absolute left-0 top-0 bottom-0 w-1 bg-green-400 scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-top"></div>
@@ -958,7 +958,7 @@ export default function Home() {
             <div className="p-6 overflow-y-auto space-y-8">
               
               {/* APP推广 */}
-              {(activeAgent === 'app' || activeAgent === 'vibe') && (
+              {(activeAI === 'app' || activeAI === 'vibe') && (
                 <div>
                   <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
                     <span className="material-symbols-outlined text-primary">app_shortcut</span>
@@ -991,7 +991,7 @@ export default function Home() {
               )}
 
               {/* 营销推广 */}
-              {(activeAgent === 'marketing' || activeAgent === 'vibe') && (
+              {(activeAI === 'marketing' || activeAI === 'vibe') && (
                 <div>
                   <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
                     <span className="material-symbols-outlined text-accent-pink">campaign</span>
@@ -1003,7 +1003,7 @@ export default function Home() {
                         key={idx} 
                         className="group cursor-pointer" 
                         onClick={() => {
-                          setActiveAgent('marketing');
+                          setActiveAI('marketing');
                           setPromptText(template.prompt);
                           setSelectedImageUrls([template.img]);
                           setSelectedFiles([]);

@@ -86,30 +86,7 @@ export default function AppShell() {
       className="bg-[#0a0a0a] text-slate-100 font-sans min-h-screen flex flex-col"
     >
       {/* Navigation */}
-      {isDashboard ? (
-        <div className="border-b border-white/5 bg-[#0a0a0a] px-6 py-4 flex items-center gap-8">
-          <NavLink 
-            to="/dashboard/app/shell" 
-            className={({ isActive }) => 
-              `text-sm font-medium transition-colors pb-1 border-b-2 ${
-                isActive ? 'text-white border-primary' : 'text-zinc-400 hover:text-white border-transparent'
-              }`
-            }
-          >
-            APP 套壳
-          </NavLink>
-          <NavLink 
-            to="/dashboard/app/video" 
-            className={({ isActive }) => 
-              `text-sm font-medium transition-colors pb-1 border-b-2 ${
-                isActive ? 'text-white border-primary' : 'text-zinc-400 hover:text-white border-transparent'
-              }`
-            }
-          >
-            APP 视频克隆
-          </NavLink>
-        </div>
-      ) : (
+      {!isDashboard && (
         <nav className="sticky top-0 z-50 border-b border-white/5 bg-[#0a0a0a]/80 backdrop-blur-md px-6 lg:px-20 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link to="/?scroll=atomic-lab" className="text-slate-400 hover:text-white transition-colors flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/5 border border-white/10">

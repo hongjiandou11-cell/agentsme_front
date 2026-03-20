@@ -6,7 +6,6 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'motion/react';
 import Home from './pages/Home';
-import Market from './pages/Market';
 import Help from './pages/Help';
 import ProductConcept from './pages/ProductConcept';
 import VideoClone from './pages/VideoClone';
@@ -26,7 +25,6 @@ function AnimatedRoutes() {
   return (
       <Routes location={location}>
         <Route path="/" element={<Home />} />
-        <Route path="/market" element={<Market />} />
         <Route path="/help" element={<Help />} />
         <Route path="/product-concept" element={<ProductConcept />} />
         <Route path="/video-clone" element={<VideoClone />} />
@@ -42,7 +40,6 @@ function AnimatedRoutes() {
         {/* Dashboard Routes */}
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<DashboardHome />} />
-          <Route path="market" element={<Market />} />
           <Route path="app/shell" element={<AppShell />} />
           <Route path="app/video" element={<VideoClone />} />
           <Route path="ecommerce/material" element={<ProductMaterial />} />

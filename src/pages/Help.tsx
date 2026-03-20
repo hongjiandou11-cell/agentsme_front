@@ -8,11 +8,10 @@ export default function Help() {
         <div className="flex items-center gap-12">
           <div className="flex items-center gap-2 text-white">
             <span className="material-symbols-outlined text-primary text-3xl">deployed_code</span>
-            <h2 className="text-xl font-bold tracking-tight">Agents Me</h2>
+            <h2 className="text-xl font-bold tracking-tight">AI Me</h2>
           </div>
           <div className="hidden md:flex items-center gap-8">
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/">首页</Link>
-            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/market">Agent 市场</Link>
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/product-concept">产品概念</Link>
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/pricing">产品定价</Link>
           </div>
@@ -34,7 +33,7 @@ export default function Help() {
             我们能为您提供什么帮助？
           </h2>
           <p className="text-slate-400 text-lg mb-10 max-w-2xl mx-auto">
-            探索智推 Agent 的强大功能，从零开始搭建您的 AI 智能助手，或者通过开发者 API 实现深度定制。
+            探索智推 AI 的强大功能，从零开始搭建您的 AI 智能助手，或者通过开发者 API 实现深度定制。
           </p>
           <div className="relative group">
             <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent-pink rounded-3xl blur-xl opacity-25 group-focus-within:opacity-50 transition duration-1000"></div>
@@ -56,10 +55,10 @@ export default function Help() {
               <span className="material-symbols-outlined text-primary text-3xl">rocket_launch</span>
             </div>
             <h3 className="text-2xl font-bold mb-4 text-white">快速入门</h3>
-            <p className="text-slate-400 text-base leading-relaxed mb-8">适合新用户的 5 分钟上手指南，包含账号激活与首个 Agent 创建。</p>
+            <p className="text-slate-400 text-base leading-relaxed mb-8">适合新用户的 5 分钟上手指南，包含账号激活与首个 AI 助手创建。</p>
             <ul className="space-y-4 text-sm text-slate-300">
               <li className="flex items-center gap-2 hover:text-primary transition-colors"><span className="material-symbols-outlined text-xs">chevron_right</span> 注册与登录流程</li>
-              <li className="flex items-center gap-2 hover:text-primary transition-colors"><span className="material-symbols-outlined text-xs">chevron_right</span> 核心概念：什么是 Agent</li>
+              <li className="flex items-center gap-2 hover:text-primary transition-colors"><span className="material-symbols-outlined text-xs">chevron_right</span> 核心概念：什么是 AI 助手</li>
               <li className="flex items-center gap-2 hover:text-primary transition-colors"><span className="material-symbols-outlined text-xs">chevron_right</span> 零代码搭建首个助手</li>
             </ul>
           </div>
@@ -106,11 +105,11 @@ export default function Help() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-6">
               <div className="p-8 rounded-3xl bg-surface-card border border-border-dark hover:border-primary/30 transition-colors">
-                <h4 className="font-bold mb-3 text-white text-lg">智推 Agent 支持哪些大模型底座？</h4>
+                <h4 className="font-bold mb-3 text-white text-lg">智推 AI 支持哪些大模型底座？</h4>
                 <p className="text-slate-400 text-base leading-relaxed">目前已适配 GPT-4o, Claude 3.5 Sonnet, 智谱 GLM-4 等主流模型，开发者可根据需求自由切换。</p>
               </div>
               <div className="p-8 rounded-3xl bg-surface-card border border-border-dark hover:border-primary/30 transition-colors">
-                <h4 className="font-bold mb-3 text-white text-lg">如何提高 Agent 的响应准确率？</h4>
+                <h4 className="font-bold mb-3 text-white text-lg">如何提高 AI 助手的响应准确率？</h4>
                 <p className="text-slate-400 text-base leading-relaxed">通过 RAG（检索增强生成）挂载私有知识库，并进行 Prompt 精细化调优是提升效果的最佳方式。</p>
               </div>
             </div>

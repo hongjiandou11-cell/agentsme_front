@@ -30,11 +30,10 @@ export default function ProductConcept() {
         <div className="flex items-center gap-12">
           <div className="flex items-center gap-2 text-white">
             <span className="material-symbols-outlined text-primary text-3xl">deployed_code</span>
-            <h2 className="text-xl font-bold tracking-tight">Agents Me</h2>
+            <h2 className="text-xl font-bold tracking-tight">AI Me</h2>
           </div>
           <div className="hidden md:flex items-center gap-8">
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/">首页</Link>
-            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/market">Agent 市场</Link>
             <Link className="text-sm font-medium hover:text-white transition-colors text-white" to="/product-concept">产品概念</Link>
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/pricing">产品定价</Link>
           </div>
@@ -57,7 +56,7 @@ export default function ProductConcept() {
               AI 增长母舰：从传统营销<br />到分布式算力收割
             </h1>
             <p className="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto mb-12 leading-relaxed">
-              打破传统营销的生产力桎梏，以 Agent2Agent 协议重构流量分发逻辑。通过去中心化的智能代理集群，实现营销内容的高频迭代与自动化价值闭环。
+              打破传统营销的生产力桎梏，以 AI 互联协议重构流量分发逻辑。通过去中心化的 AI 助手集群，实现营销内容的高频迭代与自动化价值闭环。
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
               <button className="w-full sm:w-auto px-10 py-4 btn-primary text-lg inline-block text-center">
@@ -108,7 +107,7 @@ export default function ProductConcept() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               <div>
                 <span className="text-primary font-display font-bold tracking-widest uppercase text-sm">Technological Core</span>
-                <h2 className="text-4xl font-display font-bold mt-4 text-white mb-8">1:100 Agent 闪电战：<br />重构创作与分发效率</h2>
+                <h2 className="text-4xl font-display font-bold mt-4 text-white mb-8">1:100 AI 闪电战：<br />重构创作与分发效率</h2>
                 <div className="space-y-8">
                   <div className="flex gap-6">
                     <div className="size-12 shrink-0 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
@@ -116,7 +115,7 @@ export default function ProductConcept() {
                     </div>
                     <div>
                       <h4 className="text-lg font-bold text-white mb-2">异构内容创作体系</h4>
-                      <p className="text-slate-400 text-sm leading-relaxed">秒级调度 100+ 细分创作 Agent，涵盖 Vlog、技术测评、剧情演绎等多元风格。根据目标受众画像，自动生成极具渗透力的内容矩阵。</p>
+                      <p className="text-slate-400 text-sm leading-relaxed">秒级调度 100+ 细分创作 AI，涵盖 Vlog、技术测评、剧情演绎等多元风格。根据目标受众画像，自动生成极具渗透力的内容矩阵。</p>
                     </div>
                   </div>
                   <div className="flex gap-6">
@@ -125,7 +124,7 @@ export default function ProductConcept() {
                     </div>
                     <div>
                       <h4 className="text-xl font-bold text-white mb-2">毫秒级自动握手协议</h4>
-                      <p className="text-slate-400 text-base leading-relaxed">基于 Agent2Agent 协议，直接与 100+ KOL 数字孪生体进行算力握手。省去人工商务谈判，实现内容与渠道的最优路径匹配。</p>
+                      <p className="text-slate-400 text-base leading-relaxed">基于 AI 互联协议，直接与 100+ KOL 数字孪生体进行算力握手。省去人工商务谈判，实现内容与渠道的最优路径匹配。</p>
                     </div>
                   </div>
                 </div>
@@ -142,7 +141,7 @@ export default function ProductConcept() {
                         Active Sync
                       </span>
                     </div>
-                    <div className="text-2xl font-display font-bold text-white tracking-tight">124,832 Agents Active</div>
+                    <div className="text-2xl font-display font-bold text-white tracking-tight">124,832 AI Active</div>
                   </div>
                 </div>
               </div>
@@ -153,7 +152,7 @@ export default function ProductConcept() {
         <section className="py-24 bg-background-dark">
           <div className="max-w-7xl mx-auto px-6 text-center mb-16">
             <span className="text-primary font-display font-bold tracking-widest uppercase text-sm">Intelligence Moat</span>
-            <h2 className="text-4xl font-display font-bold mt-4 text-white">流量加速：Agent 的“群体演化”与算法对齐</h2>
+            <h2 className="text-4xl font-display font-bold mt-4 text-white">流量加速：AI 的“群体演化”与算法对齐</h2>
           </div>
           <div className="max-w-5xl mx-auto px-6">
             <div className="relative glass-panel rounded-3xl p-10 overflow-hidden">
@@ -165,7 +164,7 @@ export default function ProductConcept() {
                   <ul className="space-y-4">
                     <li className="flex items-start gap-3">
                       <span className="material-symbols-outlined text-primary text-xl">check_circle</span>
-                      <span className="text-sm text-slate-400">利用 AI Agent 模拟真实用户生态，触发平台社交加权逻辑。</span>
+                      <span className="text-sm text-slate-400">利用 AI 助手模拟真实用户生态，触发平台社交加权逻辑。</span>
                     </li>
                     <li className="flex items-start gap-3">
                       <span className="material-symbols-outlined text-primary text-xl">check_circle</span>
@@ -173,7 +172,7 @@ export default function ProductConcept() {
                     </li>
                     <li className="flex items-start gap-3">
                       <span className="material-symbols-outlined text-primary text-xl">check_circle</span>
-                      <span className="text-sm text-slate-400">毫秒级反馈环：Agent 实时感知流量波动，动态修正后续策略。</span>
+                      <span className="text-sm text-slate-400">毫秒级反馈环：AI 实时感知流量波动，动态修正后续策略。</span>
                     </li>
                   </ul>
                 </div>
@@ -190,7 +189,7 @@ export default function ProductConcept() {
                     <div className="w-full px-6">
                       <div className="flex justify-between text-xs text-slate-500 mb-3">
                         <span>Evolution Progress</span>
-                        <span>Agent Alpha v9.2</span>
+                        <span>AI Alpha v9.2</span>
                       </div>
                       <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
                         <div className="h-full bg-gradient-to-r from-primary to-accent-pink w-3/4"></div>
@@ -235,7 +234,7 @@ export default function ProductConcept() {
                       <span className="material-symbols-outlined text-primary">hub</span>
                       分布式算力替代人力成本
                     </h4>
-                    <p className="text-slate-400 text-sm">利用闲置 GPU 算力驱动 Agent 运行，彻底摆脱传统营销公司的沉重人力包袱。</p>
+                    <p className="text-slate-400 text-sm">利用闲置 GPU 算力驱动 AI 运行，彻底摆脱传统营销公司的沉重人力包袱。</p>
                   </div>
                 </div>
               </div>
@@ -248,7 +247,7 @@ export default function ProductConcept() {
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-16">
               <span className="text-primary font-display font-bold tracking-widest uppercase text-sm">Developer Ecosystem</span>
-              <h2 className="text-4xl font-display font-bold mt-4 text-white">B+C 开发者生态：佣金制 Agent 互联协议</h2>
+              <h2 className="text-4xl font-display font-bold mt-4 text-white">B+C 开发者生态：佣金制 AI 互联协议</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="glass-panel p-10 rounded-3xl text-center flex flex-col items-center">
@@ -256,7 +255,7 @@ export default function ProductConcept() {
                   <span className="material-symbols-outlined text-4xl">account_balance_wallet</span>
                 </div>
                 <h3 className="text-xl font-bold mb-4 text-white">训练即资产</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">开发者训练出的高转化 Agent 可作为数字资产上架，每次被企业调用均产生分红回报。</p>
+                <p className="text-slate-400 text-sm leading-relaxed">开发者训练出的高转化 AI 可作为数字资产上架，每次被企业调用均产生分红回报。</p>
               </div>
               <div className="glass-panel p-10 rounded-3xl text-center flex flex-col items-center border-t-2 border-t-primary/40">
                 <div className="size-16 rounded-full bg-primary/20 flex items-center justify-center text-primary mb-6 shadow-[0_0_20px_rgba(19,164,236,0.2)]">
@@ -270,7 +269,7 @@ export default function ProductConcept() {
                   <span className="material-symbols-outlined text-4xl">sell</span>
                 </div>
                 <h3 className="text-xl font-bold mb-4 text-white">能力竞价机制</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">通过高效的底层协议，表现最优的 Agent 将获得更多的调度机会与算力倾斜。</p>
+                <p className="text-slate-400 text-sm leading-relaxed">通过高效的底层协议，表现最优的 AI 将获得更多的调度机会与算力倾斜。</p>
               </div>
             </div>
           </div>

@@ -11,12 +11,11 @@ export default function EcommerceCase() {
           </Link>
           <div className="flex items-center gap-2 text-white">
             <span className="material-symbols-outlined text-primary text-3xl">deployed_code</span>
-            <h2 className="text-xl font-bold tracking-tight">Agents Me</h2>
+            <h2 className="text-xl font-bold tracking-tight">AI Me</h2>
           </div>
         </div>
         <div className="hidden md:flex items-center gap-8">
           <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/">首页</Link>
-          <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/market">Agent 市场</Link>
           <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/product-concept">产品概念</Link>
           <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/pricing">产品定价</Link>
         </div>
@@ -83,7 +82,7 @@ export default function EcommerceCase() {
               <div className="grid md:grid-cols-3 gap-8">
                 {[
                   {
-                    icon: "support_agent",
+                    icon: "smart_toy",
                     title: "智能导购与转化",
                     desc: "7x24小时在线，秒级响应用户咨询，自动识别购买意图并推荐相关商品，大幅提升转化率。",
                     tags: ["意图识别", "多轮对话", "情感分析"]
@@ -129,7 +128,7 @@ export default function EcommerceCase() {
               <div className="flex items-center justify-between mb-12">
                 <div>
                   <h3 className="text-3xl font-bold text-white mb-2">专业工作台执行流程</h3>
-                  <p className="text-slate-400 text-sm">多 Agent 协同的自动化执行逻辑，支持可视化编辑与实时监控</p>
+                  <p className="text-slate-400 text-sm">多 AI 协同的自动化执行逻辑，支持可视化编辑与实时监控</p>
                 </div>
                 <button className="bg-white/5 hover:bg-white/10 text-white px-6 py-3 rounded-full transition-all text-sm font-bold flex items-center gap-2 border border-white/10">
                   进入工作台编辑 <span className="material-symbols-outlined text-sm">arrow_forward</span>
@@ -155,7 +154,7 @@ export default function EcommerceCase() {
                             <span className="material-symbols-outlined">shopping_bag</span>
                           </div>
                           <div>
-                            <h5 className="font-bold text-white">选品 Agent</h5>
+                            <h5 className="font-bold text-white">选品 AI</h5>
                             <span className="text-[10px] text-accent-pink font-bold uppercase tracking-widest">Input Stage</span>
                           </div>
                         </div>
@@ -184,10 +183,10 @@ export default function EcommerceCase() {
                       <div className="relative w-72 bg-surface-card/80 backdrop-blur-xl rounded-3xl border border-white/10 p-8 shadow-2xl">
                         <div className="flex items-center gap-4 mb-6">
                           <div className="size-12 rounded-2xl bg-primary/20 text-primary flex items-center justify-center">
-                            <span className="material-symbols-outlined">support_agent</span>
+                            <span className="material-symbols-outlined">smart_toy</span>
                           </div>
                           <div>
-                            <h5 className="font-bold text-white">客服 Agent</h5>
+                            <h5 className="font-bold text-white">客服 AI</h5>
                             <span className="text-[10px] text-primary font-bold uppercase tracking-widest">Processing</span>
                           </div>
                         </div>
@@ -219,7 +218,7 @@ export default function EcommerceCase() {
                             <span className="material-symbols-outlined">campaign</span>
                           </div>
                           <div>
-                            <h5 className="font-bold text-white">营销 Agent</h5>
+                            <h5 className="font-bold text-white">营销 AI</h5>
                             <span className="text-[10px] text-accent-blue font-bold uppercase tracking-widest">Output Stage</span>
                           </div>
                         </div>

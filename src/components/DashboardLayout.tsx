@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Home, Bot, Smartphone, ShoppingBag, Lightbulb, Store, ChevronRight } from 'lucide-react';
+import { Home, Smartphone, ShoppingBag, Lightbulb, ChevronRight } from 'lucide-react';
 import { DashboardContext } from './DashboardContext';
 
 export default function DashboardLayout() {
@@ -30,7 +30,6 @@ export default function DashboardLayout() {
       ]
     },
     { id: 'inspiration', icon: Lightbulb, label: '灵感库', path: '/dashboard/inspiration' },
-    { id: 'market', icon: Store, label: 'Agent 市场', path: '/dashboard/market' },
   ];
 
   return (
@@ -39,8 +38,8 @@ export default function DashboardLayout() {
         {/* Sidebar */}
         <div className="w-20 flex-shrink-0 bg-[#18181b] border-r border-white/5 flex flex-col items-center py-6 relative z-50">
           <div className="mb-8">
-            <Link to="/" className="w-10 h-10 bg-indigo-500 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-indigo-500/20 hover:scale-105 transition-transform cursor-pointer block text-center leading-10">
-              A
+            <Link to="/" className="w-10 h-10 bg-indigo-500 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-indigo-500/20 hover:scale-105 transition-transform cursor-pointer block text-center leading-10">
+              AI
             </Link>
           </div>
 

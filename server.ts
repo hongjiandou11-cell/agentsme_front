@@ -147,23 +147,23 @@ async function startServer() {
     }
   });
 
-  // Example endpoint to trigger a Python Agent
-  app.post("/api/agent/execute", async (req, res) => {
+  // Example endpoint to trigger a Python AI
+  app.post("/api/ai/execute", async (req, res) => {
     try {
-      const { agentType, payload } = req.body;
+      const { aiType, payload } = req.body;
       
       // Basic validation
-      if (!agentType) {
-        return res.status(400).json({ error: "agentType is required" });
+      if (!aiType) {
+        return res.status(400).json({ error: "aiType is required" });
       }
 
-      // In a real scenario, you would map agentType to a specific Python script
+      // In a real scenario, you would map aiType to a specific Python script
       // and pass the payload as arguments or via stdin/file.
       // For demonstration, we'll simulate calling a Python script.
-      console.log(`Executing Python agent: ${agentType} with payload:`, payload);
+      console.log(`Executing Python AI: ${aiType} with payload:`, payload);
 
       // --- Example of how you would actually call Python ---
-      // const pythonScriptPath = path.join(process.cwd(), 'agents', `${agentType}.py`);
+      // const pythonScriptPath = path.join(process.cwd(), 'ai', `${aiType}.py`);
       // const payloadStr = JSON.stringify(payload).replace(/"/g, '\\"'); // Escape quotes
       // const { stdout, stderr } = await execAsync(`python3 ${pythonScriptPath} "${payloadStr}"`);
       // 
@@ -179,7 +179,7 @@ async function startServer() {
       setTimeout(() => {
         res.json({
           status: "success",
-          message: `Agent '${agentType}' executed successfully (Simulated).`,
+          message: `AI '${aiType}' executed successfully (Simulated).`,
           data: {
             resultUrl: "https://example.com/result.mp4",
             logs: ["Started analysis...", "Processing data...", "Completed."]
@@ -188,8 +188,8 @@ async function startServer() {
       }, 2000); // Simulate 2 seconds of processing time
 
     } catch (error) {
-      console.error("Error executing agent:", error);
-      res.status(500).json({ error: "Failed to execute agent" });
+      console.error("Error executing AI:", error);
+      res.status(500).json({ error: "Failed to execute AI" });
     }
   });
 

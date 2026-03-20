@@ -11,12 +11,11 @@ export default function AppGrowthCase() {
           </Link>
           <div className="flex items-center gap-2 text-white">
             <span className="material-symbols-outlined text-primary text-3xl">deployed_code</span>
-            <h2 className="text-xl font-bold tracking-tight">Agents Me</h2>
+            <h2 className="text-xl font-bold tracking-tight">AI Me</h2>
           </div>
         </div>
         <div className="hidden md:flex items-center gap-8">
           <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/">首页</Link>
-          <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/market">Agent 市场</Link>
           <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/product-concept">产品概念</Link>
           <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/pricing">产品定价</Link>
         </div>
@@ -43,7 +42,7 @@ export default function AppGrowthCase() {
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent-blue">某社交APP的冷启动奇迹</span>
             </h1>
             <p className="text-lg text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-              通过多 Agent 协同的精准获客与留存自动化方案，该社交APP在上线首月即实现百万级新增用户，次日留存率提升 45%。
+              通过多 AI 协同的精准获客与留存自动化方案，该社交APP在上线首月即实现百万级新增用户，次日留存率提升 45%。
             </p>
           </div>
         </section>
@@ -129,7 +128,7 @@ export default function AppGrowthCase() {
               <div className="flex items-center justify-between mb-12">
                 <div>
                   <h3 className="text-3xl font-bold text-white mb-2">专业工作台执行流程</h3>
-                  <p className="text-slate-400 text-sm">多 Agent 协同的自动化执行逻辑，支持可视化编辑与实时监控</p>
+                  <p className="text-slate-400 text-sm">多 AI 协同的自动化执行逻辑，支持可视化编辑与实时监控</p>
                 </div>
                 <button className="bg-white/5 hover:bg-white/10 text-white px-6 py-3 rounded-full transition-all text-sm font-bold flex items-center gap-2 border border-white/10">
                   进入工作台编辑 <span className="material-symbols-outlined text-sm">arrow_forward</span>
@@ -155,7 +154,7 @@ export default function AppGrowthCase() {
                             <span className="material-symbols-outlined">person_search</span>
                           </div>
                           <div>
-                            <h5 className="font-bold text-white">获客 Agent</h5>
+                            <h5 className="font-bold text-white">获客 AI</h5>
                             <span className="text-[10px] text-primary font-bold uppercase tracking-widest">Input Stage</span>
                           </div>
                         </div>
@@ -188,7 +187,7 @@ export default function AppGrowthCase() {
                             <span className="material-symbols-outlined">psychology</span>
                           </div>
                           <div>
-                            <h5 className="font-bold text-white">画像 Agent</h5>
+                            <h5 className="font-bold text-white">画像 AI</h5>
                             <span className="text-[10px] text-accent-blue font-bold uppercase tracking-widest">Processing</span>
                           </div>
                         </div>
@@ -221,7 +220,7 @@ export default function AppGrowthCase() {
                             <span className="material-symbols-outlined">notifications_active</span>
                           </div>
                           <div>
-                            <h5 className="font-bold text-white">促活 Agent</h5>
+                            <h5 className="font-bold text-white">促活 AI</h5>
                             <span className="text-[10px] text-accent-pink font-bold uppercase tracking-widest">Output Stage</span>
                           </div>
                         </div>
