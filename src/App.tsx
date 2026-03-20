@@ -6,7 +6,6 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'motion/react';
 import Home from './pages/Home';
-import Workspace from './pages/Workspace';
 import Market from './pages/Market';
 import Help from './pages/Help';
 import ProductConcept from './pages/ProductConcept';
@@ -19,13 +18,14 @@ import InspirationLibrary from './pages/InspirationLibrary';
 import AppGrowthCase from './pages/AppGrowthCase';
 import EcommerceCase from './pages/EcommerceCase';
 import EcommerceVideoClone from './pages/EcommerceVideoClone';
+import DashboardLayout from './components/DashboardLayout';
+import DashboardHome from './pages/DashboardHome';
 
 function AnimatedRoutes() {
   const location = useLocation();
   return (
       <Routes location={location}>
         <Route path="/" element={<Home />} />
-        <Route path="/workspace" element={<Workspace />} />
         <Route path="/market" element={<Market />} />
         <Route path="/help" element={<Help />} />
         <Route path="/product-concept" element={<ProductConcept />} />
@@ -38,6 +38,17 @@ function AnimatedRoutes() {
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/case/app-growth" element={<AppGrowthCase />} />
         <Route path="/case/ecommerce" element={<EcommerceCase />} />
+
+        {/* Dashboard Routes */}
+        <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route index element={<DashboardHome />} />
+          <Route path="market" element={<Market />} />
+          <Route path="app/shell" element={<AppShell />} />
+          <Route path="app/video" element={<VideoClone />} />
+          <Route path="ecommerce/material" element={<ProductMaterial />} />
+          <Route path="ecommerce/video" element={<EcommerceVideoClone />} />
+          <Route path="inspiration" element={<InspirationLibrary />} />
+        </Route>
       </Routes>
   );
 }

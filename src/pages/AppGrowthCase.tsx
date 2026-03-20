@@ -16,7 +16,6 @@ export default function AppGrowthCase() {
         </div>
         <div className="hidden md:flex items-center gap-8">
           <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/">首页</Link>
-          <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/workspace">专业工作台</Link>
           <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/market">Agent 市场</Link>
           <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/product-concept">产品概念</Link>
           <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/pricing">产品定价</Link>
@@ -132,9 +131,9 @@ export default function AppGrowthCase() {
                   <h3 className="text-3xl font-bold text-white mb-2">专业工作台执行流程</h3>
                   <p className="text-slate-400 text-sm">多 Agent 协同的自动化执行逻辑，支持可视化编辑与实时监控</p>
                 </div>
-                <Link to="/workspace" className="bg-white/5 hover:bg-white/10 text-white px-6 py-3 rounded-full transition-all text-sm font-bold flex items-center gap-2 border border-white/10">
+                <button className="bg-white/5 hover:bg-white/10 text-white px-6 py-3 rounded-full transition-all text-sm font-bold flex items-center gap-2 border border-white/10">
                   进入工作台编辑 <span className="material-symbols-outlined text-sm">arrow_forward</span>
-                </Link>
+                </button>
               </div>
               
               <div className="bg-[#0a0a0a] rounded-[3rem] border border-white/5 overflow-hidden relative min-h-[600px] flex items-center justify-center p-12">

@@ -1,34 +1,38 @@
 import { Link } from 'react-router-dom';
+import { useDashboard } from '../components/DashboardContext';
 
 export default function Market() {
+  const isDashboard = useDashboard();
+
   return (
     <div className="bg-background-dark text-slate-100 antialiased min-h-screen">
       <div className="hero-gradient absolute inset-0 pointer-events-none"></div>
       
       {/* Top Navigation */}
-      <nav className="sticky top-0 z-50 border-b border-white/5 bg-background-dark/80 backdrop-blur-md px-6 lg:px-20 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-12">
-          <div className="flex items-center gap-2 text-white">
-            <span className="material-symbols-outlined text-primary text-3xl">deployed_code</span>
-            <h2 className="text-xl font-bold tracking-tight">Agents Me</h2>
+      {!isDashboard && (
+        <nav className="sticky top-0 z-50 border-b border-white/5 bg-background-dark/80 backdrop-blur-md px-6 lg:px-20 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-12">
+            <div className="flex items-center gap-2 text-white">
+              <span className="material-symbols-outlined text-primary text-3xl">deployed_code</span>
+              <h2 className="text-xl font-bold tracking-tight">Agents Me</h2>
+            </div>
+            <div className="hidden md:flex items-center gap-8">
+              <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/">首页</Link>
+              <Link className="text-sm font-medium hover:text-white transition-colors text-white" to="/market">Agent 市场</Link>
+              <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/product-concept">产品概念</Link>
+              <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/pricing">产品定价</Link>
+            </div>
           </div>
-          <div className="hidden md:flex items-center gap-8">
-            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/">首页</Link>
-            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/workspace">专业工作台</Link>
-            <Link className="text-sm font-medium hover:text-white transition-colors text-white" to="/market">Agent 市场</Link>
-            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/product-concept">产品概念</Link>
-            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/pricing">产品定价</Link>
+          <div className="flex items-center gap-6">
+            <button className="text-slate-400 hover:text-white transition-colors">
+              <span className="material-symbols-outlined">search</span>
+            </button>
+            <button className="btn-primary px-6 py-2.5 text-sm">
+              登录
+            </button>
           </div>
-        </div>
-        <div className="flex items-center gap-6">
-          <button className="text-slate-400 hover:text-white transition-colors">
-            <span className="material-symbols-outlined">search</span>
-          </button>
-          <button className="btn-primary px-6 py-2.5 text-sm">
-            登录
-          </button>
-        </div>
-      </nav>
+        </nav>
+      )}
 
       <main className="relative z-10 max-w-7xl mx-auto px-6 py-10 space-y-16">
         {/* Developer Console Header */}

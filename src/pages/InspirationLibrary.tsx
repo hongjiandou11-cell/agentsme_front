@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'motion/react';
+import { useDashboard } from '../components/DashboardContext';
 
 export default function InspirationLibrary() {
+  const isDashboard = useDashboard();
   const [searchParams] = useSearchParams();
   const type = searchParams.get('type') || 'image';
 
@@ -17,12 +19,14 @@ export default function InspirationLibrary() {
       animate={{ opacity: 1 }}
       className="bg-[#0a0a0a] text-slate-100 min-h-screen p-8"
     >
-      <nav className="mb-8">
-        <Link to="/" className="text-slate-400 hover:text-white transition-colors flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/5 border border-white/10 w-fit">
-          <span className="material-symbols-outlined">arrow_back</span>
-          <span className="text-sm font-medium">返回首页</span>
-        </Link>
-      </nav>
+      {!isDashboard && (
+        <nav className="mb-8">
+          <Link to="/" className="text-slate-400 hover:text-white transition-colors flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/5 border border-white/10 w-fit">
+            <span className="material-symbols-outlined">arrow_back</span>
+            <span className="text-sm font-medium">返回首页</span>
+          </Link>
+        </nav>
+      )}
       <h1 className="text-3xl font-bold text-white mb-8 capitalize">{type} 灵感库</h1>
       
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">

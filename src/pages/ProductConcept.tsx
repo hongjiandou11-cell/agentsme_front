@@ -34,7 +34,6 @@ export default function ProductConcept() {
           </div>
           <div className="hidden md:flex items-center gap-8">
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/">首页</Link>
-            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/workspace">专业工作台</Link>
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/market">Agent 市场</Link>
             <Link className="text-sm font-medium hover:text-white transition-colors text-white" to="/product-concept">产品概念</Link>
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/pricing">产品定价</Link>
@@ -61,9 +60,9 @@ export default function ProductConcept() {
               打破传统营销的生产力桎梏，以 Agent2Agent 协议重构流量分发逻辑。通过去中心化的智能代理集群，实现营销内容的高频迭代与自动化价值闭环。
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <Link to="/workspace" className="w-full sm:w-auto px-10 py-4 btn-primary text-lg inline-block text-center">
+              <button className="w-full sm:w-auto px-10 py-4 btn-primary text-lg inline-block text-center">
                 立即启动增长引擎
-              </Link>
+              </button>
               <button className="w-full sm:w-auto px-10 py-4 btn-secondary text-lg flex items-center justify-center gap-2">
                 <span className="material-symbols-outlined">play_circle</span>
                 观看技术演示
@@ -287,9 +286,9 @@ export default function ProductConcept() {
                 加入 2,000+ 领先企业与开发者阵营，以前所未有的算力效率重构您的业务增长蓝图。
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                <Link to="/workspace" className="w-full sm:w-auto px-12 py-5 rounded-full bg-primary text-white font-bold text-lg shadow-2xl shadow-primary/40 hover:scale-105 transition-all inline-block text-center">
+                <button className="w-full sm:w-auto px-12 py-5 rounded-full bg-primary text-white font-bold text-lg shadow-2xl shadow-primary/40 hover:scale-105 transition-all inline-block text-center">
                   登入工作台 (Workspace)
-                </Link>
+                </button>
                 <button className="w-full sm:w-auto px-12 py-5 rounded-full border border-slate-700 bg-white/5 text-white font-bold text-lg hover:bg-white/10 transition-all">
                   查看行业解决方案
                 </button>

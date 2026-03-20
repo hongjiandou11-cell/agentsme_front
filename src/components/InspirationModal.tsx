@@ -14,6 +14,20 @@ const videoInspirations = [
   'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
   'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
   'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
+  'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4',
+  'https://storage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+  'https://storage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4',
+  'https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
+  'https://storage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4',
+  'https://storage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+  'https://storage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4',
+  'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+  'https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+  'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+  'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+  'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
+  'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
+  'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4',
 ];
 
 const imageInspirations = [
@@ -23,6 +37,18 @@ const imageInspirations = [
   'https://picsum.photos/seed/insp4/800/600',
   'https://picsum.photos/seed/insp5/600/600',
   'https://picsum.photos/seed/insp6/600/600',
+  'https://picsum.photos/seed/insp7/600/800',
+  'https://picsum.photos/seed/insp8/600/800',
+  'https://picsum.photos/seed/insp9/800/600',
+  'https://picsum.photos/seed/insp10/800/600',
+  'https://picsum.photos/seed/insp11/600/600',
+  'https://picsum.photos/seed/insp12/600/600',
+  'https://picsum.photos/seed/insp13/600/800',
+  'https://picsum.photos/seed/insp14/600/800',
+  'https://picsum.photos/seed/insp15/800/600',
+  'https://picsum.photos/seed/insp16/600/800',
+  'https://picsum.photos/seed/insp17/600/800',
+  'https://picsum.photos/seed/insp18/800/600',
 ];
 
 const productInspirations = [
@@ -32,6 +58,18 @@ const productInspirations = [
   'https://picsum.photos/seed/prod4/600/600',
   'https://picsum.photos/seed/prod5/600/600',
   'https://picsum.photos/seed/prod6/600/600',
+  'https://picsum.photos/seed/prod7/600/600',
+  'https://picsum.photos/seed/prod8/600/600',
+  'https://picsum.photos/seed/prod9/600/600',
+  'https://picsum.photos/seed/prod10/600/600',
+  'https://picsum.photos/seed/prod11/600/600',
+  'https://picsum.photos/seed/prod12/600/600',
+  'https://picsum.photos/seed/prod13/600/600',
+  'https://picsum.photos/seed/prod14/600/600',
+  'https://picsum.photos/seed/prod15/600/600',
+  'https://picsum.photos/seed/prod16/600/600',
+  'https://picsum.photos/seed/prod17/600/600',
+  'https://picsum.photos/seed/prod18/600/600',
 ];
 
 export default function InspirationModal({ isOpen, onClose, type, onSelect }: InspirationModalProps) {
@@ -56,12 +94,14 @@ export default function InspirationModal({ isOpen, onClose, type, onSelect }: In
             </button>
           </div>
           
-          <div className="p-6 overflow-y-auto custom-scrollbar flex-1">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="p-6 overflow-y-auto custom-scrollbar flex-1 bg-gradient-to-b from-[#1a1a1c] to-[#0a0a0a]">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {items.map((url, idx) => (
-                <div 
+                <motion.div 
                   key={idx} 
-                  className="relative group cursor-pointer rounded-xl overflow-hidden border border-white/5 hover:border-primary/50 transition-colors aspect-video bg-black/50"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="relative group cursor-pointer rounded-2xl overflow-hidden border border-white/10 hover:border-primary/50 transition-all aspect-video bg-black/50 shadow-lg hover:shadow-[0_0_20px_rgba(var(--primary-rgb),0.3)]"
                   onClick={() => {
                     onSelect(url);
                     onClose();
@@ -70,7 +110,7 @@ export default function InspirationModal({ isOpen, onClose, type, onSelect }: In
                   {type === 'video' ? (
                     <video 
                       src={`${url}#t=2`} 
-                      className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                      className="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity"
                       muted 
                       loop 
                       onMouseEnter={(e) => e.currentTarget.play()}
@@ -80,14 +120,14 @@ export default function InspirationModal({ isOpen, onClose, type, onSelect }: In
                     <img 
                       src={url} 
                       alt={`Inspiration ${idx}`} 
-                      className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                      className="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity"
                       referrerPolicy="no-referrer"
                     />
                   )}
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <span className="bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-full">选择</span>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center p-4">
+                    <span className="bg-primary text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg">选择灵感</span>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>

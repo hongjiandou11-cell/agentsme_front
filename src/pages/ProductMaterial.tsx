@@ -1,12 +1,16 @@
 import React, { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, NavLink } from 'react-router-dom';
 import { motion } from 'motion/react';
+import { Leaf } from 'lucide-react';
 import InspirationModal from '../components/InspirationModal';
+import { useDashboard } from '../components/DashboardContext';
 
 export default function ProductMaterial() {
+  const isDashboard = useDashboard();
+  const location = useLocation();
   const [productName, setProductName] = useState('');
   const [productImageFiles, setProductImageFiles] = useState<File[]>([]);
-  const [productImageUrls, setProductImageUrls] = useState<string[]>([]);
+  const [productImageUrls, setProductImageUrls] = useState<string[]>(location.state?.sourceUrl ? [location.state.sourceUrl] : []);
   const [coreFeatures, setCoreFeatures] = useState('');
   const [targetAudience, setTargetAudience] = useState('');
   const [imageStyle, setImageStyle] = useState('营销图');
@@ -102,18 +106,43 @@ export default function ProductMaterial() {
       className="bg-[#0a0a0a] text-slate-100 font-sans min-h-screen flex flex-col"
     >
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 border-b border-white/5 bg-[#0a0a0a]/80 backdrop-blur-md px-6 lg:px-20 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link to="/" className="text-slate-400 hover:text-white transition-colors flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/5 border border-white/10">
-            <span className="material-symbols-outlined">arrow_back</span>
-            <span className="text-sm font-medium">返回首页</span>
-          </Link>
-          <div className="flex items-center gap-2 text-white">
-            <span className="material-symbols-outlined text-primary text-2xl">shopping_bag</span>
-            <h2 className="text-xl font-bold tracking-tight">商品素材工作台</h2>
-          </div>
+      {isDashboard ? (
+        <div className="border-b border-white/5 bg-[#0a0a0a] px-6 py-4 flex items-center gap-8">
+          <NavLink 
+            to="/dashboard/ecommerce/material" 
+            className={({ isActive }) => 
+              `text-sm font-medium transition-colors pb-1 border-b-2 ${
+                isActive ? 'text-white border-primary' : 'text-zinc-400 hover:text-white border-transparent'
+              }`
+            }
+          >
+            商品图制作
+          </NavLink>
+          <NavLink 
+            to="/dashboard/ecommerce/video" 
+            className={({ isActive }) => 
+              `text-sm font-medium transition-colors pb-1 border-b-2 ${
+                isActive ? 'text-white border-primary' : 'text-zinc-400 hover:text-white border-transparent'
+              }`
+            }
+          >
+            电商带货视频创作
+          </NavLink>
         </div>
-      </nav>
+      ) : (
+        <nav className="sticky top-0 z-50 border-b border-white/5 bg-[#0a0a0a]/80 backdrop-blur-md px-6 lg:px-20 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Link to="/?scroll=atomic-lab" className="text-slate-400 hover:text-white transition-colors flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/5 border border-white/10">
+              <span className="material-symbols-outlined">arrow_back</span>
+              <span className="text-sm font-medium">返回首页</span>
+            </Link>
+            <div className="flex items-center gap-2 text-white">
+              <span className="material-symbols-outlined text-primary text-2xl">shopping_bag</span>
+              <h2 className="text-xl font-bold tracking-tight">商品素材工作台</h2>
+            </div>
+          </div>
+        </nav>
+      )}
 
       <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column: Form Settings */}
@@ -148,10 +177,10 @@ export default function ProductMaterial() {
                 </label>
                 <button 
                   onClick={() => setShowInspiration(true)}
-                  className="text-xs text-primary hover:text-primary/80 flex items-center gap-1"
+                  className="px-3 py-1 text-[12px] font-bold text-emerald-400 bg-emerald-400/10 border border-emerald-400/20 rounded-full hover:bg-emerald-400/20 transition-all flex items-center gap-1.5 shadow-[0_0_15px_rgba(52,211,153,0.2)]"
                 >
-                  <span className="material-symbols-outlined text-[14px]">lightbulb</span>
-                  从灵感库选择
+                  <Leaf size={14} className="text-emerald-400" />
+                  灵感库
                 </button>
               </div>
 
@@ -372,7 +401,7 @@ export default function ProductMaterial() {
       <InspirationModal
         isOpen={showInspiration}
         onClose={() => setShowInspiration(false)}
-        type="image"
+        type="product"
         onSelect={handleInspirationSelect}
       />
     </motion.div>

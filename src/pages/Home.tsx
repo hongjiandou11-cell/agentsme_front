@@ -1,9 +1,10 @@
-import React, { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { Plus, Palette, ArrowUp, X, Wand2, Image as ImageIcon, Music, Type, Video, Brush, PaintBucket, Maximize, Tag, ImagePlus, List, Users, UploadCloud, Megaphone, Square, Camera, Layout, Sparkles } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Plus, Palette, ArrowUp, X, Wand2, Image as ImageIcon, Music, Type, Video, Brush, PaintBucket, Maximize, Tag, ImagePlus, List, Users, UploadCloud, Megaphone, Square, Camera, Layout, Sparkles, RefreshCw, ArrowRight, Leaf } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export default function Home() {
+  const navigate = useNavigate();
   const [activeAgent, setActiveAgent] = useState<'app' | 'marketing'>('app');
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [selectedImageUrls, setSelectedImageUrls] = useState<string[]>([]);
@@ -12,7 +13,87 @@ export default function Home() {
   const [vibeVideoUrl, setVibeVideoUrl] = useState<string | null>(null);
   const [vibeMode, setVibeMode] = useState<'video' | 'image'>('video');
   const [vibePrompt, setVibePrompt] = useState('');
+  
+  // New state for generation/analysis
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisResult, setAnalysisResult] = useState<any[] | null>(null);
+  const [analysisError, setAnalysisError] = useState<string | null>(null);
+  const [resultData, setResultData] = useState<{ resultUrl?: string; logs?: string[] } | null>(null);
+
+  const handleAnalyze = async () => {
+    console.log("handleAnalyze called, vibeVideoUrl:", vibeVideoUrl);
+    if (!vibeVideoUrl) {
+      setAnalysisError("请提供参考视频或图片");
+      console.log("handleAnalyze: no vibeVideoUrl");
+      return;
+    }
+
+    setIsAnalyzing(true);
+    setAnalysisResult(null);
+    setAnalysisError(null);
+
+    // Simulate analysis
+    setTimeout(() => {
+      setIsAnalyzing(false);
+      setAnalysisResult([
+        { timeRange: '00:00-00:05', visualDescription: '开场特写', cameraMovement: '缓慢推进', animationEffects: '淡入', aiGenerationPrompt: '电影级光影，特写镜头，缓慢推进...' }
+      ]);
+      setVibePrompt('【视频风格】赛博朋克/电影感\n【转场效果】平滑缩放/淡入淡出\n【画面描述】...');
+      console.log("handleAnalyze: analysis complete");
+    }, 2000);
+  };
+
+  const handleGenerate = async () => {
+    console.log("handleGenerate called, vibeVideoUrl:", vibeVideoUrl);
+    if (!vibeVideoUrl) {
+      alert("请提供参考素材");
+      console.log("handleGenerate: no vibeVideoUrl");
+      return;
+    }
+
+    setIsGenerating(true);
+    setResultData(null);
+
+    // Simulate generation
+    setTimeout(() => {
+      setIsGenerating(false);
+      setResultData({ resultUrl: 'success' });
+      console.log("handleGenerate: generation complete");
+    }, 3000);
+  };
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const scrollTarget = params.get('scroll');
+    if (scrollTarget === 'atomic-lab') {
+      const element = document.getElementById('atomic-lab');
+      if (element) {
+        // Delay slightly to ensure content is rendered
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    }
+  }, [location]);
+
+  useEffect(() => {
+    console.log("vibeVideoUrl changed:", vibeVideoUrl);
+  }, [vibeVideoUrl]);
+
+  const handleVibeFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setVibeVideoUrl(URL.createObjectURL(file));
+      if (file.type.startsWith('image/')) {
+        setVibeMode('image');
+      } else {
+        setVibeMode('video');
+      }
+    }
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -221,7 +302,7 @@ export default function Home() {
   ];
 
   // Generate unique-looking videos and images for App Growth
-  const appGrowthItems = Array.from({ length: 16 }).map((_, i) => {
+  const appGrowthItems = Array.from({ length: 21 }).map((_, i) => {
     const isVideo = i % 3 !== 0; // 2/3 videos, 1/3 images
     const aspectClass = masonryPatternAppGrowth[i % masonryPatternAppGrowth.length];
     
@@ -242,7 +323,7 @@ export default function Home() {
   });
 
   // Generate unique-looking videos and images for Ecommerce
-  const ecommerceItems = Array.from({ length: 16 }).map((_, i) => {
+  const ecommerceItems = Array.from({ length: 21 }).map((_, i) => {
     const isVideo = i % 4 !== 0; // 3/4 videos, 1/4 images
     const aspectClass = masonryPatternEcommerce[i % masonryPatternEcommerce.length];
     
@@ -279,10 +360,9 @@ export default function Home() {
           </div>
           <div className="hidden md:flex items-center gap-8">
             <Link className="text-sm font-medium hover:text-white transition-colors text-white" to="/">首页</Link>
-            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/workspace">专业工作台</Link>
-            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/market">Agent 市场</Link>
+            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/dashboard">Dashboard</Link>
+
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/product-concept">产品概念</Link>
-            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/inspiration-library">灵感库</Link>
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/pricing">产品定价</Link>
           </div>
         </div>
@@ -328,7 +408,7 @@ export default function Home() {
                   className="relative bg-surface-card border border-white/10 hover:border-primary/50 text-white px-8 py-3 rounded-lg text-sm font-bold flex items-center gap-2 transition-all transform hover:-translate-y-0.5 shadow-lg"
                 >
                   <span className="material-symbols-outlined text-[18px] text-primary animate-pulse">explore</span>
-                  探索能力
+                  灵感库
                   <span className="material-symbols-outlined text-[14px] opacity-50 group-hover:translate-x-1 transition-transform">arrow_forward</span>
                 </button>
               </div>
@@ -402,8 +482,8 @@ export default function Home() {
                       onClick={() => setIsTemplatesModalOpen(true)}
                       className="h-10 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center gap-2 text-slate-300 hover:text-white transition-colors shadow-lg"
                     >
-                      <Palette size={16} className="text-slate-400" />
-                      <span className="text-sm font-medium">Templates</span>
+                      <Leaf size={16} className="text-emerald-400" />
+                      <span className="text-sm font-medium">灵感库</span>
                     </button>
 
                     {/* Display Template Images */}
@@ -442,9 +522,9 @@ export default function Home() {
                   </div>
                   
                   {/* Submit Button */}
-                  <Link to="/workspace" className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors shadow-lg hover:-translate-y-0.5 transform">
+                  <button onClick={() => window.location.href = '/workspace'} className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors shadow-lg hover:-translate-y-0.5 transform">
                     <ArrowUp size={20} />
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>
@@ -492,7 +572,7 @@ export default function Home() {
 
 
       {/* What You Can Do Section */}
-      <section id="what-you-can-do" className="px-6 lg:px-20 py-32 bg-background-dark relative overflow-hidden">
+      <section id="what-you-can-do" className="px-6 lg:px-20 py-32 bg-background-dark relative overflow-clip">
         {/* Dynamic Background Effects */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-primary/5 blur-[120px] rounded-full animate-float"></div>
@@ -507,27 +587,25 @@ export default function Home() {
 
           <div className="space-y-32">
             {/* APP Growth Section */}
-            <div className="flex flex-col gap-12 p-8 lg:p-12 rounded-[3rem] bg-surface-dark/30 backdrop-blur-sm border border-white/5 relative group overflow-hidden">
-              {/* Dynamic Background Image for Section */}
-              <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-700">
-                <img 
-                  src="https://picsum.photos/seed/growth-bg/1920/1080" 
-                  alt="Background" 
-                  className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-10000 linear infinite"
-                  referrerPolicy="no-referrer"
-                />
+            <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-start relative">
+              {/* Sticky Text Content */}
+              <div className="w-full lg:w-1/3 lg:sticky lg:top-32 space-y-8 bg-gradient-to-b from-white/[0.05] to-transparent backdrop-blur-2xl p-8 lg:p-10 rounded-[2.5rem] border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.4)] relative overflow-hidden group">
+                {/* Decorative glowing orbs */}
+                <div className="absolute -top-32 -right-32 w-64 h-64 bg-primary/20 rounded-full blur-[80px] group-hover:bg-primary/30 transition-colors duration-700 pointer-events-none"></div>
+                <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-accent-blue/10 rounded-full blur-[80px] group-hover:bg-accent-blue/20 transition-colors duration-700 pointer-events-none"></div>
+                
+                <div className="space-y-6 relative z-10">
+                  <span className="text-xs font-bold text-primary uppercase tracking-widest px-3 py-1 bg-primary/10 border border-primary/20 rounded-full inline-block">Core Focus</span>
+                  <h3 className="text-3xl lg:text-4xl font-bold text-white">APP 增长/打爆</h3>
+                  <p className="text-slate-400 text-lg leading-relaxed">
+                    基于多 Agent 协同的精准获客方案。支持 APP 套壳包装、视频克隆等核心能力，通过 AI 驱动的创意生成与投放优化，实现低成本规模化增长。
+                  </p>
+                </div>
               </div>
-
-              <Link to="/case/app-growth" className="w-full text-center space-y-6 relative z-10 group">
-                <span className="text-xs font-bold text-primary uppercase tracking-widest px-3 py-1 bg-primary/10 rounded-full inline-block">Core Focus</span>
-                <h3 className="text-3xl lg:text-4xl font-bold text-white group-hover:text-primary transition-colors">APP 增长/打爆</h3>
-                <p className="text-slate-400 text-lg leading-relaxed max-w-2xl mx-auto">
-                  基于多 Agent 协同的精准获客与留存自动化方案。通过 AI 驱动的创意生成与投放优化，实现低成本规模化增长。
-                </p>
-              </Link>
               
-              <div className="w-full relative z-10">
-                <div className="columns-2 md:columns-3 lg:columns-4 gap-4 md:gap-6">
+              {/* Masonry Grid */}
+              <div className="w-full lg:w-2/3 relative">
+                <div className="columns-2 md:columns-3 gap-4 md:gap-6 pb-12">
                   {appGrowthItems.map((item, i) => (
                     <div key={i} className={`mb-4 md:mb-6 w-full rounded-2xl overflow-hidden bg-black border border-white/5 shadow-2xl relative group/vid cursor-pointer break-inside-avoid ${item.aspectRatioClass}`}>
                       {item.type === 'video' ? (
@@ -549,9 +627,11 @@ export default function Home() {
                         <button 
                           onClick={(e) => { 
                             e.preventDefault(); 
-                            setVibeMode(item.type as 'video' | 'image'); 
-                            setVibeVideoUrl(item.url);
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                            if (item.type === 'video') {
+                              navigate('/dashboard/app/video', { state: { sourceUrl: item.url } });
+                            } else {
+                              navigate('/dashboard/app/shell', { state: { sourceUrl: item.url } });
+                            }
                           }}
                           className="size-10 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white hover:bg-primary hover:border-primary hover:scale-110 transition-all shadow-lg flex items-center justify-center group/btn relative"
                         >
@@ -561,31 +641,31 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
+                {/* Bottom Fade to hide uneven masonry bottoms */}
+                <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background-dark to-transparent pointer-events-none"></div>
               </div>
             </div>
 
             {/* Ecommerce Section */}
-            <div className="flex flex-col gap-12 p-8 lg:p-12 rounded-[3rem] bg-surface-dark/30 backdrop-blur-sm border border-white/5 relative group overflow-hidden">
-              {/* Dynamic Background Image for Section */}
-              <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-700">
-                <img 
-                  src="https://picsum.photos/seed/ecom-bg/1920/1080" 
-                  alt="Background" 
-                  className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-10000 linear infinite"
-                  referrerPolicy="no-referrer"
-                />
+            <div className="flex flex-col lg:flex-row-reverse gap-8 lg:gap-16 items-start relative">
+              {/* Sticky Text Content */}
+              <div className="w-full lg:w-1/3 lg:sticky lg:top-32 space-y-8 bg-gradient-to-b from-white/[0.05] to-transparent backdrop-blur-2xl p-8 lg:p-10 rounded-[2.5rem] border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.4)] relative overflow-hidden group">
+                {/* Decorative glowing orbs */}
+                <div className="absolute -top-32 -left-32 w-64 h-64 bg-accent-pink/20 rounded-full blur-[80px] group-hover:bg-accent-pink/30 transition-colors duration-700 pointer-events-none"></div>
+                <div className="absolute -bottom-32 -right-32 w-64 h-64 bg-purple-500/10 rounded-full blur-[80px] group-hover:bg-purple-500/20 transition-colors duration-700 pointer-events-none"></div>
+                
+                <div className="space-y-6 relative z-10">
+                  <span className="text-xs font-bold text-accent-pink uppercase tracking-widest px-3 py-1 bg-accent-pink/10 border border-accent-pink/20 rounded-full inline-block">Vertical Solution</span>
+                  <h3 className="text-3xl lg:text-4xl font-bold text-white">电商营销</h3>
+                  <p className="text-slate-400 text-lg leading-relaxed">
+                    支持复刻带货视频、电商视频克隆及商品营销素材生成。基于 Agent 矩阵的智能驱动，提升转化率，构建全链路营销闭环。
+                  </p>
+                </div>
               </div>
-
-              <Link to="/case/ecommerce" className="w-full text-center space-y-6 relative z-10 group">
-                <span className="text-xs font-bold text-accent-pink uppercase tracking-widest px-3 py-1 bg-accent-pink/10 rounded-full inline-block">Vertical Solution</span>
-                <h3 className="text-3xl lg:text-4xl font-bold text-white group-hover:text-accent-pink transition-colors">电商营销</h3>
-                <p className="text-slate-400 text-lg leading-relaxed max-w-2xl mx-auto">
-                  覆盖商品详情、客服引导及促销策略的智能驱动。利用 Agent 矩阵提升转化率，构建全链路营销闭环。
-                </p>
-              </Link>
               
-              <div className="w-full relative z-10">
-                <div className="columns-2 md:columns-3 lg:columns-4 gap-4 md:gap-6">
+              {/* Masonry Grid */}
+              <div className="w-full lg:w-2/3 relative">
+                <div className="columns-2 md:columns-3 gap-4 md:gap-6 pb-12">
                   {ecommerceItems.map((item, i) => (
                     <div key={i} className={`mb-4 md:mb-6 w-full rounded-2xl overflow-hidden bg-black border border-white/5 shadow-2xl relative group/vid cursor-pointer break-inside-avoid ${item.aspectRatioClass}`}>
                       {item.type === 'video' ? (
@@ -607,9 +687,11 @@ export default function Home() {
                         <button 
                           onClick={(e) => { 
                             e.preventDefault(); 
-                            setVibeMode(item.type as 'video' | 'image'); 
-                            setVibeVideoUrl(item.url);
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                            if (item.type === 'video') {
+                              navigate('/dashboard/ecommerce/video', { state: { sourceUrl: item.url } });
+                            } else {
+                              navigate('/dashboard/ecommerce/material', { state: { sourceUrl: item.url } });
+                            }
                           }}
                           className="size-10 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white hover:bg-accent-pink hover:border-accent-pink hover:scale-110 transition-all shadow-lg flex items-center justify-center group/btn relative"
                         >
@@ -619,6 +701,8 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
+                {/* Bottom Fade to hide uneven masonry bottoms */}
+                <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background-dark to-transparent pointer-events-none"></div>
               </div>
             </div>
           </div>
@@ -645,8 +729,8 @@ export default function Home() {
               <div className="absolute inset-0 bg-cover bg-center opacity-60 group-hover:scale-110 transition-all duration-700" style={{ backgroundImage: "url('https://picsum.photos/seed/video-clone/600/800')" }}></div>
               <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-black/60"></div>
               <div className="relative z-10">
-                <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight">视频克隆</h4>
-                <p className="text-sm text-slate-300">AI驱动的爆款视频生成</p>
+                <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight text-center">视频克隆</h4>
+                <p className="text-sm text-slate-300 text-center">AI驱动的爆款视频生成</p>
               </div>
               <Link to="/video-clone" className="relative z-10 w-full btn-secondary py-3 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 text-center block">
                 立即使用
@@ -656,8 +740,8 @@ export default function Home() {
               <div className="absolute inset-0 bg-cover bg-center opacity-60 group-hover:scale-110 transition-all duration-700" style={{ backgroundImage: "url('https://picsum.photos/seed/ecommerce-video/600/800')" }}></div>
               <div className="absolute inset-0 bg-gradient-to-br from-accent-pink/10 via-transparent to-black/60"></div>
               <div className="relative z-10">
-                <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight">电商带货视频克隆</h4>
-                <p className="text-sm text-slate-300">专属电商场景的带货视频</p>
+                <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight text-center">电商带货视频克隆</h4>
+                <p className="text-sm text-slate-300 text-center">专属电商场景的带货视频</p>
               </div>
               <Link to="/ecommerce-video-clone" className="relative z-10 w-full btn-secondary py-3 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 text-center block">
                 立即使用
@@ -667,8 +751,8 @@ export default function Home() {
               <div className="absolute inset-0 bg-cover bg-center opacity-60 group-hover:scale-110 transition-all duration-700" style={{ backgroundImage: "url('https://picsum.photos/seed/product-design/600/800')" }}></div>
               <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-black/60"></div>
               <div className="relative z-10">
-                <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight">商品素材</h4>
-                <p className="text-sm text-slate-300">一键生成高质量电商视觉</p>
+                <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight text-center">商品素材</h4>
+                <p className="text-sm text-slate-300 text-center">一键生成高质量电商视觉</p>
               </div>
               <Link to="/product-material" className="relative z-10 w-full btn-secondary py-3 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 text-center block">
                 立即使用
@@ -678,8 +762,8 @@ export default function Home() {
               <div className="absolute inset-0 bg-cover bg-center opacity-60 group-hover:scale-110 transition-all duration-700" style={{ backgroundImage: "url('https://picsum.photos/seed/mobile-app/600/800')" }}></div>
               <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-black/60"></div>
               <div className="relative z-10">
-                <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight">APP套壳</h4>
-                <p className="text-sm text-slate-300">快速构建跨平台应用套壳</p>
+                <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight text-center">APP套壳</h4>
+                <p className="text-sm text-slate-300 text-center">快速构建跨平台应用套壳</p>
               </div>
               <Link to="/app-shell" className="relative z-10 w-full btn-secondary py-3 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 text-center block">
                 立即使用
@@ -878,7 +962,7 @@ export default function Home() {
                 <div>
                   <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
                     <span className="material-symbols-outlined text-primary">app_shortcut</span>
-                    APP推广模板
+                    APP 灵感模板
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {appTemplates.map((template, idx) => (
@@ -886,12 +970,10 @@ export default function Home() {
                         key={idx} 
                         className="group cursor-pointer" 
                         onClick={() => {
-                          setActiveAgent('app');
-                          setPromptText(template.prompt);
-                          setSelectedImageUrls([template.img]);
-                          setSelectedFiles([]);
+                          setVibeMode('video');
+                          setVibeVideoUrl(template.img);
+                          setVibePrompt(template.prompt);
                           setIsTemplatesModalOpen(false);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}
                       >
                         <div className="rounded-xl overflow-hidden mb-3 border border-white/5 group-hover:border-primary/50 transition-colors aspect-[3/2] relative">
@@ -913,7 +995,7 @@ export default function Home() {
                 <div>
                   <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
                     <span className="material-symbols-outlined text-accent-pink">campaign</span>
-                    营销推广模板
+                    营销灵感模板
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {marketingTemplates.map((template, idx) => (
@@ -926,7 +1008,6 @@ export default function Home() {
                           setSelectedImageUrls([template.img]);
                           setSelectedFiles([]);
                           setIsTemplatesModalOpen(false);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}
                       >
                         <div className="rounded-xl overflow-hidden mb-3 border border-white/5 group-hover:border-accent-pink/50 transition-colors aspect-[3/2] relative">
@@ -948,148 +1029,193 @@ export default function Home() {
           </div>
         </div>
       )}
-      {/* Vibe Coding Bottom Panel */}
+      {/* Vibe Coding Floating Panel */}
       {vibeVideoUrl && (
-        <div className="fixed bottom-0 left-0 right-0 z-[110] bg-surface-dark/95 backdrop-blur-2xl border-t border-white/10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] animate-slide-up">
-          <div className="max-w-7xl mx-auto p-4 md:p-6 flex flex-col md:flex-row gap-6 items-end relative">
-            
-            {/* Close Button */}
-            <button 
-              onClick={() => {
-                setVibeVideoUrl(null);
-                setVibePrompt('');
-              }} 
-              className="absolute top-4 right-4 z-20 size-8 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white transition-all"
-            >
-              <X size={16} />
-            </button>
+        <div className="fixed right-6 bottom-6 w-[360px] max-h-[85vh] z-[110] bg-[#1a1a1c]/95 backdrop-blur-2xl border border-white/10 shadow-2xl rounded-2xl flex flex-col overflow-hidden animate-slide-up">
+          {/* Header */}
+          <div className="flex items-center justify-between p-3 border-b border-white/10 bg-black/20 shrink-0">
+            <div className="flex items-center gap-2">
+              <Sparkles size={16} className="text-primary" />
+              <h3 className="text-sm font-bold text-white">开启创作</h3>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="flex bg-black/40 p-0.5 rounded-md border border-white/10">
+                <button
+                  onClick={() => setVibeMode('video')}
+                  className={`px-2 py-1 text-[10px] font-medium rounded transition-colors ${vibeMode === 'video' ? 'bg-white/20 text-white shadow-sm' : 'text-slate-400 hover:text-white'}`}
+                >
+                  视频
+                </button>
+                <button
+                  onClick={() => setVibeMode('image')}
+                  className={`px-2 py-1 text-[10px] font-medium rounded transition-colors ${vibeMode === 'image' ? 'bg-white/20 text-white shadow-sm' : 'text-slate-400 hover:text-white'}`}
+                >
+                  图片
+                </button>
+              </div>
+              <button 
+                onClick={() => {
+                  setVibeVideoUrl(null);
+                  setVibePrompt('');
+                }} 
+                className="text-slate-400 hover:text-white p-1"
+              >
+                <X size={16} />
+              </button>
+            </div>
+          </div>
 
-            {/* Left: Mini Preview */}
-            <div className="w-full md:w-64 shrink-0 rounded-xl overflow-hidden bg-black border border-white/10 relative aspect-video shadow-lg">
-              {vibeMode === 'video' ? (
-                <video 
-                  className="w-full h-full object-cover"
-                  autoPlay loop muted playsInline
-                  src={vibeVideoUrl} 
-                />
-              ) : (
-                <img 
-                  className="w-full h-full object-cover"
-                  src={vibeVideoUrl} 
-                  alt="Vibe Preview"
-                  referrerPolicy="no-referrer"
-                />
-              )}
-              <div className="absolute top-2 left-2 flex items-center gap-1.5 px-2 py-1 rounded-md bg-black/60 backdrop-blur-md border border-white/10">
-                <Wand2 size={12} className="text-white animate-pulse" />
-                <span className="text-[10px] font-mono text-slate-300 uppercase">
-                  {vibeMode === 'video' ? 'Video Editing' : 'Image Editing'}
-                </span>
+          {/* Scrollable Content */}
+          <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-5 custom-scrollbar">
+            
+            {/* Generated Result */}
+            <div className="space-y-2 shrink-0">
+              <div className="flex items-center justify-between">
+                <h4 className="text-xs font-medium text-slate-300">当前生成结果</h4>
+                {isGenerating && <span className="text-[10px] text-primary animate-pulse">生成中...</span>}
+              </div>
+              <div className="aspect-video rounded-lg overflow-hidden bg-black border border-white/10 relative shadow-inner">
+                {isGenerating ? (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/80 gap-2">
+                    <Wand2 size={20} className="text-primary animate-spin" />
+                    <span className="text-[10px] text-primary">AI 正在施展魔法...</span>
+                  </div>
+                ) : resultData ? (
+                  <>
+                    <video src="https://www.w3schools.com/html/mov_bbb.mp4" className="w-full h-full object-cover" autoPlay muted loop playsInline />
+                  </>
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                    <span className="text-[10px] text-slate-500">等待生成...</span>
+                  </div>
+                )}
               </div>
             </div>
 
-            {/* Right: Input Area */}
-            <div className="flex-1 w-full flex flex-col gap-3">
-              <div className="flex items-center justify-between mb-1">
-                <div className="flex items-center gap-2">
-                  <Wand2 size={18} className="text-primary" />
-                  <h3 className="text-white font-bold">
-                    Vibe Coding 创作
-                  </h3>
-                  <span className="text-sm text-slate-400 ml-2 hidden sm:inline">
-                    {vibeMode === 'video' ? '描述您想如何修改此视频...' : '描述您想如何修改或生成图片...'}
-                  </span>
+            {/* Reference Sources */}
+            <div className="space-y-2 shrink-0">
+              <h4 className="text-xs font-medium text-slate-300">参考源</h4>
+              <div className="grid grid-cols-2 gap-3">
+                {/* Source Video */}
+                <div className="space-y-1">
+                  <div className="aspect-video rounded-md overflow-hidden bg-black/60 border border-white/10 relative group flex items-center justify-center">
+                    {vibeMode === 'video' ? (
+                      <video src={vibeVideoUrl || "https://www.w3schools.com/html/mov_bbb.mp4"} className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity" muted playsInline />
+                    ) : (
+                      <div className="flex flex-col items-center justify-center text-slate-500 group-hover:text-white transition-colors">
+                        <UploadCloud size={16} className="mb-1" />
+                        <span className="text-[10px]">添加视频</span>
+                      </div>
+                    )}
+                    <label className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity">
+                      {vibeMode === 'video' && <span className="text-[10px] text-white bg-black/60 px-2 py-1 rounded border border-white/20"><UploadCloud size={12} className="inline mr-1"/>替换</span>}
+                      <input type="file" accept="video/*" className="hidden" onChange={handleVibeFileChange} />
+                    </label>
+                  </div>
+                  <div className="text-[10px] text-slate-500 text-center">源视频</div>
                 </div>
-                
-                {/* Mode Switcher Tabs */}
-                <div className="flex bg-black/40 p-1 rounded-lg border border-white/10 mr-8 md:mr-0">
-                  <button
-                    onClick={() => setVibeMode('video')}
-                    className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${vibeMode === 'video' ? 'bg-white/20 text-white shadow-sm' : 'text-slate-400 hover:text-white'}`}
-                  >
-                    视频
-                  </button>
-                  <button
-                    onClick={() => setVibeMode('image')}
-                    className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${vibeMode === 'image' ? 'bg-white/20 text-white shadow-sm' : 'text-slate-400 hover:text-white'}`}
-                  >
-                    图片
-                  </button>
+                {/* Source Image */}
+                <div className="space-y-1">
+                  <div className="aspect-video rounded-md overflow-hidden bg-black/60 border border-white/10 relative group flex items-center justify-center">
+                    {vibeMode === 'image' ? (
+                      <img src={vibeVideoUrl || "https://picsum.photos/seed/source-img/400/225"} className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity" alt="Source Image" />
+                    ) : (
+                      <div className="flex flex-col items-center justify-center text-slate-500 group-hover:text-white transition-colors">
+                        <UploadCloud size={16} className="mb-1" />
+                        <span className="text-[10px]">添加图片(可多张)</span>
+                      </div>
+                    )}
+                    <label className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity">
+                      {vibeMode === 'image' && <span className="text-[10px] text-white bg-black/60 px-2 py-1 rounded border border-white/20"><UploadCloud size={12} className="inline mr-1"/>替换</span>}
+                      <input type="file" accept="image/*" className="hidden" onChange={handleVibeFileChange} multiple={vibeMode === 'video'} />
+                    </label>
+                  </div>
+                  <div className="text-[10px] text-slate-500 text-center">源图片</div>
                 </div>
               </div>
-              
-              <div className="relative">
+            </div>
+
+            {/* Prompt */}
+            <div className="flex-1 flex flex-col space-y-2 min-h-[160px]">
+              <h4 className="text-xs font-medium text-slate-300">提示词 (Prompt)</h4>
+              <div className="relative flex-1 flex flex-col">
                 <textarea 
                   value={vibePrompt}
                   onChange={(e) => setVibePrompt(e.target.value)}
                   placeholder={vibeMode === 'video' ? "例如：把视频色调改成赛博朋克风，并加上动感的电子音乐..." : "例如：极简风桌面收纳盒，纯实木材质，磁吸模块化设计..."}
-                  className="w-full bg-black/40 border border-white/10 rounded-xl pl-4 pr-12 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 resize-none h-20"
+                  className="flex-1 w-full bg-black/40 border border-white/10 rounded-lg p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 resize-none shadow-inner"
                 />
                 <button 
-                  className={`absolute right-3 bottom-3 size-8 rounded-lg flex items-center justify-center transition-all ${
-                    vibePrompt.trim() 
-                      ? 'bg-primary text-white shadow-[0_0_10px_rgba(37,99,235,0.4)] hover:bg-primary-hover' 
+                  onClick={handleAnalyze}
+                  className={`absolute bottom-2 right-2 px-2 py-1 rounded flex items-center gap-1 transition-all text-[10px] font-medium ${
+                    isAnalyzing ? 'bg-primary/50 text-white' : 'bg-white/10 text-slate-300 hover:bg-white/20 hover:text-white'
+                  }`}
+                >
+                  {isAnalyzing ? <Wand2 size={10} className="animate-spin" /> : <Wand2 size={10} />}
+                  AI 解析
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Footer Actions */}
+          <div className="p-3 border-t border-white/10 bg-black/20 shrink-0 flex gap-2">
+            {vibeMode === 'video' ? (
+              <>
+                <button 
+                  onClick={handleGenerate}
+                  disabled={isGenerating || !vibePrompt.trim()}
+                  className={`flex-1 py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all ${
+                    vibePrompt.trim() && !isGenerating
+                      ? 'bg-white/10 text-white hover:bg-white/20' 
                       : 'bg-white/5 text-slate-500 cursor-not-allowed'
                   }`}
                 >
-                  <ArrowUp size={16} />
+                  <Wand2 size={14} />
+                  视频编辑
                 </button>
-              </div>
-              
-              {vibeMode === 'video' ? (
-                <div className="flex items-center gap-3 overflow-x-auto pb-1 scrollbar-hide">
-                  <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 transition-colors whitespace-nowrap">
-                    <Music size={14} />
-                    替换配乐
-                  </button>
-                  <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 transition-colors whitespace-nowrap">
-                    <Type size={14} />
-                    修改字幕
-                  </button>
-                  <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 transition-colors whitespace-nowrap">
-                    <Palette size={14} />
-                    调整色调
-                  </button>
-                  <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 transition-colors whitespace-nowrap">
-                    <Video size={14} />
-                    克隆运镜
-                  </button>
-                </div>
-              ) : (
-                <div className="flex flex-col gap-2">
-                  <div className="flex items-center gap-3 overflow-x-auto pb-1 scrollbar-hide">
-                    <span className="text-xs text-slate-400 whitespace-nowrap font-medium">图片风格</span>
-                    <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 transition-colors whitespace-nowrap">
-                      <Megaphone size={14} /> 营销图
-                    </button>
-                    <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 transition-colors whitespace-nowrap">
-                      <Square size={14} /> 白底图
-                    </button>
-                    <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 transition-colors whitespace-nowrap">
-                      <Camera size={14} /> 实拍图
-                    </button>
-                    <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 transition-colors whitespace-nowrap">
-                      <Layout size={14} /> 详情页
-                    </button>
-                    <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 transition-colors whitespace-nowrap">
-                      <Sparkles size={14} /> 小红书
-                    </button>
-                  </div>
-                  <div className="flex items-center gap-3 overflow-x-auto pb-1 scrollbar-hide">
-                    <span className="text-xs text-slate-400 whitespace-nowrap font-medium">生成张数</span>
-                    <button className="flex items-center justify-center px-4 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 transition-colors whitespace-nowrap">
-                      1 张
-                    </button>
-                    <button className="flex items-center justify-center px-4 py-1.5 rounded-lg bg-primary/20 hover:bg-primary/30 border border-primary/50 text-xs text-primary transition-colors whitespace-nowrap">
-                      4 张 (推荐)
-                    </button>
-                    <button className="flex items-center justify-center px-4 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 transition-colors whitespace-nowrap">
-                      8 张
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
+                <button 
+                  onClick={handleGenerate}
+                  disabled={isGenerating || !vibePrompt.trim()}
+                  className={`flex-1 py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all ${
+                    vibePrompt.trim() && !isGenerating
+                      ? 'bg-primary text-white shadow-[0_0_15px_rgba(37,99,235,0.4)] hover:bg-primary-hover' 
+                      : 'bg-white/5 text-slate-500 cursor-not-allowed'
+                  }`}
+                >
+                  <Sparkles size={14} />
+                  视频继续创作
+                </button>
+              </>
+            ) : (
+              <>
+                <button 
+                  onClick={handleGenerate}
+                  disabled={isGenerating || !vibePrompt.trim()}
+                  className={`flex-1 py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all ${
+                    vibePrompt.trim() && !isGenerating
+                      ? 'bg-white/10 text-white hover:bg-white/20' 
+                      : 'bg-white/5 text-slate-500 cursor-not-allowed'
+                  }`}
+                >
+                  <ImageIcon size={14} />
+                  图片编辑
+                </button>
+                <button 
+                  onClick={handleGenerate}
+                  disabled={isGenerating || !vibePrompt.trim()}
+                  className={`flex-1 py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all ${
+                    vibePrompt.trim() && !isGenerating
+                      ? 'bg-primary text-white shadow-[0_0_15px_rgba(37,99,235,0.4)] hover:bg-primary-hover' 
+                      : 'bg-white/5 text-slate-500 cursor-not-allowed'
+                  }`}
+                >
+                  <Video size={14} />
+                  作为图片源创作视频
+                </button>
+              </>
+            )}
           </div>
         </div>
       )}
