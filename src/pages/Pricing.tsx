@@ -55,10 +55,11 @@ export default function Pricing() {
         <div className="flex items-center gap-12">
           <Link to="/" className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity">
             <span className="material-symbols-outlined text-primary text-3xl">deployed_code</span>
-            <h2 className="text-xl font-bold tracking-tight">AI Me</h2>
+            <h2 className="text-xl font-bold tracking-tight">Agents Me</h2>
           </Link>
           <div className="hidden md:flex items-center gap-8">
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/">首页</Link>
+            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/dashboard">工作台</Link>
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/product-concept">产品概念</Link>
             <Link className="text-sm font-medium text-white transition-colors" to="/pricing">产品定价</Link>
           </div>
@@ -137,7 +138,7 @@ export default function Pricing() {
 
       {/* Footer */}
       <footer className="border-t border-border-dark py-12 px-6 lg:px-20 text-center text-slate-500 text-sm">
-        <p>© 2024 AI Me. All rights reserved.</p>
+        <p>© 2024 Agents Me. All rights reserved.</p>
       </footer>
     </div>
   );
