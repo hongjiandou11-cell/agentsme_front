@@ -20,8 +20,6 @@ import EcommerceVideoClone from './pages/EcommerceVideoClone';
 import DashboardLayout from './components/DashboardLayout';
 import DashboardHome from './pages/DashboardHome';
 import Agent from './pages/Agent';
-import AgentMarket from './pages/AgentMarket';
-import History from './pages/History';
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -43,8 +41,6 @@ function AnimatedRoutes() {
         {/* Dashboard Routes */}
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<DashboardHome />} />
-          <Route path="history" element={<History />} />
-          <Route path="market" element={<AgentMarket />} />
           <Route path="agent" element={<Agent />} />
           <Route path="projects/:projectId" element={<Agent />} />
           <Route path="app/shell" element={<AppShell />} />

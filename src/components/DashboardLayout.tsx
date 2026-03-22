@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Home, Smartphone, ShoppingBag, Lightbulb, ChevronRight, Wand2, Play, Image as ImageIcon, LayoutGrid, Monitor, ShoppingCart, Clock } from 'lucide-react';
+import { Home, Smartphone, ShoppingBag, Lightbulb, ChevronRight, Wand2, Play, Image as ImageIcon, LayoutGrid, Monitor, ShoppingCart } from 'lucide-react';
 import { DashboardProvider, useDashboard } from './DashboardContext';
 
 function DashboardLayoutContent() {
@@ -41,13 +41,6 @@ function DashboardLayoutContent() {
       label: '灵感库', 
       path: '/dashboard/inspiration'
     },
-    { id: 'market', icon: LayoutGrid, label: '市场', path: '/dashboard/market' },
-    {
-      id: 'history',
-      icon: Clock,
-      label: '历史记录',
-      path: '/dashboard/history'
-    }
   ];
 
   return (
@@ -55,8 +48,8 @@ function DashboardLayoutContent() {
       {/* Sidebar */}
       <div className="w-20 flex-shrink-0 bg-[#18181b] border-r border-white/5 flex flex-col items-center py-6 relative z-50">
         <div className="mb-8">
-          <Link to="/" className="flex items-center justify-center text-white hover:opacity-80 transition-opacity" title="Agents Me">
-            <span className="material-symbols-outlined text-primary text-3xl">deployed_code</span>
+          <Link to="/" className="w-10 h-10 bg-indigo-500 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-indigo-500/20 hover:scale-105 transition-transform cursor-pointer block text-center leading-10">
+            Agents
           </Link>
         </div>
 

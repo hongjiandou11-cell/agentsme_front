@@ -45,26 +45,17 @@ export default function InspirationLibrary() {
       <div className="absolute top-[-200px] right-[-200px] w-[600px] h-[600px] bg-indigo-500/20 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-200px] left-[-200px] w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-[120px] pointer-events-none" />
 
-      {/* Navigation */}
-      {!isDashboard && (
-        <nav className="sticky top-0 z-50 border-b border-white/5 bg-[#0f0f11]/80 backdrop-blur-xl px-6 lg:px-20 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-12">
-            <Link to="/" className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity">
-              <span className="material-symbols-outlined text-primary text-3xl">deployed_code</span>
-              <h2 className="text-xl font-bold tracking-tight">Agents Me</h2>
-            </Link>
-            <div className="hidden md:flex items-center gap-8">
-              <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/">首页</Link>
-              <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/dashboard">工作台</Link>
-              <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/product-concept">产品概念</Link>
-              <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/pricing">产品定价</Link>
-            </div>
-          </div>
-        </nav>
-      )}
-
       {/* Header */}
       <header className="relative z-10 pt-12 pb-8 px-8 md:px-12 lg:px-16">
+        {!isDashboard && (
+          <nav className="mb-8">
+            <Link to="/" className="text-zinc-400 hover:text-white transition-colors flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/5 border border-white/10 w-fit backdrop-blur-md">
+              <ArrowLeft size={16} />
+              <span className="text-sm font-medium">返回首页</span>
+            </Link>
+          </nav>
+        )}
+        
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div>
             <motion.div 

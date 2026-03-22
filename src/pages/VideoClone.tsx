@@ -78,9 +78,6 @@ export default function VideoClone() {
     }, 2000);
   };
 
-  const { addHistoryItem, updateProject, projects } = dashboardContext || { addHistoryItem: () => {}, updateProject: () => {}, projects: [] };
-  const projectId = location.state?.projectId;
-
   const handleGenerate = async () => {
     if (!videoUrl && !videoFile) {
       alert("请提供参考视频");
@@ -93,31 +90,7 @@ export default function VideoClone() {
     // Simulate generation
     setTimeout(() => {
       setIsGenerating(false);
-      const mockResult = 'https://picsum.photos/seed/result/450/800';
-      setResultData({ resultUrl: mockResult });
-      
-      addHistoryItem({
-        type: 'app-video',
-        title: `APP 视频克隆 - ${engine}`,
-        thumbnail: mockResult,
-        status: 'success',
-        resultUrl: mockResult
-      });
-
-      if (projectId) {
-        const project = projects.find(p => p.id === projectId);
-        if (project) {
-          const updatedNodes = project.agentState.nodes.map(n => ({ ...n, status: 'completed' as const }));
-          updateProject(projectId, {
-            status: 'completed',
-            agentState: {
-              ...project.agentState,
-              nodes: updatedNodes,
-              progress: 100
-            }
-          });
-        }
-      }
+      setResultData({ resultUrl: 'success' });
     }, 3000);
   };
 
@@ -127,52 +100,36 @@ export default function VideoClone() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
-      className="bg-[#0f0f11] text-slate-100 font-sans min-h-screen flex flex-col relative overflow-y-auto"
+      className="bg-[#0a0a0a] text-slate-100 font-sans min-h-screen flex flex-col overflow-y-auto"
     >
-      {/* Background Effects */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-indigo-600/10 blur-[120px]"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-emerald-600/10 blur-[120px]"></div>
-      </div>
-
       {/* Navigation */}
       {!isDashboard && (
-        <nav className="sticky top-0 z-50 border-b border-white/5 bg-[#0f0f11]/80 backdrop-blur-xl px-6 lg:px-20 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-12">
-            <Link to="/" className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity">
-              <span className="material-symbols-outlined text-primary text-3xl">deployed_code</span>
-              <h2 className="text-xl font-bold tracking-tight">Agents Me</h2>
+        <nav className="sticky top-0 z-50 border-b border-white/5 bg-[#0a0a0a]/80 backdrop-blur-md px-6 lg:px-20 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Link to="/?scroll=atomic-lab" className="text-slate-400 hover:text-white transition-colors flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/5 border border-white/10">
+              <span className="material-symbols-outlined">arrow_back</span>
+              <span className="text-sm font-medium">返回首页</span>
             </Link>
-            <div className="hidden md:flex items-center gap-8">
-              <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/">首页</Link>
-              <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/dashboard">工作台</Link>
-              <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/product-concept">产品概念</Link>
-              <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/pricing">产品定价</Link>
+            <div className="flex items-center gap-2 text-white">
+              <h2 className="text-xl font-bold tracking-tight">AI 视频克隆</h2>
             </div>
           </div>
         </nav>
       )}
 
-      <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
+      <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column: Form Settings */}
-        <div className="lg:col-span-5 space-y-6">
-          <div className="bg-[#18181b]/60 backdrop-blur-xl p-8 rounded-3xl border border-white/10 shadow-2xl space-y-8">
-            <div className="flex items-center justify-between">
-              <div>
-                <h1 className="text-2xl font-bold text-white mb-2 tracking-tight">AI 视频克隆</h1>
-                <p className="text-zinc-400 text-sm">提供参考视频和APP截图，AI将分析动效并用您的截图重新生成视频。</p>
-              </div>
-              <div className="w-12 h-12 rounded-2xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 border border-indigo-500/20">
-                <span className="material-symbols-outlined text-2xl">movie</span>
-              </div>
-            </div>
+        <div className="lg:col-span-7 space-y-6">
+          <div>
+            <h1 className="text-3xl font-bold text-white mb-2">AI 视频克隆</h1>
+            <p className="text-slate-400 text-sm">提供参考视频和APP截图，AI将分析动效并用您的截图重新生成视频。</p>
+          </div>
 
+          <div className="bg-[#121214] p-8 rounded-3xl border border-white/5 space-y-8">
             {/* Reference Video */}
-            <div className="bg-black/20 p-5 rounded-2xl border border-white/5">
-              <label className="text-sm font-semibold text-zinc-200 flex items-center gap-2 mb-4">
-                <div className="w-6 h-6 rounded-md bg-indigo-500/20 flex items-center justify-center text-indigo-400">
-                  <span className="material-symbols-outlined text-[14px]">movie</span>
-                </div>
+            <div>
+              <label className="text-sm font-medium text-slate-300 flex items-center gap-2 mb-3">
+                <span className="material-symbols-outlined text-sm text-primary">movie</span>
                 参考视频 <span className="text-red-500">*</span>
                 <span className="text-xs text-slate-500 font-normal ml-2">粘贴链接或上传文件</span>
               </label>
@@ -183,7 +140,7 @@ export default function VideoClone() {
                   value={videoUrl}
                   onChange={(e) => { setVideoUrl(e.target.value); setVideoFile(null); }}
                   placeholder="支持 Envato / YouTube / 抖音 / B站 / Twitter 链接"
-                  className="flex-1 bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 transition-all"
+                  className="flex-1 bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-primary/50 transition-all"
                 />
                 
                 <button
@@ -191,8 +148,8 @@ export default function VideoClone() {
                   disabled={isAnalyzing || (!videoUrl && !videoFile)}
                   className={`px-5 py-3 rounded-xl text-sm font-medium transition-all flex items-center gap-2 ${
                     isAnalyzing || (!videoUrl && !videoFile)
-                      ? 'bg-indigo-500/10 text-indigo-500/50 cursor-not-allowed border border-indigo-500/10'
-                      : 'bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-400 border border-indigo-500/30'
+                      ? 'bg-primary/10 text-primary/50 cursor-not-allowed'
+                      : 'bg-primary/20 hover:bg-primary/30 text-primary border border-primary/20'
                   }`}
                 >
                   {isAnalyzing ? (
@@ -245,12 +202,10 @@ export default function VideoClone() {
             </div>
 
             {/* Reference Images */}
-            <div className="bg-black/20 p-5 rounded-2xl border border-white/5">
-              <div className="flex items-center justify-between mb-4">
-                <label className="text-sm font-semibold text-zinc-200 flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-md bg-indigo-500/20 flex items-center justify-center text-indigo-400">
-                    <span className="material-symbols-outlined text-[14px]">image</span>
-                  </div>
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <label className="text-sm font-medium text-slate-300 flex items-center gap-2">
+                  <span className="material-symbols-outlined text-sm text-primary">image</span>
                   APP 截图 <span className="text-red-500">*</span>
                 </label>
                 <button 
@@ -265,7 +220,7 @@ export default function VideoClone() {
               <div className="space-y-3">
                 <div 
                   onClick={() => imageInputRef.current?.click()}
-                  className="w-full border-2 border-dashed border-white/10 hover:border-indigo-500/50 rounded-2xl p-8 flex flex-col items-center justify-center cursor-pointer transition-colors bg-black/20 group"
+                  className="w-full border border-dashed border-white/10 hover:border-primary/50 rounded-2xl p-8 flex flex-col items-center justify-center cursor-pointer transition-colors bg-black/20 group"
                 >
                   <input 
                     type="file" 
@@ -423,62 +378,43 @@ export default function VideoClone() {
         </div>
 
         {/* Right Column: Preview Area */}
-        <div className="lg:col-span-7">
-          <div className="sticky top-24 h-[calc(100vh-8rem)] bg-[#18181b]/60 backdrop-blur-xl rounded-3xl border border-white/10 flex flex-col overflow-hidden shadow-2xl">
-            <div className="px-6 py-4 border-b border-white/5 flex items-center gap-2 bg-black/20">
-              <span className="material-symbols-outlined text-indigo-400 text-[16px]">preview</span>
-              <h3 className="font-semibold text-white text-sm">效果预览</h3>
-            </div>
+        <div className="lg:col-span-5">
+          <div className="sticky top-24">
+            <div className="bg-[#121214] rounded-3xl border border-white/5 overflow-hidden flex flex-col h-[700px]">
+              <div className="p-4 border-b border-white/5 flex items-center gap-2">
+                <span className="material-symbols-outlined text-sm text-slate-400">preview</span>
+                <h3 className="text-sm font-medium text-slate-300">效果预览</h3>
+              </div>
               <div className="flex-1 bg-[#0a0a0a] flex items-center justify-center p-8 relative overflow-hidden">
-                {/* Background Effects */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(37,99,235,0.05),transparent_70%)]"></div>
-                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
-                
                 {isGenerating ? (
-                  <div className="relative z-10 flex flex-col items-center text-center gap-6 w-full max-w-sm">
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl animate-pulse"></div>
-                      <div className="size-20 rounded-2xl bg-[#18181b] border border-white/10 flex items-center justify-center text-primary relative z-10 shadow-2xl">
-                        <span className="material-symbols-outlined text-4xl animate-spin">settings</span>
-                      </div>
+                  <div className="relative z-10 flex flex-col items-center text-center gap-4 w-full">
+                    <div className="size-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 animate-pulse">
+                      <span className="material-symbols-outlined text-3xl animate-spin">settings</span>
                     </div>
-                    <div className="space-y-3 w-full">
-                      <h4 className="text-lg font-medium text-white">正在克隆视频...</h4>
-                      <p className="text-slate-400 text-sm">AI 正在分析参考视频动效并合成新画面</p>
-                      <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
-                        <div className="h-full bg-primary w-2/3 rounded-full animate-pulse"></div>
-                      </div>
+                    <div className="w-full max-w-xs space-y-2">
+                      <p className="text-slate-300 text-sm">等待生成...</p>
+                      <p className="text-slate-500 text-xs">配置左侧参数后点击生成</p>
                     </div>
                   </div>
                 ) : resultData ? (
                   <div className="relative z-10 w-full h-full flex flex-col items-center justify-center gap-6">
-                    <div className="w-full aspect-[9/16] max-h-full bg-black rounded-2xl border border-white/10 overflow-hidden relative group shadow-2xl">
+                    <div className="w-full aspect-[9/16] max-h-full bg-black rounded-xl border border-white/10 overflow-hidden relative group">
                       <div className="absolute inset-0 bg-[url('https://picsum.photos/seed/result/450/800')] bg-cover bg-center"></div>
-                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm">
-                        <button className="size-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/30 hover:scale-110 transition-all shadow-xl">
+                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button className="size-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/30 hover:scale-110 transition-all">
                           <span className="material-symbols-outlined text-3xl ml-1">play_arrow</span>
                         </button>
                       </div>
                     </div>
-                    <div className="flex gap-4">
-                      <button className="px-6 py-2.5 bg-white/10 hover:bg-white/20 rounded-xl text-sm font-medium transition-colors flex items-center gap-2 text-white">
-                        <span className="material-symbols-outlined text-sm">download</span>
-                        下载视频
-                      </button>
-                      <button className="px-6 py-2.5 bg-primary/20 hover:bg-primary/30 text-primary border border-primary/20 rounded-xl text-sm font-medium transition-colors flex items-center gap-2">
-                        <span className="material-symbols-outlined text-sm">share</span>
-                        分享
-                      </button>
-                    </div>
                   </div>
                 ) : (
-                  <div className="relative z-10 flex flex-col items-center text-center gap-5">
-                    <div className="size-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-500 shadow-inner">
-                      <span className="material-symbols-outlined text-3xl">movie</span>
+                  <div className="relative z-10 flex flex-col items-center text-center gap-4">
+                    <div className="size-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-500">
+                      <span className="material-symbols-outlined text-2xl">movie</span>
                     </div>
                     <div>
-                      <p className="text-slate-300 font-medium">等待生成</p>
-                      <p className="text-slate-500 text-sm mt-2 max-w-xs">配置左侧参数后点击生成，AI 将为您克隆视频动效</p>
+                      <p className="text-slate-300 text-sm">等待生成...</p>
+                      <p className="text-slate-500 text-xs mt-1">配置左侧参数后点击生成</p>
                     </div>
                   </div>
                 )}
