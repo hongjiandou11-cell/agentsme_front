@@ -146,13 +146,6 @@ export default function DashboardHome() {
                     {activeAI === 'marketing' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-accent-pink rounded-t-full shadow-[0_-2px_10px_rgba(14,165,233,0.5)]"></div>}
                   </button>
                 </div>
-                <button 
-                  onClick={() => { setPrompt(''); }}
-                  className="pb-3 text-sm font-medium text-slate-400 hover:text-white transition-colors flex items-center gap-1"
-                >
-                  <Plus size={14} />
-                  新建项目
-                </button>
               </div>
 
               <div className="relative z-10 p-6 flex flex-col gap-4 bg-gradient-to-b from-transparent to-white/[0.02]">

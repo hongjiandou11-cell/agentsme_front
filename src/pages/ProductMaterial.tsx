@@ -159,7 +159,7 @@ export default function ProductMaterial() {
       <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
         {/* Left Column: Form Settings */}
         <div className="lg:col-span-5 space-y-6">
-          <div className="bg-[#18181b]/60 backdrop-blur-xl p-8 rounded-3xl border border-white/10 shadow-2xl space-y-8">
+          <div className="relative bg-[#0f0f11]/90 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-[0_0_50px_rgba(37,99,235,0.2)] space-y-8 flex flex-col transition-all">
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-2xl font-bold text-white mb-2 tracking-tight">AI 商品详情页生成</h1>
@@ -196,13 +196,6 @@ export default function ProductMaterial() {
                   </div>
                   产品图片 <span className="text-xs text-slate-500 font-normal ml-2">AI 将分析图片提取卖点和品牌风格</span>
                 </label>
-                <button 
-                  onClick={() => setShowInspiration(true)}
-                  className="px-3 py-1 text-[12px] font-bold text-emerald-400 bg-emerald-400/10 border border-emerald-400/20 rounded-full hover:bg-emerald-400/20 transition-all flex items-center gap-1.5 shadow-[0_0_15px_rgba(52,211,153,0.2)]"
-                >
-                  <Leaf size={14} className="text-emerald-400" />
-                  灵感库
-                </button>
               </div>
 
               <div className="space-y-3">
@@ -376,9 +369,11 @@ export default function ProductMaterial() {
         {/* Right Column: Preview Area */}
         <div className="lg:col-span-7">
           <div className="sticky top-24 h-[calc(100vh-8rem)] bg-[#18181b]/60 backdrop-blur-xl rounded-3xl border border-white/10 flex flex-col overflow-hidden shadow-2xl">
-            <div className="px-6 py-4 border-b border-white/5 flex items-center gap-2 bg-black/20">
-              <span className="material-symbols-outlined text-indigo-400 text-[16px]">preview</span>
-              <h3 className="font-semibold text-white text-sm">生成预览</h3>
+            <div className="px-6 py-4 border-b border-white/5 flex items-center justify-between bg-black/20">
+              <h3 className="font-semibold text-white flex items-center gap-2 text-sm">
+                <span className="material-symbols-outlined text-indigo-400 text-[16px]">preview</span>
+                效果预览
+              </h3>
             </div>
               
               <div className="flex-1 bg-[#0a0a0a] flex items-center justify-center p-8 relative overflow-hidden">

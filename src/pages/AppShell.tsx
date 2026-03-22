@@ -140,7 +140,7 @@ export default function AppShell() {
       <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
         {/* Left Column: Form Settings */}
         <div className="lg:col-span-5 space-y-6">
-          <div className="bg-[#18181b]/60 backdrop-blur-xl p-8 rounded-3xl border border-white/10 shadow-2xl space-y-8">
+          <div className="relative bg-[#0f0f11]/90 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-[0_0_50px_rgba(37,99,235,0.2)] space-y-8 flex flex-col transition-all">
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-2xl font-bold text-white mb-2 tracking-tight">截图包装生成</h1>
@@ -160,13 +160,6 @@ export default function AppShell() {
                   </div>
                   截图上传 <span className="text-red-500">*</span>
                 </label>
-                <button 
-                  onClick={() => setShowInspiration(true)}
-                  className="px-3 py-1.5 text-[12px] font-medium text-emerald-400 bg-emerald-400/10 border border-emerald-400/20 rounded-full hover:bg-emerald-400/20 transition-all flex items-center gap-1.5"
-                >
-                  <Leaf size={14} />
-                  灵感库
-                </button>
               </div>
 
               <div className="space-y-4">
