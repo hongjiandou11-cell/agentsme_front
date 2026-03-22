@@ -115,7 +115,7 @@ export default function DashboardHome() {
         
         {/* Main Title */}
         <h1 className="text-4xl md:text-5xl font-bold mb-12 tracking-tight text-center">
-          任意视频，告诉 AI 即可创建
+          任意灵感，告诉 AI 即可创建
         </h1>
 
         {/* Vibe Coding Layout (Referencing Home.tsx) */}
@@ -129,20 +129,29 @@ export default function DashboardHome() {
             <div className="relative bg-[#0f0f11]/90 backdrop-blur-xl rounded-2xl border border-white/20 overflow-hidden shadow-[0_0_50px_rgba(37,99,235,0.2)] flex flex-col transition-all">
               
               {/* AI Tabs */}
-              <div className="relative z-10 flex items-center gap-6 px-6 pt-4 border-b border-white/10 shrink-0 bg-white/[0.02]">
+              <div className="relative z-10 flex items-center justify-between px-6 pt-4 border-b border-white/10 shrink-0 bg-white/[0.02]">
+                <div className="flex items-center gap-6">
+                  <button 
+                    onClick={() => setActiveAI('app')}
+                    className={`pb-3 text-sm font-medium transition-colors relative ${activeAI === 'app' ? 'text-white' : 'text-slate-500 hover:text-slate-300'}`}
+                  >
+                    APP Agent
+                    {activeAI === 'app' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-primary rounded-t-full shadow-[0_-2px_10px_rgba(37,99,235,0.5)]"></div>}
+                  </button>
+                  <button 
+                    onClick={() => setActiveAI('marketing')}
+                    className={`pb-3 text-sm font-medium transition-colors relative ${activeAI === 'marketing' ? 'text-white' : 'text-slate-500 hover:text-slate-300'}`}
+                  >
+                    电商营销Agent
+                    {activeAI === 'marketing' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-accent-pink rounded-t-full shadow-[0_-2px_10px_rgba(14,165,233,0.5)]"></div>}
+                  </button>
+                </div>
                 <button 
-                  onClick={() => setActiveAI('app')}
-                  className={`pb-3 text-sm font-medium transition-colors relative ${activeAI === 'app' ? 'text-white' : 'text-slate-500 hover:text-slate-300'}`}
+                  onClick={() => { setPrompt(''); }}
+                  className="pb-3 text-sm font-medium text-slate-400 hover:text-white transition-colors flex items-center gap-1"
                 >
-                  APP Agent
-                  {activeAI === 'app' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-primary rounded-t-full shadow-[0_-2px_10px_rgba(37,99,235,0.5)]"></div>}
-                </button>
-                <button 
-                  onClick={() => setActiveAI('marketing')}
-                  className={`pb-3 text-sm font-medium transition-colors relative ${activeAI === 'marketing' ? 'text-white' : 'text-slate-500 hover:text-slate-300'}`}
-                >
-                  电商营销Agent
-                  {activeAI === 'marketing' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-accent-pink rounded-t-full shadow-[0_-2px_10px_rgba(14,165,233,0.5)]"></div>}
+                  <Plus size={14} />
+                  新建项目
                 </button>
               </div>
 

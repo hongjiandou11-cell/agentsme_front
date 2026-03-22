@@ -443,6 +443,13 @@ export default function Agent() {
           <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-white/10 text-zinc-400 ml-2">Beta</span>
         </div>
         <div className="flex items-center gap-3">
+          <button 
+            onClick={() => navigate('/dashboard/agent')}
+            className="px-3 py-1.5 rounded-lg text-sm font-medium text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/10 transition-colors flex items-center gap-2 border border-indigo-500/20"
+          >
+            <Plus size={16} />
+            新建项目
+          </button>
           {!isDefaultView && (
             <button 
               onClick={handleAddNode}

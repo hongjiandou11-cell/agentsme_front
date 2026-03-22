@@ -720,7 +720,7 @@ export default function Home() {
               <div className="absolute inset-0 bg-cover bg-center opacity-60 group-hover:scale-110 transition-all duration-700" style={{ backgroundImage: "url('https://picsum.photos/seed/video-clone/600/800')" }}></div>
               <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-black/60"></div>
               <div className="relative z-10">
-                <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight text-center">视频克隆</h4>
+                <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight text-center">APP Agent</h4>
                 <p className="text-sm text-slate-300 text-center">AI驱动的爆款视频生成</p>
               </div>
               <Link to="/dashboard/app/video" className="relative z-10 w-full btn-secondary py-3 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 text-center block">
@@ -731,7 +731,7 @@ export default function Home() {
               <div className="absolute inset-0 bg-cover bg-center opacity-60 group-hover:scale-110 transition-all duration-700" style={{ backgroundImage: "url('https://picsum.photos/seed/ecommerce-video/600/800')" }}></div>
               <div className="absolute inset-0 bg-gradient-to-br from-accent-pink/10 via-transparent to-black/60"></div>
               <div className="relative z-10">
-                <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight text-center">电商带货视频克隆</h4>
+                <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight text-center">电商营销Agent</h4>
                 <p className="text-sm text-slate-300 text-center">专属电商场景的带货视频</p>
               </div>
               <Link to="/dashboard/ecommerce/video" className="relative z-10 w-full btn-secondary py-3 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 text-center block">
