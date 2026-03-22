@@ -169,10 +169,12 @@ export default function EcommerceVideoClone() {
         </nav>
       )}
 
-      <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
+      <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-10">
         {/* Left Column: Form Settings */}
-        <div className="lg:col-span-5 space-y-6">
-          <div className="bg-[#18181b]/60 backdrop-blur-xl p-8 rounded-3xl border border-white/10 shadow-2xl space-y-8">
+        <div className="lg:col-span-5 space-y-6 relative group/editor">
+          <div className="absolute -inset-1 bg-gradient-to-r from-primary/40 via-accent-blue/40 to-accent-pink/40 rounded-3xl blur-xl opacity-60 group-hover/editor:opacity-100 transition duration-1000 animate-pulse-slow"></div>
+          
+          <div className="relative bg-[#0f0f11]/90 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-[0_0_50px_rgba(37,99,235,0.2)] space-y-8 flex flex-col transition-all">
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-2xl font-bold text-white mb-2 tracking-tight">电商带货视频克隆</h1>
@@ -186,46 +188,47 @@ export default function EcommerceVideoClone() {
             {/* Form Grid */}
             <div className="grid grid-cols-1 gap-6">
               {/* Reference Video */}
-              <div className="bg-black/20 p-5 rounded-2xl border border-white/5">
+              <div className="bg-white/[0.02] p-5 rounded-2xl border border-white/5">
                 <label className="text-sm font-semibold text-zinc-200 flex items-center gap-2 mb-4">
                   <div className="w-6 h-6 rounded-md bg-indigo-500/20 flex items-center justify-center text-indigo-400">
                     <span className="material-symbols-outlined text-[14px]">movie</span>
                   </div>
                   参考视频 <span className="text-red-500">*</span>
+                  <span className="text-xs text-slate-500 font-normal ml-2">粘贴链接或上传文件</span>
                 </label>
 
-                <div className="flex gap-2">
+                <div className="flex gap-3">
                   <input
                     type="text"
                     value={videoUrl}
                     onChange={(e) => { setVideoUrl(e.target.value); setVideoFile(null); }}
                     placeholder="粘贴视频链接"
-                    className="flex-1 bg-black/40 border border-white/10 rounded-lg px-3 py-2.5 text-xs text-white placeholder:text-zinc-600 focus:outline-none focus:border-indigo-500/50 transition-all"
+                    className="flex-1 bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 transition-all"
                   />
                   
                   <button
                     onClick={handleAnalyze}
                     disabled={isAnalyzing || (!videoUrl && !videoFile)}
-                    className={`px-4 py-2.5 rounded-lg text-xs font-medium transition-all flex items-center gap-2 ${
+                    className={`px-5 py-3 rounded-xl text-sm font-medium transition-all flex items-center gap-2 ${
                       isAnalyzing || (!videoUrl && !videoFile)
-                        ? 'bg-white/5 text-zinc-500 cursor-not-allowed'
-                        : 'bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-400 border border-indigo-500/30'
+                        ? 'bg-indigo-500/10 text-indigo-500/50 cursor-not-allowed border border-indigo-500/10'
+                        : 'bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-400 border border-indigo-500/30'
                     }`}
                   >
                     {isAnalyzing ? (
-                      <span className="material-symbols-outlined animate-spin text-sm">progress_activity</span>
+                      <span className="material-symbols-outlined animate-spin text-[18px]">progress_activity</span>
                     ) : (
-                      <span className="material-symbols-outlined text-sm">auto_awesome</span>
+                      <span className="material-symbols-outlined text-[18px]">auto_awesome</span>
                     )}
                     AI 解析
                   </button>
 
                   <button 
                     onClick={() => videoInputRef.current?.click()}
-                    className="px-4 py-2.5 rounded-lg text-xs font-medium bg-white/5 hover:bg-white/10 text-white border border-white/10 transition-all flex items-center gap-2"
+                    className="px-5 py-3 rounded-xl text-sm font-medium bg-white/5 hover:bg-white/10 text-white border border-white/10 transition-all flex items-center gap-2"
                   >
-                    <span className="material-symbols-outlined text-sm">upload</span>
-                    上传
+                    <span className="material-symbols-outlined text-[18px]">upload</span>
+                    上传视频
                   </button>
                   <input 
                     type="file" 
@@ -237,26 +240,26 @@ export default function EcommerceVideoClone() {
                   
                   <button 
                     onClick={() => setShowVideoInspiration(true)}
-                    className="px-4 py-2.5 rounded-lg text-xs font-bold text-emerald-400 bg-emerald-400/10 border border-emerald-400/20 hover:bg-emerald-400/20 transition-all flex items-center gap-2"
+                    className="px-5 py-3 rounded-xl text-sm font-bold text-emerald-400 bg-emerald-400/10 border border-emerald-400/20 hover:bg-emerald-400/20 transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(52,211,153,0.2)]"
                   >
-                    <Leaf size={14} className="text-emerald-400" />
-                    灵感
+                    <Leaf size={18} className="text-emerald-400" />
+                    灵感库
                   </button>
                 </div>
                 
                 {videoFile && (
-                  <div className="mt-3 flex items-center gap-2 text-xs text-zinc-300 bg-white/5 px-3 py-2 rounded-lg border border-white/10 w-fit">
-                    <span className="material-symbols-outlined text-emerald-400 text-[14px]">check_circle</span>
+                  <div className="mt-3 flex items-center gap-2 text-sm text-slate-300 bg-white/5 p-2 rounded-lg border border-white/10 w-fit">
+                    <span className="material-symbols-outlined text-green-400 text-[18px]">check_circle</span>
                     <span className="truncate max-w-[200px]">{videoFile.name}</span>
-                    <button onClick={() => setVideoFile(null)} className="ml-2 text-zinc-500 hover:text-red-400">
-                      <span className="material-symbols-outlined text-[14px]">close</span>
+                    <button onClick={() => setVideoFile(null)} className="ml-2 text-slate-500 hover:text-red-400">
+                      <span className="material-symbols-outlined text-[16px]">close</span>
                     </button>
                   </div>
                 )}
               </div>
 
               {/* Product Images */}
-              <div className="bg-black/20 p-5 rounded-2xl border border-white/5">
+              <div className="bg-white/[0.02] p-5 rounded-2xl border border-white/5">
                 <div className="flex items-center justify-between mb-4">
                   <label className="text-sm font-semibold text-zinc-200 flex items-center gap-2">
                     <div className="w-6 h-6 rounded-md bg-purple-500/20 flex items-center justify-center text-purple-400">
@@ -322,7 +325,7 @@ export default function EcommerceVideoClone() {
               </div>
 
               {/* Product Selling Points */}
-              <div className="bg-black/20 p-5 rounded-2xl border border-white/5">
+              <div className="bg-white/[0.02] p-5 rounded-2xl border border-white/5">
                 <label className="block text-sm font-semibold text-zinc-200 mb-3 flex items-center gap-2">
                   <div className="w-6 h-6 rounded-md bg-emerald-500/20 flex items-center justify-center text-emerald-400">
                     <span className="material-symbols-outlined text-[14px]">edit_note</span>
@@ -334,19 +337,19 @@ export default function EcommerceVideoClone() {
                   onChange={(e) => setProductSellingPoints(e.target.value)}
                   placeholder="描述商品核心卖点..."
                   rows={3}
-                  className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2.5 text-xs text-white placeholder:text-zinc-600 focus:outline-none focus:border-indigo-500/50 transition-all resize-none"
+                  className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 transition-all resize-none"
                 ></textarea>
               </div>
 
               {/* Engine Selection */}
-              <div className="bg-black/20 p-5 rounded-2xl border border-white/5">
+              <div className="bg-white/[0.02] p-5 rounded-2xl border border-white/5">
                 <label className="block text-sm font-semibold text-zinc-200 mb-3 flex items-center gap-2">
                   <div className="w-6 h-6 rounded-md bg-orange-500/20 flex items-center justify-center text-orange-400">
                     <span className="material-symbols-outlined text-[14px]">tune</span>
                   </div>
                   视频生成引擎
                 </label>
-                <div className="grid grid-cols-2 gap-2 bg-black/40 p-1 rounded-lg border border-white/5">
+                <div className="grid grid-cols-2 gap-2 bg-black/40 p-1.5 rounded-xl border border-white/5">
                   {[
                     { id: 'wanxiang', label: '万象 (Wanxiang)', icon: 'shopping_bag' },
                     { id: 'veo', label: 'Veo 3.1', icon: 'movie' },
@@ -356,13 +359,13 @@ export default function EcommerceVideoClone() {
                     <button
                       key={eng.id}
                       onClick={() => setEngine(eng.id as any)}
-                      className={`py-2 text-xs font-medium rounded-md transition-all flex items-center justify-center gap-2 ${
+                      className={`py-2.5 text-xs font-medium rounded-lg transition-all flex items-center justify-center gap-2 ${
                         engine === eng.id
-                          ? 'bg-indigo-600 text-white'
-                          : 'text-zinc-400 hover:text-white hover:bg-white/5'
+                          ? 'bg-indigo-600/20 border border-indigo-500/50 text-white shadow-[0_0_15px_rgba(99,102,241,0.2)]'
+                          : 'text-zinc-400 hover:text-white hover:bg-white/5 border border-transparent'
                       }`}
                     >
-                      <span className="material-symbols-outlined text-[14px]">{eng.icon}</span>
+                      <span className="material-symbols-outlined text-[16px]">{eng.icon}</span>
                       {eng.label}
                     </button>
                   ))}
@@ -372,22 +375,22 @@ export default function EcommerceVideoClone() {
 
             <button 
               onClick={handleGenerate}
-              disabled={isGenerating}
-              className={`w-full py-3 rounded-xl font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2 ${
-                isGenerating 
-                  ? 'bg-white/5 text-zinc-500 cursor-not-allowed' 
-                  : 'bg-indigo-600 hover:bg-indigo-500 text-white'
+              disabled={isGenerating || (!videoUrl && !videoFile) || (productImageFiles.length === 0 && productImageUrls.length === 0) || !productSellingPoints}
+              className={`w-full py-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 mt-4 ${
+                isGenerating || (!videoUrl && !videoFile) || (productImageFiles.length === 0 && productImageUrls.length === 0) || !productSellingPoints
+                  ? 'bg-white/5 text-zinc-500 cursor-not-allowed'
+                  : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-[0_0_30px_rgba(99,102,241,0.3)] hover:shadow-[0_0_40px_rgba(99,102,241,0.5)] hover:-translate-y-0.5'
               }`}
             >
               {isGenerating ? (
                 <>
-                  <span className="material-symbols-outlined animate-spin text-sm">progress_activity</span>
+                  <span className="material-symbols-outlined animate-spin text-[18px]">progress_activity</span>
                   生成中...
                 </>
               ) : (
                 <>
-                  <span className="material-symbols-outlined text-sm">movie</span>
-                  生成带货视频
+                  <span className="material-symbols-outlined text-[18px]">play_arrow</span>
+                  开始生成
                 </>
               )}
             </button>
@@ -395,35 +398,70 @@ export default function EcommerceVideoClone() {
         </div>
 
         {/* Right Column: Preview Area */}
-        <div className="lg:col-span-7">
-          <div className="sticky top-24 h-[calc(100vh-8rem)] bg-[#18181b]/60 backdrop-blur-xl rounded-3xl border border-white/10 flex flex-col overflow-hidden shadow-2xl">
-            <div className="px-6 py-4 border-b border-white/5 flex items-center gap-2 bg-black/20">
-              <span className="material-symbols-outlined text-indigo-400 text-[16px]">preview</span>
-              <h3 className="font-semibold text-white text-sm">生成预览</h3>
+        <div className="lg:col-span-7 relative group/preview">
+          <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-accent-blue/20 to-accent-pink/20 rounded-3xl blur-xl opacity-50 group-hover/preview:opacity-80 transition duration-1000"></div>
+          
+          <div className="sticky top-24 h-[calc(100vh-8rem)] min-h-[600px] bg-[#0a0a0c] rounded-3xl border border-white/10 flex flex-col overflow-hidden shadow-2xl">
+            {/* Preview Header */}
+            <div className="px-6 py-4 border-b border-white/5 bg-white/[0.02] flex items-center justify-between backdrop-blur-md">
+              <div className="flex items-center gap-3">
+                <div className="flex gap-1.5">
+                  <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+                  <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                  <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
+                </div>
+                <span className="text-sm font-medium text-zinc-400 font-mono tracking-wider">PREVIEW</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <button className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors">
+                  <span className="material-symbols-outlined text-[18px]">fullscreen</span>
+                </button>
+              </div>
             </div>
-            <div className="flex-1 flex items-center justify-center p-8 relative overflow-hidden bg-[#09090b] bg-[radial-gradient(#27272a_1px,transparent_1px)] [background-size:16px_16px]">
+
+            {/* Preview Content */}
+            <div className="flex-1 flex items-center justify-center p-8 relative overflow-hidden bg-[#09090b]">
+              {/* Background Grid */}
+              <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+
               {isGenerating ? (
-                <div className="flex flex-col items-center text-center gap-3 bg-black/40 p-6 rounded-2xl backdrop-blur-md border border-white/10 z-10">
-                  <div className="w-12 h-12 border-2 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin"></div>
-                  <p className="text-indigo-400 text-xs font-medium animate-pulse">正在生成视频...</p>
+                <div className="flex flex-col items-center text-center relative z-10">
+                  <div className="relative w-24 h-24 mb-8">
+                    <div className="absolute inset-0 border-4 border-indigo-500/20 rounded-full"></div>
+                    <div className="absolute inset-0 border-4 border-indigo-500 rounded-full border-t-transparent animate-spin"></div>
+                    <div className="absolute inset-0 flex items-center justify-center text-indigo-400">
+                      <span className="material-symbols-outlined text-3xl animate-pulse">auto_awesome</span>
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2 tracking-tight">AI 正在生成视频</h3>
+                  <p className="text-zinc-400 text-sm max-w-sm">正在分析参考视频动效，替换商品素材并合成全新带货视频，这可能需要几分钟时间...</p>
                 </div>
               ) : resultData ? (
                 <div className="w-full h-full flex flex-col items-center justify-center gap-4 z-10">
-                  <div className="w-full aspect-[9/16] max-h-full bg-black rounded-xl border border-white/10 overflow-hidden relative group shadow-2xl">
+                  <div className="w-full aspect-[9/16] max-h-full bg-black rounded-2xl border border-white/10 overflow-hidden relative group shadow-2xl">
                     <div className="absolute inset-0 bg-[url('https://picsum.photos/seed/ecomresult/450/800')] bg-cover bg-center"></div>
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button className="size-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/30">
-                        <span className="material-symbols-outlined text-2xl ml-1">play_arrow</span>
+                      <button className="size-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/30 transition-all hover:scale-110">
+                        <span className="material-symbols-outlined text-4xl ml-1">play_arrow</span>
+                      </button>
+                    </div>
+                    <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button className="w-10 h-10 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 text-white flex items-center justify-center hover:bg-primary hover:border-primary transition-colors">
+                        <span className="material-symbols-outlined text-[20px]">download</span>
+                      </button>
+                      <button className="w-10 h-10 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 text-white flex items-center justify-center hover:bg-primary hover:border-primary transition-colors">
+                        <span className="material-symbols-outlined text-[20px]">share</span>
                       </button>
                     </div>
                   </div>
                 </div>
               ) : (
-                <div className="flex flex-col items-center text-center gap-3 bg-black/40 p-6 rounded-2xl backdrop-blur-md border border-white/10 z-10">
-                  <div className="size-12 rounded-full bg-white/5 flex items-center justify-center text-zinc-500">
-                    <span className="material-symbols-outlined text-xl">shopping_cart</span>
+                <div className="flex flex-col items-center text-center opacity-40 relative z-10">
+                  <div className="w-24 h-24 rounded-full bg-white/5 flex items-center justify-center mb-6 border border-white/10">
+                    <span className="material-symbols-outlined text-5xl text-zinc-500">shopping_cart</span>
                   </div>
-                  <p className="text-zinc-500 text-xs">等待生成预览...</p>
+                  <p className="text-zinc-400 text-sm font-medium">配置左侧参数后点击生成</p>
                 </div>
               )}
             </div>

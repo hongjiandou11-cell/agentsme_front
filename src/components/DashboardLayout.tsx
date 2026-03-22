@@ -60,20 +60,6 @@ function DashboardLayoutContent() {
           </Link>
         </div>
 
-        <Link 
-          to="/dashboard/agent"
-          className="w-10 h-10 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl flex items-center justify-center text-zinc-400 hover:text-white transition-all mb-6 group relative"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="12" y1="5" x2="12" y2="19"></line>
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-          </svg>
-          {/* Tooltip */}
-          <div className="absolute left-full ml-4 px-2 py-1 bg-zinc-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-50 transition-opacity">
-            新建项目
-          </div>
-        </Link>
-
         <div className="flex flex-col gap-4 w-full px-3 relative">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path || (item.subItems && location.pathname.startsWith(item.path)) || (item.id === 'agent' && location.pathname.startsWith('/dashboard/projects'));

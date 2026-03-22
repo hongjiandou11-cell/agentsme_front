@@ -3,49 +3,72 @@ import { motion } from 'motion/react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
   Sparkles, Video, Image as ImageIcon, Plus, 
-  MonitorPlay, X, Wand2, UploadCloud, Folder, Clock, ArrowRight
+  MonitorPlay, X, Wand2, UploadCloud, Folder, Clock, ArrowRight, ArrowUp, Leaf
 } from 'lucide-react';
 import { useDashboard } from '../components/DashboardContext';
 
 export default function DashboardHome() {
   const [prompt, setPrompt] = useState('');
-  const [trendCategory, setTrendCategory] = useState<'video' | 'image' | 'ecommerce' | 'app'>('video');
+  const [activeAI, setActiveAI] = useState<'app' | 'marketing'>('app');
   const navigate = useNavigate();
   const { projects, addProject } = useDashboard();
   
   // Vibe Coding Floating Panel State
   const [vibeVideoUrl, setVibeVideoUrl] = useState<string | null>(null);
   const [vibeMode, setVibeMode] = useState<'video' | 'image'>('video');
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [selectedImageUrls, setSelectedImageUrls] = useState<string[]>([]);
+  const [isTemplatesModalOpen, setIsTemplatesModalOpen] = useState(false);
+  const [trendCategory, setTrendCategory] = useState<'video' | 'image' | 'ecommerce' | 'app'>('video');
   const [vibePrompt, setVibePrompt] = useState('');
-  const [isGenerating, setIsGenerating] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [resultData, setResultData] = useState<{ resultUrl?: string; logs?: string[] } | null>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [resultData, setResultData] = useState<any>(null);
+
+  const handleAnalyze = () => {
+    setIsAnalyzing(true);
+    setTimeout(() => setIsAnalyzing(false), 2000);
+  };
+
+  const handleGenerate = () => {
+    setIsGenerating(true);
+    setTimeout(() => {
+      setIsGenerating(false);
+      setResultData({ success: true });
+    }, 3000);
+  };
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleAnalyze = async () => {
-    if (!vibeVideoUrl) return;
-    setIsAnalyzing(true);
-    setTimeout(() => {
-      setIsAnalyzing(false);
-      setVibePrompt('【视频风格】赛博朋克/电影感\n【转场效果】平滑缩放/淡入淡出\n【画面描述】...');
-    }, 2000);
-  };
-
-  const handleGenerate = async () => {
-    if (!vibeVideoUrl) return;
-    navigate('/dashboard/agent');
-  };
-
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0];
-      setVibeVideoUrl(URL.createObjectURL(file));
-      if (file.type.startsWith('image/')) {
-        setVibeMode('image');
-      } else {
-        setVibeMode('video');
+      const newFiles = Array.from(e.target.files) as File[];
+      const totalFiles = selectedFiles.length + selectedImageUrls.length + newFiles.length;
+      
+      if (totalFiles > 5) {
+        alert('最多只能上传5个素材');
+        return;
       }
+      
+      setSelectedFiles(prev => [...prev, ...newFiles]);
+      
+      if (!vibeVideoUrl) {
+        const file = newFiles[0];
+        setVibeVideoUrl(URL.createObjectURL(file as Blob));
+        if (file.type.startsWith('image/')) {
+          setVibeMode('image');
+        } else {
+          setVibeMode('video');
+        }
+      }
+    }
+  };
+
+  const removeFile = (index: number, isTemplate: boolean) => {
+    if (isTemplate) {
+      setSelectedImageUrls(prev => prev.filter((_, i) => i !== index));
+    } else {
+      setSelectedFiles(prev => prev.filter((_, i) => i !== index));
     }
   };
 
@@ -95,66 +118,156 @@ export default function DashboardHome() {
           任意视频，告诉 AI 即可创建
         </h1>
 
-        {/* Omni-Prompt Area */}
-        <div className="w-full max-w-4xl bg-[#18181b] border border-white/10 rounded-2xl p-6 shadow-2xl mb-16">
+        {/* Vibe Coding Layout (Referencing Home.tsx) */}
+        <div className="w-full flex flex-col lg:flex-row items-start justify-between gap-12 mb-16">
           
-          {/* Input Area */}
-          <div className="flex gap-4">
-            {/* Reference Upload Box */}
-            <button 
-              onClick={() => fileInputRef.current?.click()}
-              className="w-24 h-24 flex-shrink-0 bg-white/5 hover:bg-white/10 border border-dashed border-white/20 rounded-xl flex flex-col items-center justify-center gap-2 transition-colors group"
-            >
-              <Plus size={20} className="text-zinc-400 group-hover:text-white transition-colors" />
-              <span className="text-xs text-zinc-500 group-hover:text-zinc-300">参考</span>
-            </button>
-            <input 
-              type="file" 
-              ref={fileInputRef} 
-              onChange={handleFileChange} 
-              className="hidden" 
-              accept="image/*,video/*" 
-            />
+          {/* Left Column: Vibe Coding Mockup */}
+          <div className="w-full lg:w-1/2 relative group/editor">
+            {/* Glowing background effect for emphasis */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-primary/40 via-accent-blue/40 to-accent-pink/40 rounded-2xl blur-xl opacity-60 group-hover/editor:opacity-100 transition duration-1000 animate-pulse-slow"></div>
+            
+            <div className="relative bg-[#0f0f11]/90 backdrop-blur-xl rounded-2xl border border-white/20 overflow-hidden shadow-[0_0_50px_rgba(37,99,235,0.2)] flex flex-col transition-all">
+              
+              {/* AI Tabs */}
+              <div className="relative z-10 flex items-center gap-6 px-6 pt-4 border-b border-white/10 shrink-0 bg-white/[0.02]">
+                <button 
+                  onClick={() => setActiveAI('app')}
+                  className={`pb-3 text-sm font-medium transition-colors relative ${activeAI === 'app' ? 'text-white' : 'text-slate-500 hover:text-slate-300'}`}
+                >
+                  APP AI 助手
+                  {activeAI === 'app' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-primary rounded-t-full shadow-[0_-2px_10px_rgba(37,99,235,0.5)]"></div>}
+                </button>
+                <button 
+                  onClick={() => setActiveAI('marketing')}
+                  className={`pb-3 text-sm font-medium transition-colors relative ${activeAI === 'marketing' ? 'text-white' : 'text-slate-500 hover:text-slate-300'}`}
+                >
+                  营销 AI 助手
+                  {activeAI === 'marketing' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-accent-pink rounded-t-full shadow-[0_-2px_10px_rgba(14,165,233,0.5)]"></div>}
+                </button>
+              </div>
 
-            {/* Textarea */}
-            <textarea
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="用 AI 助手与参考素材规划任意长度视频。&#10;上传 1-5 张参考图或视频并用 @ 引用以创建互动。例如：用 @Image 1 作首帧、@Image 2 作尾帧，让她们像 @Video 1 那样跳舞。"
-              className="flex-1 bg-transparent border-none outline-none resize-none text-sm text-zinc-300 placeholder:text-zinc-600 leading-relaxed min-h-[96px]"
-            />
+              <div className="relative z-10 p-6 flex flex-col gap-4 bg-gradient-to-b from-transparent to-white/[0.02]">
+                <textarea 
+                  className="w-full bg-transparent border-none focus:outline-none focus:ring-0 text-lg text-slate-300 resize-none placeholder-slate-600 leading-relaxed min-h-[120px]"
+                  placeholder={activeAI === 'app' ? "请你根据我上传的素材，帮我只做一个顶级的app营销素材，我的app名字叫傻妞，是一个ai助手，可以实现顶级的情感陪伴，每日日报生成..." : "请帮我完成选品，素材生成，和小红书的自动发布..."}
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                ></textarea>
+                
+                <div className="flex items-center justify-between pt-4 border-t border-white/5 mt-2">
+                  <div className="flex items-center gap-3 flex-wrap">
+                    {/* File Upload Button */}
+                    <input 
+                      type="file" 
+                      ref={fileInputRef} 
+                      onChange={handleFileChange} 
+                      className="hidden" 
+                      accept="image/*,video/*" 
+                      multiple
+                    />
+                    
+                    {/* Add More Button */}
+                    {(selectedFiles.length + selectedImageUrls.length) < 5 && (
+                      <button 
+                        onClick={() => fileInputRef.current?.click()}
+                        className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white transition-colors relative group overflow-hidden shadow-lg"
+                        title="上传素材 (最多5张)"
+                      >
+                        <Plus size={20} />
+                      </button>
+                    )}
+                    
+                    {/* Templates Button */}
+                    <button 
+                      onClick={() => setIsTemplatesModalOpen(true)}
+                      className="h-10 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center gap-2 text-slate-300 hover:text-white transition-colors shadow-lg"
+                    >
+                      <Leaf size={16} className="text-emerald-400" />
+                      <span className="text-sm font-medium">灵感库</span>
+                    </button>
+
+                    {/* Display Template Images */}
+                    {selectedImageUrls.map((url, index) => (
+                      <div key={`template-${index}`} className="relative group w-10 h-10 rounded-xl overflow-hidden border border-white/10 shadow-lg">
+                        <img src={url} alt={`Template ${index}`} className="w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button 
+                            onClick={(e) => { e.stopPropagation(); removeFile(index, true); }}
+                            className="text-white hover:text-rose-400"
+                          >
+                            <X size={14} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+
+                    {/* Display Uploaded Files */}
+                    {selectedFiles.map((file, index) => (
+                      <div key={`file-${index}`} className="relative group w-10 h-10 rounded-xl overflow-hidden border border-white/10 bg-white/5 flex items-center justify-center shadow-lg">
+                        {file.type.startsWith('image/') ? (
+                          <img src={URL.createObjectURL(file)} alt={`Upload ${index}`} className="w-full h-full object-cover" />
+                        ) : (
+                          <span className="material-symbols-outlined text-lg text-emerald-400">check</span>
+                        )}
+                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button 
+                            onClick={(e) => { e.stopPropagation(); removeFile(index, false); }}
+                            className="text-white hover:text-rose-400"
+                          >
+                            <X size={14} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {/* Submit Button */}
+                  <button 
+                    onClick={handleCreateProject}
+                    disabled={!prompt.trim()}
+                    className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed text-white flex items-center justify-center transition-colors shadow-lg hover:-translate-y-0.5 transform"
+                  >
+                    <ArrowUp size={20} />
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Footer Controls */}
-          <div className="flex items-center justify-between mt-6 pt-4 border-t border-white/5">
-            <div className="flex items-center gap-3">
-              <button className="px-3 py-1.5 bg-white/5 hover:bg-white/10 rounded-lg text-xs font-medium text-zinc-400 flex items-center gap-1.5 transition-colors">
-                Standard <span className="text-yellow-500">👑</span> ▾
-              </button>
-              <button className="px-3 py-1.5 bg-white/5 hover:bg-white/10 rounded-lg text-xs font-medium text-zinc-400 flex items-center gap-1.5 transition-colors">
-                <Video size={14} /> 16:9 ▾
-              </button>
-              <button className="px-3 py-1.5 bg-white/5 hover:bg-white/10 rounded-lg text-xs font-medium text-zinc-400 flex items-center gap-1.5 transition-colors">
-                480p ▾
-              </button>
-              <button className="px-3 py-1.5 bg-white/5 hover:bg-white/10 rounded-lg text-xs font-medium text-zinc-400 flex items-center gap-1.5 transition-colors">
-                <MonitorPlay size={14} /> 15s ▾
-              </button>
-            </div>
-            <div className="flex items-center gap-4">
-              <span className="text-xs text-zinc-500 flex items-center gap-1">
-                <Sparkles size={12} /> 7.5
-              </span>
-              <button 
-                onClick={handleCreateProject}
-                disabled={!prompt.trim()}
-                className="w-8 h-8 bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg flex items-center justify-center text-white transition-colors"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </button>
+          {/* Right Column: Video Preview */}
+          <div className="w-full lg:w-1/2 relative group/preview mt-8 lg:mt-0">
+            <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 via-accent-blue/30 to-accent-pink/30 rounded-3xl blur-xl opacity-50 group-hover/preview:opacity-80 transition duration-1000"></div>
+            
+            <div className="relative w-full aspect-video bg-[#0a0a0c] rounded-3xl border border-white/10 overflow-hidden shadow-2xl flex items-center justify-center">
+              {vibeMode === 'video' ? (
+                <video 
+                  className="absolute inset-0 w-full h-full object-cover opacity-90"
+                  autoPlay 
+                  loop 
+                  muted 
+                  playsInline
+                  src={vibeVideoUrl || "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"} 
+                />
+              ) : (
+                <img 
+                  className="absolute inset-0 w-full h-full object-cover opacity-90"
+                  src={vibeVideoUrl || 'https://picsum.photos/seed/vibe/1200/800'} 
+                  alt="Vibe Preview"
+                  referrerPolicy="no-referrer"
+                />
+              )}
+              
+              {/* Overlay Controls - Bottom */}
+              <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-xs text-slate-300 font-mono tracking-widest uppercase z-20">
+                <span className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                  LIVE PREVIEW
+                </span>
+                <span className="bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10">
+                  {vibeMode === 'video' ? '1080P / 60FPS' : '4K / HDR'}
+                </span>
+              </div>
             </div>
           </div>
         </div>

@@ -723,7 +723,7 @@ export default function Home() {
                 <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight text-center">视频克隆</h4>
                 <p className="text-sm text-slate-300 text-center">AI驱动的爆款视频生成</p>
               </div>
-              <Link to="/video-clone" className="relative z-10 w-full btn-secondary py-3 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 text-center block">
+              <Link to="/dashboard/app/video" className="relative z-10 w-full btn-secondary py-3 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 text-center block">
                 立即使用
               </Link>
             </div>
@@ -734,7 +734,7 @@ export default function Home() {
                 <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight text-center">电商带货视频克隆</h4>
                 <p className="text-sm text-slate-300 text-center">专属电商场景的带货视频</p>
               </div>
-              <Link to="/ecommerce-video-clone" className="relative z-10 w-full btn-secondary py-3 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 text-center block">
+              <Link to="/dashboard/ecommerce/video" className="relative z-10 w-full btn-secondary py-3 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 text-center block">
                 立即使用
               </Link>
             </div>
@@ -745,7 +745,7 @@ export default function Home() {
                 <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight text-center">商品素材</h4>
                 <p className="text-sm text-slate-300 text-center">一键生成高质量电商视觉</p>
               </div>
-              <Link to="/product-material" className="relative z-10 w-full btn-secondary py-3 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 text-center block">
+              <Link to="/dashboard/ecommerce/material" className="relative z-10 w-full btn-secondary py-3 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 text-center block">
                 立即使用
               </Link>
             </div>
@@ -756,7 +756,7 @@ export default function Home() {
                 <h4 className="text-2xl font-bold text-white mb-2 font-display tracking-tight text-center">APP套壳</h4>
                 <p className="text-sm text-slate-300 text-center">快速构建跨平台应用套壳</p>
               </div>
-              <Link to="/app-shell" className="relative z-10 w-full btn-secondary py-3 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 text-center block">
+              <Link to="/dashboard/app/shell" className="relative z-10 w-full btn-secondary py-3 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 text-center block">
                 立即使用
               </Link>
             </div>

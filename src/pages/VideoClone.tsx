@@ -153,10 +153,12 @@ export default function VideoClone() {
         </nav>
       )}
 
-      <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
+      <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-10">
         {/* Left Column: Form Settings */}
-        <div className="lg:col-span-5 space-y-6">
-          <div className="bg-[#18181b]/60 backdrop-blur-xl p-8 rounded-3xl border border-white/10 shadow-2xl space-y-8">
+        <div className="lg:col-span-5 space-y-6 relative group/editor">
+          <div className="absolute -inset-1 bg-gradient-to-r from-primary/40 via-accent-blue/40 to-accent-pink/40 rounded-3xl blur-xl opacity-60 group-hover/editor:opacity-100 transition duration-1000 animate-pulse-slow"></div>
+          
+          <div className="relative bg-[#0f0f11]/90 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-[0_0_50px_rgba(37,99,235,0.2)] space-y-8 flex flex-col transition-all">
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-2xl font-bold text-white mb-2 tracking-tight">AI 视频克隆</h1>
@@ -168,7 +170,7 @@ export default function VideoClone() {
             </div>
 
             {/* Reference Video */}
-            <div className="bg-black/20 p-5 rounded-2xl border border-white/5">
+            <div className="bg-white/[0.02] p-5 rounded-2xl border border-white/5">
               <label className="text-sm font-semibold text-zinc-200 flex items-center gap-2 mb-4">
                 <div className="w-6 h-6 rounded-md bg-indigo-500/20 flex items-center justify-center text-indigo-400">
                   <span className="material-symbols-outlined text-[14px]">movie</span>
@@ -245,7 +247,7 @@ export default function VideoClone() {
             </div>
 
             {/* Reference Images */}
-            <div className="bg-black/20 p-5 rounded-2xl border border-white/5">
+            <div className="bg-white/[0.02] p-5 rounded-2xl border border-white/5">
               <div className="flex items-center justify-between mb-4">
                 <label className="text-sm font-semibold text-zinc-200 flex items-center gap-2">
                   <div className="w-6 h-6 rounded-md bg-indigo-500/20 flex items-center justify-center text-indigo-400">
@@ -423,9 +425,11 @@ export default function VideoClone() {
         </div>
 
         {/* Right Column: Preview Area */}
-        <div className="lg:col-span-7">
-          <div className="sticky top-24 h-[calc(100vh-8rem)] bg-[#18181b]/60 backdrop-blur-xl rounded-3xl border border-white/10 flex flex-col overflow-hidden shadow-2xl">
-            <div className="px-6 py-4 border-b border-white/5 flex items-center gap-2 bg-black/20">
+        <div className="lg:col-span-7 relative group/preview">
+          <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 via-accent-blue/30 to-accent-pink/30 rounded-3xl blur-xl opacity-50 group-hover/preview:opacity-80 transition duration-1000"></div>
+          
+          <div className="sticky top-24 h-[calc(100vh-8rem)] bg-[#0a0a0c] rounded-3xl border border-white/10 flex flex-col overflow-hidden shadow-2xl relative">
+            <div className="px-6 py-4 border-b border-white/5 flex items-center gap-2 bg-black/40">
               <span className="material-symbols-outlined text-indigo-400 text-[16px]">preview</span>
               <h3 className="font-semibold text-white text-sm">效果预览</h3>
             </div>
