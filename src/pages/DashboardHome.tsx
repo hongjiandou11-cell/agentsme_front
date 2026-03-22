@@ -119,10 +119,10 @@ export default function DashboardHome() {
         </h1>
 
         {/* Vibe Coding Layout (Referencing Home.tsx) */}
-        <div className="w-full flex flex-col lg:flex-row items-start justify-between gap-12 mb-16">
+        <div className="w-full max-w-2xl mx-auto mb-16">
           
-          {/* Left Column: Vibe Coding Mockup */}
-          <div className="w-full lg:w-1/2 relative group/editor">
+          {/* Vibe Coding Mockup */}
+          <div className="w-full relative group/editor">
             {/* Glowing background effect for emphasis */}
             <div className="absolute -inset-1 bg-gradient-to-r from-primary/40 via-accent-blue/40 to-accent-pink/40 rounded-2xl blur-xl opacity-60 group-hover/editor:opacity-100 transition duration-1000 animate-pulse-slow"></div>
             
@@ -134,14 +134,14 @@ export default function DashboardHome() {
                   onClick={() => setActiveAI('app')}
                   className={`pb-3 text-sm font-medium transition-colors relative ${activeAI === 'app' ? 'text-white' : 'text-slate-500 hover:text-slate-300'}`}
                 >
-                  APP AI 助手
+                  APP Agent
                   {activeAI === 'app' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-primary rounded-t-full shadow-[0_-2px_10px_rgba(37,99,235,0.5)]"></div>}
                 </button>
                 <button 
                   onClick={() => setActiveAI('marketing')}
                   className={`pb-3 text-sm font-medium transition-colors relative ${activeAI === 'marketing' ? 'text-white' : 'text-slate-500 hover:text-slate-300'}`}
                 >
-                  营销 AI 助手
+                  电商营销Agent
                   {activeAI === 'marketing' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-accent-pink rounded-t-full shadow-[0_-2px_10px_rgba(14,165,233,0.5)]"></div>}
                 </button>
               </div>
@@ -231,42 +231,6 @@ export default function DashboardHome() {
                     <ArrowUp size={20} />
                   </button>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column: Video Preview */}
-          <div className="w-full lg:w-1/2 relative group/preview mt-8 lg:mt-0">
-            <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 via-accent-blue/30 to-accent-pink/30 rounded-3xl blur-xl opacity-50 group-hover/preview:opacity-80 transition duration-1000"></div>
-            
-            <div className="relative w-full aspect-video bg-[#0a0a0c] rounded-3xl border border-white/10 overflow-hidden shadow-2xl flex items-center justify-center">
-              {vibeMode === 'video' ? (
-                <video 
-                  className="absolute inset-0 w-full h-full object-cover opacity-90"
-                  autoPlay 
-                  loop 
-                  muted 
-                  playsInline
-                  src={vibeVideoUrl || "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"} 
-                />
-              ) : (
-                <img 
-                  className="absolute inset-0 w-full h-full object-cover opacity-90"
-                  src={vibeVideoUrl || 'https://picsum.photos/seed/vibe/1200/800'} 
-                  alt="Vibe Preview"
-                  referrerPolicy="no-referrer"
-                />
-              )}
-              
-              {/* Overlay Controls - Bottom */}
-              <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-xs text-slate-300 font-mono tracking-widest uppercase z-20">
-                <span className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                  LIVE PREVIEW
-                </span>
-                <span className="bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10">
-                  {vibeMode === 'video' ? '1080P / 60FPS' : '4K / HDR'}
-                </span>
               </div>
             </div>
           </div>

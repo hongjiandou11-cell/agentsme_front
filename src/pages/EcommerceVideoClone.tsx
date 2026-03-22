@@ -169,15 +169,15 @@ export default function EcommerceVideoClone() {
         </nav>
       )}
 
-      <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-10">
-        {/* Left Column: Form Settings */}
-        <div className="lg:col-span-5 space-y-6 relative group/editor">
+      <main className="flex-1 max-w-2xl w-full mx-auto px-6 py-8 relative z-10">
+        {/* Form Settings */}
+        <div className="space-y-6 relative group/editor">
           <div className="absolute -inset-1 bg-gradient-to-r from-primary/40 via-accent-blue/40 to-accent-pink/40 rounded-3xl blur-xl opacity-60 group-hover/editor:opacity-100 transition duration-1000 animate-pulse-slow"></div>
           
           <div className="relative bg-[#0f0f11]/90 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-[0_0_50px_rgba(37,99,235,0.2)] space-y-8 flex flex-col transition-all">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-2xl font-bold text-white mb-2 tracking-tight">电商带货视频克隆</h1>
+                <h1 className="text-2xl font-bold text-white mb-2 tracking-tight">电商营销Agent</h1>
                 <p className="text-zinc-400 text-sm">提供参考口播视频和商品图，AI将替换商品并重写文案，生成全新带货视频。</p>
               </div>
               <div className="w-12 h-12 rounded-2xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 border border-indigo-500/20">
@@ -394,77 +394,6 @@ export default function EcommerceVideoClone() {
                 </>
               )}
             </button>
-          </div>
-        </div>
-
-        {/* Right Column: Preview Area */}
-        <div className="lg:col-span-7 relative group/preview">
-          <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-accent-blue/20 to-accent-pink/20 rounded-3xl blur-xl opacity-50 group-hover/preview:opacity-80 transition duration-1000"></div>
-          
-          <div className="sticky top-24 h-[calc(100vh-8rem)] min-h-[600px] bg-[#0a0a0c] rounded-3xl border border-white/10 flex flex-col overflow-hidden shadow-2xl">
-            {/* Preview Header */}
-            <div className="px-6 py-4 border-b border-white/5 bg-white/[0.02] flex items-center justify-between backdrop-blur-md">
-              <div className="flex items-center gap-3">
-                <div className="flex gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
-                  <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-                  <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
-                </div>
-                <span className="text-sm font-medium text-zinc-400 font-mono tracking-wider">PREVIEW</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <button className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors">
-                  <span className="material-symbols-outlined text-[18px]">fullscreen</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Preview Content */}
-            <div className="flex-1 flex items-center justify-center p-8 relative overflow-hidden bg-[#09090b]">
-              {/* Background Grid */}
-              <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
-              <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-
-              {isGenerating ? (
-                <div className="flex flex-col items-center text-center relative z-10">
-                  <div className="relative w-24 h-24 mb-8">
-                    <div className="absolute inset-0 border-4 border-indigo-500/20 rounded-full"></div>
-                    <div className="absolute inset-0 border-4 border-indigo-500 rounded-full border-t-transparent animate-spin"></div>
-                    <div className="absolute inset-0 flex items-center justify-center text-indigo-400">
-                      <span className="material-symbols-outlined text-3xl animate-pulse">auto_awesome</span>
-                    </div>
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-2 tracking-tight">AI 正在生成视频</h3>
-                  <p className="text-zinc-400 text-sm max-w-sm">正在分析参考视频动效，替换商品素材并合成全新带货视频，这可能需要几分钟时间...</p>
-                </div>
-              ) : resultData ? (
-                <div className="w-full h-full flex flex-col items-center justify-center gap-4 z-10">
-                  <div className="w-full aspect-[9/16] max-h-full bg-black rounded-2xl border border-white/10 overflow-hidden relative group shadow-2xl">
-                    <div className="absolute inset-0 bg-[url('https://picsum.photos/seed/ecomresult/450/800')] bg-cover bg-center"></div>
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button className="size-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/30 transition-all hover:scale-110">
-                        <span className="material-symbols-outlined text-4xl ml-1">play_arrow</span>
-                      </button>
-                    </div>
-                    <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button className="w-10 h-10 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 text-white flex items-center justify-center hover:bg-primary hover:border-primary transition-colors">
-                        <span className="material-symbols-outlined text-[20px]">download</span>
-                      </button>
-                      <button className="w-10 h-10 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 text-white flex items-center justify-center hover:bg-primary hover:border-primary transition-colors">
-                        <span className="material-symbols-outlined text-[20px]">share</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex flex-col items-center text-center opacity-40 relative z-10">
-                  <div className="w-24 h-24 rounded-full bg-white/5 flex items-center justify-center mb-6 border border-white/10">
-                    <span className="material-symbols-outlined text-5xl text-zinc-500">shopping_cart</span>
-                  </div>
-                  <p className="text-zinc-400 text-sm font-medium">配置左侧参数后点击生成</p>
-                </div>
-              )}
-            </div>
           </div>
         </div>
       </main>

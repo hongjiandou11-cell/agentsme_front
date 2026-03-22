@@ -153,15 +153,15 @@ export default function VideoClone() {
         </nav>
       )}
 
-      <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-10">
-        {/* Left Column: Form Settings */}
-        <div className="lg:col-span-5 space-y-6 relative group/editor">
+      <main className="flex-1 max-w-2xl w-full mx-auto px-6 py-8 relative z-10">
+        {/* Form Settings */}
+        <div className="space-y-6 relative group/editor">
           <div className="absolute -inset-1 bg-gradient-to-r from-primary/40 via-accent-blue/40 to-accent-pink/40 rounded-3xl blur-xl opacity-60 group-hover/editor:opacity-100 transition duration-1000 animate-pulse-slow"></div>
           
           <div className="relative bg-[#0f0f11]/90 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-[0_0_50px_rgba(37,99,235,0.2)] space-y-8 flex flex-col transition-all">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-2xl font-bold text-white mb-2 tracking-tight">AI 视频克隆</h1>
+                <h1 className="text-2xl font-bold text-white mb-2 tracking-tight">APP Agent</h1>
                 <p className="text-zinc-400 text-sm">提供参考视频和APP截图，AI将分析动效并用您的截图重新生成视频。</p>
               </div>
               <div className="w-12 h-12 rounded-2xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 border border-indigo-500/20">
@@ -423,72 +423,6 @@ export default function VideoClone() {
             </button>
           </div>
         </div>
-
-        {/* Right Column: Preview Area */}
-        <div className="lg:col-span-7 relative group/preview">
-          <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 via-accent-blue/30 to-accent-pink/30 rounded-3xl blur-xl opacity-50 group-hover/preview:opacity-80 transition duration-1000"></div>
-          
-          <div className="sticky top-24 h-[calc(100vh-8rem)] bg-[#0a0a0c] rounded-3xl border border-white/10 flex flex-col overflow-hidden shadow-2xl relative">
-            <div className="px-6 py-4 border-b border-white/5 flex items-center gap-2 bg-black/40">
-              <span className="material-symbols-outlined text-indigo-400 text-[16px]">preview</span>
-              <h3 className="font-semibold text-white text-sm">效果预览</h3>
-            </div>
-              <div className="flex-1 bg-[#0a0a0a] flex items-center justify-center p-8 relative overflow-hidden">
-                {/* Background Effects */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(37,99,235,0.05),transparent_70%)]"></div>
-                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
-                
-                {isGenerating ? (
-                  <div className="relative z-10 flex flex-col items-center text-center gap-6 w-full max-w-sm">
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl animate-pulse"></div>
-                      <div className="size-20 rounded-2xl bg-[#18181b] border border-white/10 flex items-center justify-center text-primary relative z-10 shadow-2xl">
-                        <span className="material-symbols-outlined text-4xl animate-spin">settings</span>
-                      </div>
-                    </div>
-                    <div className="space-y-3 w-full">
-                      <h4 className="text-lg font-medium text-white">正在克隆视频...</h4>
-                      <p className="text-slate-400 text-sm">AI 正在分析参考视频动效并合成新画面</p>
-                      <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
-                        <div className="h-full bg-primary w-2/3 rounded-full animate-pulse"></div>
-                      </div>
-                    </div>
-                  </div>
-                ) : resultData ? (
-                  <div className="relative z-10 w-full h-full flex flex-col items-center justify-center gap-6">
-                    <div className="w-full aspect-[9/16] max-h-full bg-black rounded-2xl border border-white/10 overflow-hidden relative group shadow-2xl">
-                      <div className="absolute inset-0 bg-[url('https://picsum.photos/seed/result/450/800')] bg-cover bg-center"></div>
-                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm">
-                        <button className="size-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/30 hover:scale-110 transition-all shadow-xl">
-                          <span className="material-symbols-outlined text-3xl ml-1">play_arrow</span>
-                        </button>
-                      </div>
-                    </div>
-                    <div className="flex gap-4">
-                      <button className="px-6 py-2.5 bg-white/10 hover:bg-white/20 rounded-xl text-sm font-medium transition-colors flex items-center gap-2 text-white">
-                        <span className="material-symbols-outlined text-sm">download</span>
-                        下载视频
-                      </button>
-                      <button className="px-6 py-2.5 bg-primary/20 hover:bg-primary/30 text-primary border border-primary/20 rounded-xl text-sm font-medium transition-colors flex items-center gap-2">
-                        <span className="material-symbols-outlined text-sm">share</span>
-                        分享
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="relative z-10 flex flex-col items-center text-center gap-5">
-                    <div className="size-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-500 shadow-inner">
-                      <span className="material-symbols-outlined text-3xl">movie</span>
-                    </div>
-                    <div>
-                      <p className="text-slate-300 font-medium">等待生成</p>
-                      <p className="text-slate-500 text-sm mt-2 max-w-xs">配置左侧参数后点击生成，AI 将为您克隆视频动效</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
       </main>
 
       <InspirationModal 
