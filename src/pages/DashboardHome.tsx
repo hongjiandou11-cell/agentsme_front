@@ -34,12 +34,7 @@ export default function DashboardHome() {
 
   const handleGenerate = async () => {
     if (!vibeVideoUrl) return;
-    setIsGenerating(true);
-    setResultData(null);
-    setTimeout(() => {
-      setIsGenerating(false);
-      setResultData({ resultUrl: 'success' });
-    }, 3000);
+    navigate('/dashboard/agent');
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,7 +51,8 @@ export default function DashboardHome() {
 
   const handleCreateProject = () => {
     if (!prompt.trim()) return;
-    const newProject = addProject(prompt.trim());
+    
+    const newProject = addProject(prompt.trim(), 'agent');
     navigate(`/dashboard/projects/${newProject.id}`);
   };
 
@@ -101,6 +97,7 @@ export default function DashboardHome() {
 
         {/* Omni-Prompt Area */}
         <div className="w-full max-w-4xl bg-[#18181b] border border-white/10 rounded-2xl p-6 shadow-2xl mb-16">
+          
           {/* Input Area */}
           <div className="flex gap-4">
             {/* Reference Upload Box */}
@@ -195,10 +192,18 @@ export default function DashboardHome() {
         <div className="w-full max-w-6xl mb-16">
           <h2 className="text-lg font-bold mb-8">最近项目</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {projects.map((project) => (
+            {projects.map((project) => {
+              let linkTo = `/dashboard/projects/${project.id}`;
+              if (project.type === 'app-shell') linkTo = '/dashboard/app/shell';
+              if (project.type === 'app-video') linkTo = '/dashboard/app/video';
+              if (project.type === 'ecommerce-video') linkTo = '/dashboard/ecommerce/video';
+              if (project.type === 'ecommerce-material') linkTo = '/dashboard/ecommerce/material';
+
+              return (
               <Link 
                 key={project.id} 
-                to={`/dashboard/projects/${project.id}`}
+                to={linkTo}
+                state={{ projectId: project.id, prompt: project.title }}
                 className="group bg-[#18181b] border border-white/5 hover:border-indigo-500/30 rounded-xl p-5 transition-all hover:shadow-lg hover:shadow-indigo-500/5 flex flex-col"
               >
                 <div className="flex items-start justify-between mb-4">
@@ -238,7 +243,8 @@ export default function DashboardHome() {
                   </div>
                 </div>
               </Link>
-            ))}
+              );
+            })}
           </div>
         </div>
 
@@ -294,20 +300,20 @@ export default function DashboardHome() {
             {/* Header */}
             <div className="flex items-center justify-between p-3 border-b border-white/10 bg-black/20 shrink-0">
               <div className="flex items-center gap-2">
-                <Sparkles size={16} className="text-indigo-400" />
+                <Sparkles size={16} className="text-primary" />
                 <h3 className="text-sm font-bold text-white">开启创作</h3>
               </div>
               <div className="flex items-center gap-2">
                 <div className="flex bg-black/40 p-0.5 rounded-md border border-white/10">
                   <button
                     onClick={() => setVibeMode('video')}
-                    className={`px-2 py-1 text-[10px] font-medium rounded transition-colors ${vibeMode === 'video' ? 'bg-white/20 text-white shadow-sm' : 'text-zinc-400 hover:text-white'}`}
+                    className={`px-2 py-1 text-[10px] font-medium rounded transition-colors ${vibeMode === 'video' ? 'bg-white/20 text-white shadow-sm' : 'text-slate-400 hover:text-white'}`}
                   >
                     视频
                   </button>
                   <button
                     onClick={() => setVibeMode('image')}
-                    className={`px-2 py-1 text-[10px] font-medium rounded transition-colors ${vibeMode === 'image' ? 'bg-white/20 text-white shadow-sm' : 'text-zinc-400 hover:text-white'}`}
+                    className={`px-2 py-1 text-[10px] font-medium rounded transition-colors ${vibeMode === 'image' ? 'bg-white/20 text-white shadow-sm' : 'text-slate-400 hover:text-white'}`}
                   >
                     图片
                   </button>
@@ -317,7 +323,7 @@ export default function DashboardHome() {
                     setVibeVideoUrl(null);
                     setVibePrompt('');
                   }} 
-                  className="text-zinc-400 hover:text-white p-1"
+                  className="text-slate-400 hover:text-white p-1"
                 >
                   <X size={16} />
                 </button>
@@ -330,14 +336,14 @@ export default function DashboardHome() {
               {/* Generated Result */}
               <div className="space-y-2 shrink-0">
                 <div className="flex items-center justify-between">
-                  <h4 className="text-xs font-medium text-zinc-300">当前生成结果</h4>
-                  {isGenerating && <span className="text-[10px] text-indigo-400 animate-pulse">生成中...</span>}
+                  <h4 className="text-xs font-medium text-slate-300">当前生成结果</h4>
+                  {isGenerating && <span className="text-[10px] text-primary animate-pulse">生成中...</span>}
                 </div>
                 <div className="aspect-video rounded-lg overflow-hidden bg-black border border-white/10 relative shadow-inner">
                   {isGenerating ? (
                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/80 gap-2">
-                      <Wand2 size={20} className="text-indigo-400 animate-spin" />
-                      <span className="text-[10px] text-indigo-400">AI 正在施展魔法...</span>
+                      <Wand2 size={20} className="text-primary animate-spin" />
+                      <span className="text-[10px] text-primary">AI 正在施展魔法...</span>
                     </div>
                   ) : resultData ? (
                     <>
@@ -345,7 +351,7 @@ export default function DashboardHome() {
                     </>
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                      <span className="text-[10px] text-zinc-500">等待生成...</span>
+                      <span className="text-[10px] text-slate-500">等待生成...</span>
                     </div>
                   )}
                 </div>
@@ -353,7 +359,7 @@ export default function DashboardHome() {
 
               {/* Reference Sources */}
               <div className="space-y-2 shrink-0">
-                <h4 className="text-xs font-medium text-zinc-300">参考源</h4>
+                <h4 className="text-xs font-medium text-slate-300">参考源</h4>
                 <div className="grid grid-cols-2 gap-3">
                   {/* Source Video */}
                   <div className="space-y-1">
@@ -361,7 +367,7 @@ export default function DashboardHome() {
                       {vibeMode === 'video' ? (
                         <video src={vibeVideoUrl || "https://www.w3schools.com/html/mov_bbb.mp4"} className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity" muted playsInline />
                       ) : (
-                        <div className="flex flex-col items-center justify-center text-zinc-500 group-hover:text-white transition-colors">
+                        <div className="flex flex-col items-center justify-center text-slate-500 group-hover:text-white transition-colors">
                           <UploadCloud size={16} className="mb-1" />
                           <span className="text-[10px]">添加视频</span>
                         </div>
@@ -371,7 +377,7 @@ export default function DashboardHome() {
                         <input type="file" accept="video/*" className="hidden" onChange={handleFileChange} />
                       </label>
                     </div>
-                    <div className="text-[10px] text-zinc-500 text-center">源视频</div>
+                    <div className="text-[10px] text-slate-500 text-center">源视频</div>
                   </div>
                   {/* Source Image */}
                   <div className="space-y-1">
@@ -379,7 +385,7 @@ export default function DashboardHome() {
                       {vibeMode === 'image' ? (
                         <img src={vibeVideoUrl || "https://picsum.photos/seed/source-img/400/225"} className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity" alt="Source Image" />
                       ) : (
-                        <div className="flex flex-col items-center justify-center text-zinc-500 group-hover:text-white transition-colors">
+                        <div className="flex flex-col items-center justify-center text-slate-500 group-hover:text-white transition-colors">
                           <UploadCloud size={16} className="mb-1" />
                           <span className="text-[10px]">添加图片(可多张)</span>
                         </div>
@@ -389,25 +395,25 @@ export default function DashboardHome() {
                         <input type="file" accept="image/*" className="hidden" onChange={handleFileChange} multiple={vibeMode === 'video'} />
                       </label>
                     </div>
-                    <div className="text-[10px] text-zinc-500 text-center">源图片</div>
+                    <div className="text-[10px] text-slate-500 text-center">源图片</div>
                   </div>
                 </div>
               </div>
 
               {/* Prompt */}
               <div className="flex-1 flex flex-col space-y-2 min-h-[160px]">
-                <h4 className="text-xs font-medium text-zinc-300">提示词 (Prompt)</h4>
+                <h4 className="text-xs font-medium text-slate-300">提示词 (Prompt)</h4>
                 <div className="relative flex-1 flex flex-col">
                   <textarea 
                     value={vibePrompt}
                     onChange={(e) => setVibePrompt(e.target.value)}
                     placeholder={vibeMode === 'video' ? "例如：把视频色调改成赛博朋克风，并加上动感的电子音乐..." : "例如：极简风桌面收纳盒，纯实木材质，磁吸模块化设计..."}
-                    className="flex-1 w-full bg-black/40 border border-white/10 rounded-lg p-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/50 resize-none shadow-inner"
+                    className="flex-1 w-full bg-black/40 border border-white/10 rounded-lg p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 resize-none shadow-inner"
                   />
                   <button 
                     onClick={handleAnalyze}
                     className={`absolute bottom-2 right-2 px-2 py-1 rounded flex items-center gap-1 transition-all text-[10px] font-medium ${
-                      isAnalyzing ? 'bg-indigo-500/50 text-white' : 'bg-white/10 text-zinc-300 hover:bg-white/20 hover:text-white'
+                      isAnalyzing ? 'bg-primary/50 text-white' : 'bg-white/10 text-slate-300 hover:bg-white/20 hover:text-white'
                     }`}
                   >
                     {isAnalyzing ? <Wand2 size={10} className="animate-spin" /> : <Wand2 size={10} />}
@@ -428,7 +434,7 @@ export default function DashboardHome() {
                     className={`flex-1 py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all ${
                       vibePrompt.trim() && !isGenerating
                         ? 'bg-white/10 text-white hover:bg-white/20' 
-                        : 'bg-white/5 text-zinc-500 cursor-not-allowed'
+                        : 'bg-white/5 text-slate-500 cursor-not-allowed'
                     }`}
                   >
                     <Wand2 size={14} />
@@ -439,8 +445,8 @@ export default function DashboardHome() {
                     disabled={isGenerating || !vibePrompt.trim()}
                     className={`flex-1 py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all ${
                       vibePrompt.trim() && !isGenerating
-                        ? 'bg-indigo-600 text-white shadow-[0_0_15px_rgba(79,70,229,0.4)] hover:bg-indigo-500' 
-                        : 'bg-white/5 text-zinc-500 cursor-not-allowed'
+                        ? 'bg-primary text-white shadow-[0_0_15px_rgba(37,99,235,0.4)] hover:bg-primary-hover' 
+                        : 'bg-white/5 text-slate-500 cursor-not-allowed'
                     }`}
                   >
                     <Sparkles size={14} />
@@ -455,7 +461,7 @@ export default function DashboardHome() {
                     className={`flex-1 py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all ${
                       vibePrompt.trim() && !isGenerating
                         ? 'bg-white/10 text-white hover:bg-white/20' 
-                        : 'bg-white/5 text-zinc-500 cursor-not-allowed'
+                        : 'bg-white/5 text-slate-500 cursor-not-allowed'
                     }`}
                   >
                     <ImageIcon size={14} />
@@ -466,8 +472,8 @@ export default function DashboardHome() {
                     disabled={isGenerating || !vibePrompt.trim()}
                     className={`flex-1 py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all ${
                       vibePrompt.trim() && !isGenerating
-                        ? 'bg-indigo-600 text-white shadow-[0_0_15px_rgba(79,70,229,0.4)] hover:bg-indigo-500' 
-                        : 'bg-white/5 text-zinc-500 cursor-not-allowed'
+                        ? 'bg-primary text-white shadow-[0_0_15px_rgba(37,99,235,0.4)] hover:bg-primary-hover' 
+                        : 'bg-white/5 text-slate-500 cursor-not-allowed'
                     }`}
                   >
                     <Video size={14} />

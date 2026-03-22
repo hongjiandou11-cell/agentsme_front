@@ -43,27 +43,34 @@ export default function ContentPublish() {
     >
       {/* Navigation */}
       <nav className="sticky top-0 z-50 border-b border-white/5 bg-[#0a0a0a]/80 backdrop-blur-md px-6 lg:px-20 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link to="/" className="text-slate-400 hover:text-white transition-colors flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/5 border border-white/10">
-            <span className="material-symbols-outlined">arrow_back</span>
-            <span className="text-sm font-medium">返回首页</span>
+        <div className="flex items-center gap-12">
+          <Link to="/" className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity">
+            <span className="material-symbols-outlined text-primary text-3xl">deployed_code</span>
+            <h2 className="text-xl font-bold tracking-tight">Agents Me</h2>
           </Link>
-          <div className="flex items-center gap-2 text-white">
-            <span className="material-symbols-outlined text-primary text-2xl">send</span>
-            <h2 className="text-xl font-bold tracking-tight">内容发布助手</h2>
+          <div className="hidden md:flex items-center gap-8">
+            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/">首页</Link>
+            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/dashboard">工作台</Link>
+            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/product-concept">产品概念</Link>
+            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/pricing">产品定价</Link>
           </div>
         </div>
       </nav>
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
         {/* Left Column: Form Settings */}
-        <div className="lg:col-span-7 space-y-8">
-          <div>
-            <h1 className="text-3xl font-display font-bold text-white mb-2">一键内容发布</h1>
-            <p className="text-slate-400 text-sm">编写内容，AI 助手将为您同步分发至各大主流社交平台。</p>
-          </div>
+        <div className="lg:col-span-5 space-y-6">
+          <div className="bg-[#18181b]/60 backdrop-blur-xl p-8 rounded-3xl border border-white/10 shadow-2xl space-y-8">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-2xl font-bold text-white mb-2 tracking-tight">一键内容发布</h1>
+                <p className="text-zinc-400 text-sm">编写内容，AI 助手将为您同步分发至各大主流社交平台。</p>
+              </div>
+              <div className="w-12 h-12 rounded-2xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 border border-indigo-500/20">
+                <span className="material-symbols-outlined text-2xl">send</span>
+              </div>
+            </div>
 
-          <div className="bg-[#121214] p-8 rounded-3xl border border-white/5 space-y-8">
             {/* Content Text */}
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
@@ -142,7 +149,7 @@ export default function ContentPublish() {
         </div>
 
         {/* Right Column: Status Area */}
-        <div className="lg:col-span-5">
+        <div className="lg:col-span-7">
           <div className="sticky top-24">
             <div className="bg-[#121214] rounded-3xl border border-white/5 overflow-hidden flex flex-col h-[600px]">
               <div className="p-4 border-b border-white/5 bg-white/[0.02] flex items-center justify-between">

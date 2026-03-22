@@ -94,6 +94,9 @@ export default function EcommerceVideoClone() {
     }, 2000);
   };
 
+  const { addHistoryItem, updateProject, projects } = dashboardContext || { addHistoryItem: () => {}, updateProject: () => {}, projects: [] };
+  const projectId = location.state?.projectId;
+
   const handleGenerate = async () => {
     if (!videoUrl && !videoFile) {
       alert("请提供参考视频");
@@ -106,7 +109,31 @@ export default function EcommerceVideoClone() {
     // Simulate generation
     setTimeout(() => {
       setIsGenerating(false);
-      setResultData({ resultUrl: 'success' });
+      const mockResult = 'https://picsum.photos/seed/ecomresult/450/800';
+      setResultData({ resultUrl: mockResult });
+      
+      addHistoryItem({
+        type: 'ecommerce-video',
+        title: `电商视频克隆 - ${engine}`,
+        thumbnail: mockResult,
+        status: 'success',
+        resultUrl: mockResult
+      });
+
+      if (projectId) {
+        const project = projects.find(p => p.id === projectId);
+        if (project) {
+          const updatedNodes = project.agentState.nodes.map(n => ({ ...n, status: 'completed' as const }));
+          updateProject(projectId, {
+            status: 'completed',
+            agentState: {
+              ...project.agentState,
+              nodes: updatedNodes,
+              progress: 100
+            }
+          });
+        }
+      }
     }, 3000);
   };
 
@@ -127,16 +154,16 @@ export default function EcommerceVideoClone() {
       {/* Navigation */}
       {!isDashboard && (
         <nav className="sticky top-0 z-50 border-b border-white/5 bg-[#0f0f11]/80 backdrop-blur-xl px-6 lg:px-20 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link to="/?scroll=atomic-lab" className="text-zinc-400 hover:text-white transition-colors flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/5 border border-white/5">
-              <span className="material-symbols-outlined text-[18px]">arrow_back</span>
-              <span className="text-sm font-medium">返回首页</span>
+          <div className="flex items-center gap-12">
+            <Link to="/" className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity">
+              <span className="material-symbols-outlined text-primary text-3xl">deployed_code</span>
+              <h2 className="text-xl font-bold tracking-tight">Agents Me</h2>
             </Link>
-            <div className="flex items-center gap-3 text-white">
-              <div className="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center text-indigo-400 border border-indigo-500/20">
-                <span className="material-symbols-outlined text-[18px]">shopping_bag</span>
-              </div>
-              <h2 className="text-xl font-bold tracking-tight">电商带货视频克隆</h2>
+            <div className="hidden md:flex items-center gap-8">
+              <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/">首页</Link>
+              <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/dashboard">工作台</Link>
+              <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/product-concept">产品概念</Link>
+              <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/pricing">产品定价</Link>
             </div>
           </div>
         </nav>
@@ -144,7 +171,7 @@ export default function EcommerceVideoClone() {
 
       <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
         {/* Left Column: Form Settings */}
-        <div className="lg:col-span-7 space-y-6">
+        <div className="lg:col-span-5 space-y-6">
           <div className="bg-[#18181b]/60 backdrop-blur-xl p-8 rounded-3xl border border-white/10 shadow-2xl space-y-8">
             <div className="flex items-center justify-between">
               <div>
@@ -368,21 +395,21 @@ export default function EcommerceVideoClone() {
         </div>
 
         {/* Right Column: Preview Area */}
-        <div className="lg:col-span-5">
+        <div className="lg:col-span-7">
           <div className="sticky top-24 h-[calc(100vh-8rem)] bg-[#18181b]/60 backdrop-blur-xl rounded-3xl border border-white/10 flex flex-col overflow-hidden shadow-2xl">
             <div className="px-6 py-4 border-b border-white/5 flex items-center gap-2 bg-black/20">
               <span className="material-symbols-outlined text-indigo-400 text-[16px]">preview</span>
               <h3 className="font-semibold text-white text-sm">生成预览</h3>
             </div>
-            <div className="flex-1 flex items-center justify-center p-8 relative overflow-hidden">
+            <div className="flex-1 flex items-center justify-center p-8 relative overflow-hidden bg-[#09090b] bg-[radial-gradient(#27272a_1px,transparent_1px)] [background-size:16px_16px]">
               {isGenerating ? (
-                <div className="flex flex-col items-center text-center gap-3">
+                <div className="flex flex-col items-center text-center gap-3 bg-black/40 p-6 rounded-2xl backdrop-blur-md border border-white/10 z-10">
                   <div className="w-12 h-12 border-2 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin"></div>
                   <p className="text-indigo-400 text-xs font-medium animate-pulse">正在生成视频...</p>
                 </div>
               ) : resultData ? (
-                <div className="w-full h-full flex flex-col items-center justify-center gap-4">
-                  <div className="w-full aspect-[9/16] max-h-full bg-black rounded-xl border border-white/10 overflow-hidden relative group">
+                <div className="w-full h-full flex flex-col items-center justify-center gap-4 z-10">
+                  <div className="w-full aspect-[9/16] max-h-full bg-black rounded-xl border border-white/10 overflow-hidden relative group shadow-2xl">
                     <div className="absolute inset-0 bg-[url('https://picsum.photos/seed/ecomresult/450/800')] bg-cover bg-center"></div>
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                       <button className="size-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/30">
@@ -392,11 +419,11 @@ export default function EcommerceVideoClone() {
                   </div>
                 </div>
               ) : (
-                <div className="flex flex-col items-center text-center gap-3">
-                  <div className="size-12 rounded-full bg-white/5 flex items-center justify-center text-slate-600">
+                <div className="flex flex-col items-center text-center gap-3 bg-black/40 p-6 rounded-2xl backdrop-blur-md border border-white/10 z-10">
+                  <div className="size-12 rounded-full bg-white/5 flex items-center justify-center text-zinc-500">
                     <span className="material-symbols-outlined text-xl">shopping_cart</span>
                   </div>
-                  <p className="text-slate-500 text-xs">等待生成预览...</p>
+                  <p className="text-zinc-500 text-xs">等待生成预览...</p>
                 </div>
               )}
             </div>

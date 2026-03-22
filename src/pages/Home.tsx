@@ -52,15 +52,7 @@ export default function Home() {
       return;
     }
 
-    setIsGenerating(true);
-    setResultData(null);
-
-    // Simulate generation
-    setTimeout(() => {
-      setIsGenerating(false);
-      setResultData({ resultUrl: 'success' });
-      console.log("handleGenerate: generation complete");
-    }, 3000);
+    navigate('/dashboard/agent');
   };
   const fileInputRef = useRef<HTMLInputElement>(null);
   const location = useLocation();
@@ -354,14 +346,13 @@ export default function Home() {
       {/* Navigation */}
       <nav className="sticky top-0 z-50 border-b border-white/5 bg-background-dark/80 backdrop-blur-md px-6 lg:px-20 py-4 flex items-center justify-between">
         <div className="flex items-center gap-12">
-          <div className="flex items-center gap-2 text-white">
-            <span className="material-symbols-outlined text-primary text-4xl">deployed_code</span>
-            <h2 className="text-2xl font-bold tracking-tight">Agents Me</h2>
-          </div>
+          <Link to="/" className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity">
+            <span className="material-symbols-outlined text-primary text-3xl">deployed_code</span>
+            <h2 className="text-xl font-bold tracking-tight">Agents Me</h2>
+          </Link>
           <div className="hidden md:flex items-center gap-8">
             <Link className="text-sm font-medium hover:text-white transition-colors text-white" to="/">首页</Link>
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/dashboard">工作台</Link>
-
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/product-concept">产品概念</Link>
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/pricing">产品定价</Link>
           </div>
@@ -522,7 +513,7 @@ export default function Home() {
                   </div>
                   
                   {/* Submit Button */}
-                  <button onClick={() => window.location.href = '/workspace'} className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors shadow-lg hover:-translate-y-0.5 transform">
+                  <button onClick={() => navigate('/dashboard/agent')} className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors shadow-lg hover:-translate-y-0.5 transform">
                     <ArrowUp size={20} />
                   </button>
                 </div>
@@ -898,7 +889,7 @@ export default function Home() {
             </div>
 
             {/* AI 助手 Item 3 */}
-            <div className="group relative bg-surface-card rounded-2xl border border-white/5 hover:border-green-400/30 transition-all duration-500 overflow-hidden cursor-pointer">
+            <div onClick={() => navigate('/dashboard/agent')} className="group relative bg-surface-card rounded-2xl border border-white/5 hover:border-green-400/30 transition-all duration-500 overflow-hidden cursor-pointer">
               <div className="absolute inset-0 bg-gradient-to-r from-green-400/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="absolute left-0 top-0 bottom-0 w-1 bg-green-400 scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-top"></div>
               

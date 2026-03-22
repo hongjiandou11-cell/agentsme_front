@@ -59,6 +59,7 @@ export default function Pricing() {
           </Link>
           <div className="hidden md:flex items-center gap-8">
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/">首页</Link>
+            <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/dashboard">工作台</Link>
             <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/product-concept">产品概念</Link>
             <Link className="text-sm font-medium text-white transition-colors" to="/pricing">产品定价</Link>
           </div>

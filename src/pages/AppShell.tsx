@@ -62,6 +62,9 @@ export default function AppShell() {
     setImageUrls(prev => [...prev, url]);
   };
 
+  const { addHistoryItem, updateProject, projects } = dashboardContext || { addHistoryItem: () => {}, updateProject: () => {}, projects: [] };
+  const projectId = location.state?.projectId;
+
   const handleGenerate = async () => {
     if (imageFiles.length === 0 && imageUrls.length === 0) {
       alert("请上传截图");
@@ -74,7 +77,31 @@ export default function AppShell() {
     // Simulate generation
     setTimeout(() => {
       setIsGenerating(false);
-      setResultImages(['https://picsum.photos/seed/appshell/800/600']);
+      const mockResult = 'https://picsum.photos/seed/appshell/800/600';
+      setResultImages([mockResult]);
+      
+      addHistoryItem({
+        type: 'app-shell',
+        title: `APP 截图包装 - ${deviceModel}`,
+        thumbnail: mockResult,
+        status: 'success',
+        resultUrl: mockResult
+      });
+
+      if (projectId) {
+        const project = projects.find(p => p.id === projectId);
+        if (project) {
+          const updatedNodes = project.agentState.nodes.map(n => ({ ...n, status: 'completed' as const }));
+          updateProject(projectId, {
+            status: 'completed',
+            agentState: {
+              ...project.agentState,
+              nodes: updatedNodes,
+              progress: 100
+            }
+          });
+        }
+      }
     }, 3000);
   };
 
@@ -95,16 +122,16 @@ export default function AppShell() {
       {/* Navigation */}
       {!isDashboard && (
         <nav className="sticky top-0 z-50 border-b border-white/5 bg-[#0f0f11]/80 backdrop-blur-xl px-6 lg:px-20 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link to="/?scroll=atomic-lab" className="text-zinc-400 hover:text-white transition-colors flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/5 border border-white/5">
-              <span className="material-symbols-outlined text-[18px]">arrow_back</span>
-              <span className="text-sm font-medium">返回首页</span>
+          <div className="flex items-center gap-12">
+            <Link to="/" className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity">
+              <span className="material-symbols-outlined text-primary text-3xl">deployed_code</span>
+              <h2 className="text-xl font-bold tracking-tight">Agents Me</h2>
             </Link>
-            <div className="flex items-center gap-3 text-white">
-              <div className="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center text-indigo-400 border border-indigo-500/20">
-                <span className="material-symbols-outlined text-[18px]">imagesmode</span>
-              </div>
-              <h2 className="text-xl font-bold tracking-tight">截图包装生成</h2>
+            <div className="hidden md:flex items-center gap-8">
+              <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/">首页</Link>
+              <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/dashboard">工作台</Link>
+              <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/product-concept">产品概念</Link>
+              <Link className="text-sm font-medium text-slate-400 hover:text-white transition-colors" to="/pricing">产品定价</Link>
             </div>
           </div>
         </nav>
@@ -114,9 +141,14 @@ export default function AppShell() {
         {/* Left Column: Form Settings */}
         <div className="lg:col-span-5 space-y-6">
           <div className="bg-[#18181b]/60 backdrop-blur-xl p-8 rounded-3xl border border-white/10 shadow-2xl space-y-8">
-            <div>
-              <h1 className="text-2xl font-bold text-white mb-2 tracking-tight">截图包装生成</h1>
-              <p className="text-zinc-400 text-sm">上传截图，选择包装模式，AI 自动生成精美展示图。</p>
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-2xl font-bold text-white mb-2 tracking-tight">截图包装生成</h1>
+                <p className="text-zinc-400 text-sm">上传截图，选择包装模式，AI 自动生成精美展示图。</p>
+              </div>
+              <div className="w-12 h-12 rounded-2xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 border border-indigo-500/20">
+                <span className="material-symbols-outlined text-2xl">imagesmode</span>
+              </div>
             </div>
             
             {/* Screenshot Upload */}
@@ -305,22 +337,22 @@ export default function AppShell() {
               </h3>
             </div>
             
-            <div className="flex-1 flex items-center justify-center p-8 relative overflow-hidden">
+            <div className="flex-1 flex items-center justify-center p-8 relative overflow-hidden bg-[#09090b] bg-[radial-gradient(#27272a_1px,transparent_1px)] [background-size:16px_16px]">
               {isGenerating ? (
-                <div className="flex flex-col items-center text-center gap-3">
+                <div className="flex flex-col items-center text-center gap-3 bg-black/40 p-6 rounded-2xl backdrop-blur-md border border-white/10">
                   <div className="w-12 h-12 border-2 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin"></div>
                   <p className="text-indigo-400 text-xs font-medium animate-pulse">正在生成包装图...</p>
                 </div>
               ) : resultImages && resultImages.length > 0 ? (
                 <div className="w-full h-full flex flex-col items-center justify-center gap-4">
-                  <img src={resultImages[0]} alt="Result" className="w-full h-auto max-h-full object-contain rounded-2xl border border-white/10" />
+                  <img src={resultImages[0]} alt="Result" className="w-full h-auto max-h-full object-contain rounded-2xl border border-white/10 shadow-2xl" />
                 </div>
               ) : (
-                <div className="flex flex-col items-center text-center gap-3">
-                  <div className="size-12 rounded-full bg-white/5 flex items-center justify-center text-slate-600">
+                <div className="flex flex-col items-center text-center gap-3 bg-black/40 p-6 rounded-2xl backdrop-blur-md border border-white/10">
+                  <div className="size-12 rounded-full bg-white/5 flex items-center justify-center text-zinc-500">
                     <span className="material-symbols-outlined text-xl">smartphone</span>
                   </div>
-                  <p className="text-slate-500 text-xs">上传截图后点击生成</p>
+                  <p className="text-zinc-500 text-xs">上传截图后点击生成</p>
                 </div>
               )}
             </div>
