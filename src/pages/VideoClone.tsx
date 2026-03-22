@@ -485,7 +485,6 @@ export default function VideoClone() {
               </div>
             </div>
           </div>
-        </div>
       </main>
 
       <InspirationModal 

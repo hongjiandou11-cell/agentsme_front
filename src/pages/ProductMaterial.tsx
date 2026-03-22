@@ -438,7 +438,6 @@ export default function ProductMaterial() {
               </div>
             </div>
           </div>
-        </div>
       </main>
       
       {/* Inspiration Modal */}
