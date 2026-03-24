@@ -2,8 +2,8 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #2563EB; /* Professional Blue */
-  --color-primary-hover: #1D4ED8;
+  --color-primary: #06B6D4; /* Sophisticated Cyan */
+  --color-primary-hover: #0891B2;
   --color-accent-pink: #0EA5E9;
   --color-accent-blue: #3B82F6;
   --color-background-dark: #050505;

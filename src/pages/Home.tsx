@@ -426,14 +426,14 @@ export default function Home() {
                   className={`pb-3 text-sm font-medium transition-colors relative ${activeAI === 'app' ? 'text-white' : 'text-slate-500 hover:text-slate-300'}`}
                 >
                   APP AI 助手
-                  {activeAI === 'app' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-primary rounded-t-full shadow-[0_-2px_10px_rgba(37,99,235,0.5)]"></div>}
+                  {activeAI === 'app' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-500 rounded-t-full shadow-[0_-2px_10px_rgba(59,130,246,0.4)]"></div>}
                 </button>
                 <button 
                   onClick={() => setActiveAI('marketing')}
                   className={`pb-3 text-sm font-medium transition-colors relative ${activeAI === 'marketing' ? 'text-white' : 'text-slate-500 hover:text-slate-300'}`}
                 >
                   营销 AI 助手
-                  {activeAI === 'marketing' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-accent-pink rounded-t-full shadow-[0_-2px_10px_rgba(14,165,233,0.5)]"></div>}
+                  {activeAI === 'marketing' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-500 rounded-t-full shadow-[0_-2px_10px_rgba(59,130,246,0.4)]"></div>}
                 </button>
               </div>
 

@@ -124,7 +124,7 @@ export default function AppShell() {
         <nav className="sticky top-0 z-50 border-b border-white/5 bg-[#0f0f11]/80 backdrop-blur-xl px-6 lg:px-20 py-4 flex items-center justify-between">
           <div className="flex items-center gap-12">
             <Link to="/" className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity">
-              <span className="material-symbols-outlined text-primary text-3xl">deployed_code</span>
+              <span className="material-symbols-outlined text-blue-500 text-3xl">deployed_code</span>
               <h2 className="text-xl font-bold tracking-tight">Agents Me</h2>
             </Link>
             <div className="hidden md:flex items-center gap-8">
@@ -146,7 +146,7 @@ export default function AppShell() {
                 <h1 className="text-2xl font-bold text-white mb-2 tracking-tight">截图包装生成</h1>
                 <p className="text-zinc-400 text-sm">上传截图，选择包装模式，AI 自动生成精美展示图。</p>
               </div>
-              <div className="w-12 h-12 rounded-2xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 border border-indigo-500/20">
+              <div className="w-12 h-12 rounded-2xl bg-blue-500/20 flex items-center justify-center text-blue-400 border border-blue-500/20">
                 <span className="material-symbols-outlined text-2xl">imagesmode</span>
               </div>
             </div>
@@ -155,7 +155,7 @@ export default function AppShell() {
             <div>
               <div className="flex items-center justify-between mb-4">
                 <label className="text-sm font-semibold text-zinc-200 flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-md bg-indigo-500/20 flex items-center justify-center text-indigo-400">
+                  <div className="w-6 h-6 rounded-md bg-blue-500/20 flex items-center justify-center text-blue-400">
                     <span className="material-symbols-outlined text-[14px]">image</span>
                   </div>
                   截图上传 <span className="text-red-500">*</span>
@@ -170,8 +170,8 @@ export default function AppShell() {
                   onDrop={handleDrop}
                   className={`w-full border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 group ${
                     isDragging 
-                      ? 'border-indigo-500 bg-indigo-500/10 scale-[1.02]' 
-                      : 'border-white/10 hover:border-indigo-500/50 bg-black/20 hover:bg-black/40'
+                      ? 'border-blue-500 bg-blue-500/10 scale-[1.02]' 
+                      : 'border-white/10 hover:border-blue-500/50 bg-black/20 hover:bg-black/40'
                   }`}
                 >
                   <input 
@@ -184,8 +184,8 @@ export default function AppShell() {
                   />
                   <div className={`size-12 rounded-xl flex items-center justify-center transition-all duration-300 mb-3 ${
                     isDragging
-                      ? 'bg-indigo-500 text-white'
-                      : 'bg-white/5 text-zinc-500 group-hover:text-white group-hover:bg-indigo-500'
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-white/5 text-zinc-500 group-hover:text-blue-400 group-hover:bg-blue-500/20'
                   }`}>
                     <span className="material-symbols-outlined text-xl">cloud_upload</span>
                   </div>
@@ -224,7 +224,7 @@ export default function AppShell() {
             {/* Packaging Mode */}
             <div>
               <label className="block text-sm font-semibold text-zinc-200 mb-3 flex items-center gap-2">
-                <div className="w-6 h-6 rounded-md bg-purple-500/20 flex items-center justify-center text-purple-400">
+                <div className="w-6 h-6 rounded-md bg-blue-500/20 flex items-center justify-center text-blue-400">
                   <span className="material-symbols-outlined text-[14px]">category</span>
                 </div>
                 包装模式
@@ -240,7 +240,7 @@ export default function AppShell() {
                     onClick={() => setPackagingMode(mode.id as any)}
                     className={`flex flex-col items-center justify-center gap-2 p-3 rounded-xl border transition-all ${
                       packagingMode === mode.id 
-                        ? 'bg-indigo-600/20 border-indigo-500/50 text-white' 
+                        ? 'bg-blue-500/20 border-blue-500/50 text-white' 
                         : 'bg-black/20 border-white/5 text-zinc-400 hover:border-white/10 hover:bg-white/5'
                     }`}
                   >

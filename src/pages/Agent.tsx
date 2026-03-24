@@ -266,29 +266,6 @@ const defaultEdges: Edge[] = [
   { id: 'e3-4', source: '3', target: '4', animated: true, style: { stroke: 'rgba(255,255,255,0.2)', strokeWidth: 2 } },
 ];
 
-const blankNodes: Node[] = [
-  {
-    id: 'start',
-    type: 'agentNode',
-    position: { x: 250, y: 250 },
-    data: {
-      title: "等待指令",
-      subtitle: "system.awaiting_input",
-      status: "need_input",
-      statusText: "READY",
-      tag: "SYSTEM",
-      content: (
-        <div className="text-xs text-zinc-300 leading-relaxed">
-          <div className="flex items-center gap-1.5 text-amber-400 mb-2"><AlertCircle size={12}/> 请在左侧输入您的目标</div>
-          Agent 已就绪，等待分配任务...
-        </div>
-      )
-    }
-  }
-];
-
-const blankEdges: Edge[] = [];
-
 export default function Agent() {
   const { projectId } = useParams();
   const navigate = useNavigate();
@@ -309,15 +286,12 @@ export default function Agent() {
   // Sync with project state
   useEffect(() => {
     if (isDefaultView) {
-      setNodes(blankNodes);
-      setEdges(blankEdges);
+      setNodes(defaultNodes);
+      setEdges(defaultEdges);
     } else if (project) {
       if (project.id === 'proj-1' && project.agentState.nodes.length <= 8) {
         setNodes(defaultNodes);
         setEdges(defaultEdges);
-      } else if (project.agentState.nodes.length === 0) {
-        setNodes(blankNodes);
-        setEdges(blankEdges);
       } else {
         // Map project nodes to React Flow nodes
         const projectNodes: Node[] = project.agentState.nodes.map((n, i) => ({
@@ -422,8 +396,28 @@ export default function Agent() {
     
     if (isDefaultView) {
       // Create new project
-      const newProject = addProject(prompt.substring(0, 20) + (prompt.length > 20 ? '...' : ''));
-      navigate(`/dashboard/projects/${newProject.id}`);
+      const newProjectId = `proj-${Date.now()}`;
+      addProject({
+        id: newProjectId,
+        title: prompt.substring(0, 20) + (prompt.length > 20 ? '...' : ''),
+        type: 'agent',
+        status: 'active',
+        progress: 0,
+        updatedAt: '刚刚',
+        agentState: {
+          nodes: [
+            {
+              id: 'node-1',
+              type: 'process',
+              label: '初始任务',
+              status: 'pending',
+              position: { x: 250, y: 100 }
+            }
+          ],
+          edges: []
+        }
+      });
+      navigate(`/dashboard/projects/${newProjectId}`);
     } else {
       // Handle existing project chat
       setPrompt('');
@@ -443,13 +437,6 @@ export default function Agent() {
           <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-white/10 text-zinc-400 ml-2">Beta</span>
         </div>
         <div className="flex items-center gap-3">
-          <button 
-            onClick={() => navigate('/dashboard/agent')}
-            className="px-3 py-1.5 rounded-lg text-sm font-medium text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/10 transition-colors flex items-center gap-2 border border-indigo-500/20"
-          >
-            <Plus size={16} />
-            新建项目
-          </button>
           {!isDefaultView && (
             <button 
               onClick={handleAddNode}
@@ -480,7 +467,7 @@ export default function Agent() {
         <div className="w-[400px] border-r border-white/10 bg-[#121214] flex flex-col shrink-0 z-20 shadow-2xl">
           {/* Chat History */}
           <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
-            {isDemoProject && !isDefaultView ? (
+            {isDemoProject ? (
               <div className="prose prose-invert prose-sm max-w-none">
                 <p className="text-zinc-300 leading-relaxed">
                   基于您提供的 App 截图，我已为您完成了全套营销素材的制作及多平台推广方案的规划。以下是详细成果：
@@ -526,16 +513,6 @@ export default function Agent() {
                   <p>标题：0成本也能播？我这高质感直播间全靠它！✨</p>
                   <p className="text-zinc-400">内容：针对新手主播痛点，分享如何利用“精彩直播” App 快速起号...</p>
                 </div>
-              </div>
-            ) : isDefaultView ? (
-              <div className="flex flex-col items-center justify-center h-full text-zinc-500 space-y-4">
-                <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 mb-4">
-                  <Wand2 size={32} />
-                </div>
-                <h2 className="text-xl font-bold text-white">新建 Agent 工作流</h2>
-                <p className="text-sm text-center max-w-xs">
-                  描述你的目标，Agent 会自动规划并执行任务流。
-                </p>
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center h-full text-zinc-500 space-y-4">
