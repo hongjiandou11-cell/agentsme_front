@@ -10,13 +10,40 @@ import { DashboardProvider } from './DashboardContext';
 function DashboardLayoutContent() {
   const location = useLocation();
   const [isBannerVisible, setIsBannerVisible] = useState(true);
+  const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({
+    app: false,
+    ecommerce: false
+  });
+
+  const toggleExpand = (id: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    setExpandedItems(prev => ({ ...prev, [id]: !prev[id] }));
+  };
 
   const sidebarGroups = [
     {
       title: '工具',
       items: [
-        { id: 'app', icon: Smartphone, label: 'APP', path: '/dashboard/app' },
-        { id: 'ecommerce', icon: ShoppingBag, label: '电商', path: '/dashboard/ecommerce' },
+        { 
+          id: 'app', 
+          icon: Smartphone, 
+          label: 'APP', 
+          path: '/dashboard/app',
+          subItems: [
+            { id: 'app-shell', label: 'APP 套壳', path: '/dashboard/app/shell' },
+            { id: 'app-video', label: 'APP 视频克隆', path: '/dashboard/app/video' }
+          ]
+        },
+        { 
+          id: 'ecommerce', 
+          icon: ShoppingBag, 
+          label: '电商', 
+          path: '/dashboard/ecommerce',
+          subItems: [
+            { id: 'ecommerce-material', label: '商品图制作', path: '/dashboard/ecommerce/material' },
+            { id: 'ecommerce-video', label: '电商带货视频克隆', path: '/dashboard/ecommerce/video' }
+          ]
+        },
         { id: 'publish', icon: Send, label: '内容发布', path: '/dashboard/publish' },
       ]
     },
@@ -120,25 +147,68 @@ function DashboardLayoutContent() {
               <div className="px-3 text-[11px] font-medium text-zinc-600 mb-1">{group.title}</div>
               {group.items.map((item) => {
                 const isActive = location.pathname.startsWith(item.path);
-                return (
-                  <Link
-                    key={item.id}
-                    to={item.path}
-                    className={`flex items-center justify-between px-3 py-2.5 rounded-lg transition-all group/item ${
-                      isActive 
-                        ? 'bg-blue-500/10 text-blue-400' 
-                        : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/5'
-                    }`}
-                  >
+                const hasSubItems = item.subItems && item.subItems.length > 0;
+                const isExpanded = expandedItems[item.id] !== false; // default true if not explicitly collapsed
+
+                const ItemContent = (
+                  <>
                     <div className="flex items-center gap-3">
                       <item.icon size={18} className={isActive ? 'text-blue-400' : 'text-zinc-500 group-hover/item:text-zinc-300'} />
                       <span className="text-sm font-medium">{item.label}</span>
                     </div>
-                    {/* Optional right chevron for tools */}
-                    {group.title === '工具' && (
-                      <ChevronRight size={14} className="opacity-0 group-hover/item:opacity-50 transition-opacity" />
+                    {hasSubItems ? (
+                      <ChevronRight size={14} className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''} ${isActive ? 'text-blue-400' : 'text-zinc-500 group-hover/item:text-zinc-300'}`} />
+                    ) : (
+                      group.title === '工具' && (
+                        <ChevronRight size={14} className="opacity-0 group-hover/item:opacity-50 transition-opacity" />
+                      )
                     )}
-                  </Link>
+                  </>
+                );
+
+                const itemClassName = `flex items-center justify-between px-3 py-2.5 rounded-lg transition-all group/item w-full ${
+                  isActive 
+                    ? 'bg-blue-500/10 text-blue-400' 
+                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/5'
+                }`;
+
+                return (
+                  <div key={item.id} className="flex flex-col gap-1">
+                    {hasSubItems ? (
+                      <button
+                        onClick={(e) => toggleExpand(item.id, e)}
+                        className={itemClassName}
+                      >
+                        {ItemContent}
+                      </button>
+                    ) : (
+                      <Link to={item.path} className={itemClassName}>
+                        {ItemContent}
+                      </Link>
+                    )}
+
+                    {/* Sub Items */}
+                    {hasSubItems && isExpanded && (
+                      <div className="flex flex-col gap-1 pl-9 pr-2 mt-0.5">
+                        {item.subItems!.map(sub => {
+                          const isSubActive = location.pathname === sub.path;
+                          return (
+                            <Link
+                              key={sub.id}
+                              to={sub.path}
+                              className={`flex items-center px-3 py-2 rounded-lg transition-all text-sm ${
+                                isSubActive
+                                  ? 'bg-blue-500/20 text-blue-400 font-medium'
+                                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/5'
+                              }`}
+                            >
+                              {sub.label}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
                 );
               })}
             </div>
